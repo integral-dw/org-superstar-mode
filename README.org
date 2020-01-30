@@ -18,7 +18,7 @@
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
  * Prettifying Orb plain list bullets^{(new!)} by:
-   + replacing each bullet type (‘=*=’, ‘=+=’ and ‘=-=’) with UTF-8 bullets^{c)}
+   + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
    + applying a custom face to item bullets
 
 a) These features are mostly the same as in ~org-bullets-mode~.
