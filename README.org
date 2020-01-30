@@ -6,20 +6,36 @@
   version 1.0.0, from which point on I will try my best not to
   inconvenience people.
 
-* TODO About
+* About
   Prettify headings and plain lists in org-mode.  This package is a
   direct descendant of ‘org-bullets’, with most of the code base
   completely rewritten.  Currently, this package supports (see footnotes
   for a quick rundown of how superstar is different from bullets):
 
  * Prettifying Org header lines by:
-   + replacing trailing bullets by UTF-8 bullets^{[fn:a][fn:c]}
-   + hiding leading stars^{[fn:b]} or customizing their look^{(new!)}
-   + applying a custom face to the header bullet^{[fn:d]}
+   + replacing trailing bullets by UTF-8 bullets^{a)c)}
+   + hiding leading stars^{b)} or customizing their look^{(new!)}
+   + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
  * Prettifying Orb plain list bullets^{(new!)} by:
-   + replacing each bullet type (‘~*~’, ‘~+~’ and ‘~-~’) with UTF-8 bullets^{[fn:c]}
-   + [ ] applying a custom face to item bullets
+   + replacing each bullet type (‘=*=’, ‘=+=’ and ‘=-=’) with UTF-8 bullets^{c)}
+   + applying a custom face to item bullets
+
+a) These features are mostly the same as in ~org-bullets-mode~.
+
+b) Plain hiding is now left to org-mode and the associated
+variable ~org-hide-leading-stars~ as well as ~org-hide~, as suggested
+by [[https://github.com/Kaligule][Kaligule]].
+
+c) ~org-superstar-mode~ tries to prettify in a context-sensitive
+fashion: It strives to only recognize heading lines which are really
+*meant* to be heading lines.  Your ~SRC~ blocks are safe!
+
+d) Instead of providing the symbol of an existing face in a
+variable to replace org's usual title face(s) for the UTF-8 character,
+superstar merges a custom face with the face that would have been
+used, allowing the user to inherit the level-dependent default look.
+
 
 * Installation
 
@@ -103,20 +119,5 @@
     ~org-superstar-mode~ from prettifying lists.
 
 ** Custom faces
-
-
-* Footnotes
-
-[fn:a] These features are mostly the same as in ~org-bullets-mode~.
-[fn:b] Plain hiding is now left to org-mode and the associated
-variable ~org-hide-leading-stars~ as well as ~org-hide~, as suggested
-by [[https://github.com/Kaligule][Kaligule]].
-[fn:c] ~org-superstar-mode~ tries to prettify in a context-sensitive
-fashion: It strives to only recognize heading lines which are really
-*meant* to be heading lines.  Your ~SRC~ blocks are safe!
-[fn:d] Instead of providing the symbol of an existing face in a
-variable to replace org's usual title face(s) for the UTF-8 character,
-superstar merges a custom face with the face that would have been
-used, allowing the user to inherit the level-dependent default look.
 
 #  LocalWords:  org's
