@@ -1,0 +1,122 @@
+#+TITLE: org-superstar-mode
+
+* WARNING
+  This package is under construction.  I am still working out the kinks.
+  Any function and variable defined here *is subject to change* until
+  version 1.0.0, from which point on I will try my best not to
+  inconvenience people.
+
+* TODO About
+  Prettify headings and plain lists in org-mode.  This package is a
+  direct descendant of ‘org-bullets’, with most of the code base
+  completely rewritten.  Currently, this package supports (see footnotes
+  for a quick rundown of how superstar is different from bullets):
+
+ * Prettifying Org header lines by:
+   + replacing trailing bullets by UTF-8 bullets^{[fn:a][fn:c]}
+   + hiding leading stars^{[fn:b]} or customizing their look^{(new!)}
+   + applying a custom face to the header bullet^{[fn:d]}
+   + applying a custom face to the leading bullets^{(new!)}
+ * Prettifying Orb plain list bullets^{(new!)} by:
+   + replacing each bullet type (‘~*~’, ‘~+~’ and ‘~-~’) with UTF-8 bullets^{[fn:c]}
+   + [ ] applying a custom face to item bullets
+
+* Installation
+
+  Once ready, this package will likely be available using =package.el=.
+
+  A manual installation is as simple as plugging =org-superstar.el= into
+  your load path and adding the following to your =.emacs=:
+#+BEGIN_SRC elisp
+(require 'org-superstar)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+END_SRC
+
+* Customization
+  A variety of customization features has been added to allow further
+  tweaking.  Suggestions are always welcome!
+
+  *NOTE:* Many of the variables listed below require you to restart
+  ~org-superstar-mode~ to take effect.  See the see the corresponding
+  variable's documentation.
+
+** "Can you make it more like =org-bullets=?"
+   Naturally!  In fact, I made the answer to this it's own function:
+
+*** ~org-sstar-configure-like-org-bullets~
+    This function configures ~superstar-mode~ to be as similar to
+    =org-bullets= as possible.  Since this function automatically sets
+    various custom variables, it should only be called *once* per
+    session, before any other (manual) customization of this package.
+
+    ~org-sstar-configure-like-org-bullets~ is only meant as a small
+    convenience for people who just want minor depatures from
+    ~org-bullets-mode~.  For a more fine-grained customization, it’s
+    better to just set the variables you want.
+
+** Custom UTF8-Bullets for heading lines
+   Here's how you change which bullets are used for which level.
+
+*** ~org-sstar-headline-bullets-list~
+    Those of you familiar with =org-bullets= will be recognize this
+    list: It's a list of single-character strings where the /Nth/ entry
+    is used to determine the bullet used for heading level /N/.  By
+    default, this list is cycled through for /N/ greater than the length
+    of the list.
+
+*** ~org-sstar-cycle-headline-bullets~
+    This variable gives you more control over how ~superstar-mode~ picks
+    headline bullets.  The default, ~t~, cycles through the list as
+    explained above.  Other values are:
+
+    * ~nil~ :: Go through the list, then repeat the last entry
+               indefinitely.
+    * any integer /k/ :: Cycle through the first /k/ elements of the list.
+
+*** ~org-sstar-leading-bullet~
+    Maybe you actually /like/ that org's heading lines are connected to
+    the left margin, but you find a line of stars too visually busy?
+    Enter ~org-sstar-leading-bullet~.  Provide a character of your
+    choice to be displayed instead.  Strings are superimposed
+    according to the rules of ~compose-region~.  =org-superstar= ships
+    with a subtle [[https://en.wikipedia.org/wiki/Leader_(typography)][leader]] as the default.
+
+*** Hide leading stars and ~org-sstar-prettify-leading-stars~
+    Since ~org-mode~ already takes care of hiding leading stars by
+    providing the dedicated variable ~org-hide-leading-stars~ and it's
+    associated face ~org-hide~, there is no extra option for /hiding/
+    leading stars.  However, you can stop ~superstar-mode~ from
+    prettifying them by setting ~org-sstar-prettify-leading-stars~ to
+    ~nil~.
+
+** Custom UTF8-Bullets for plain lists
+   Why stop at heading lines?  Customize the look of your list bullets
+   to make plain lists a little less so.
+
+*** ~org-sstar-item-bullet-alist~
+    Since the concept of "levels" does not really apply to lists, this
+    association list simply assigns a UTF-8 character to each of the
+    three possible bullet characters for plain org lists.
+
+*** ~org-sstar-prettify-item-bullets~
+    Exactly as it says on the tin.  Set this variable to ~nil~ to stop
+    ~org-superstar-mode~ from prettifying lists.
+
+** Custom faces
+
+
+* Footnotes
+
+[fn:a] These features are mostly the same as in ~org-bullets-mode~.
+[fn:b] Plain hiding is now left to org-mode and the associated
+variable ~org-hide-leading-stars~ as well as ~org-hide~, as suggested
+by [[https://github.com/Kaligule][Kaligule]].
+[fn:c] ~org-superstar-mode~ tries to prettify in a context-sensitive
+fashion: It strives to only recognize heading lines which are really
+*meant* to be heading lines.  Your ~SRC~ blocks are safe!
+[fn:d] Instead of providing the symbol of an existing face in a
+variable to replace org's usual title face(s) for the UTF-8 character,
+superstar merges a custom face with the face that would have been
+used, allowing the user to inherit the level-dependent default look.
+
+#  LocalWords:  org's
