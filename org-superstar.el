@@ -331,28 +331,6 @@ prettifying bullets in (for example) source blocks."
             (org-sstar-prettify-leading-stars 'org-sstar-leading)
             (t 'custom-invalid)))))
 
-;; (defun org-sstar--prettify-leading-hbullets ()
-;;   "Prettify the leading bullets of a header line.
-;; Unless ‘org-hide-leading-stars’ is non-nil, each leading star is
-;; visually replaced by ‘org-sstar-leading-bullet-char’ and inherits
-;; face properties from ‘org-sstar-leading’.
-
-;; This function uses ‘org-list-in-valid-context-p’ to avoid
-;; prettifying bullets in (for example) source blocks."
-;;   (when (org-list-in-valid-context-p)
-;;     (let* ((match-len (- (match-end 3) (match-beginning 3)))
-;;            ;;(level (- (match-end 0) (match-beginning 0) 1))
-;;            ;; (is-inline-task
-;;            ;;  (and (boundp 'org-inlinetask-min-level)
-;;            ;;       (>= level org-inlinetask-min-level)))
-;;            )
-;;       (unless org-hide-leading-stars
-;;         (let ((star-beg (match-beginning 3))
-;;               (star-end (1+ (match-beginning 3))))
-;;           (dotimes (i match-len 'org-sstar-leading)
-;;             (compose-region (+ star-beg i) (+ star-end i)
-;;                             org-sstar-leading-bullet)))))))
-
 
 (defun org-sstar--prettify-leading-hbullets ()
   "Prettify the leading bullets of a header line.
