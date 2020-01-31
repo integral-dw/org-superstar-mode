@@ -9,15 +9,15 @@
 * About
   Prettify headings and plain lists in org-mode.  This package is a
   direct descendant of ‘org-bullets’, with most of the code base
-  completely rewritten.  Currently, this package supports (see footnotes
-  for a quick rundown of how superstar is different from bullets):
+  completely rewritten.  Currently, this package supports:
 
- * Prettifying Org header lines by:
+ * Prettifying org header lines by:
    + replacing trailing bullets by UTF-8 bullets^{a)c)}
    + hiding leading stars^{b)} or customizing their look^{(new!)}
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
- * Prettifying Orb plain list bullets^{(new!)} by:
+   + using double-bullets for inline tasks (see =org-inlinetask.el=)
+ * Prettifying org plain list bullets^{(new!)} by:
    + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
    + applying a custom face to item bullets
 
@@ -29,7 +29,8 @@ by [[https://github.com/Kaligule][Kaligule]].
 
 c) ~org-superstar-mode~ tries to prettify in a context-sensitive
 fashion: It strives to only recognize heading lines which are really
-*meant* to be heading lines.  Your ~SRC~ blocks are safe!
+*meant* to be heading lines (same for item bullets).  Your ~SRC~ blocks
+are safe!
 
 d) Instead of providing the symbol of an existing face in a
 variable to replace org's usual title face(s) for the UTF-8 character,
@@ -53,8 +54,8 @@ used, allowing the user to inherit the level-dependent default look.
   tweaking.  Suggestions are always welcome!
 
   *NOTE:* Many of the variables listed below require you to restart
-  ~org-superstar-mode~ to take effect.  See the see the corresponding
-  variable's documentation.
+  ~org-superstar-mode~ to take effect.  See the corresponding variable's
+  documentation.
 
 ** "Can you make it more like =org-bullets=?"
    Naturally!  In fact, I made the answer to this it's own function:
@@ -119,5 +120,22 @@ used, allowing the user to inherit the level-dependent default look.
     ~org-superstar-mode~ from prettifying lists.
 
 ** Custom faces
+   These faces allow you to further manipulate the look and feel of
+   prettified bullets.
 
-#  LocalWords:  org's
+*** ~org-sstar-header-bullet~: "Use ~org-level-N~, but..."
+    A face containing essentially the /difference/ between the default
+    heading face for the given level (like ~org-level-1~) and the
+    bullet.  This face is completely unspecified by default.  Any
+    property set will override the corresponding face property of
+    ~org-level-N~.
+
+*** ~org-sstar-leading~
+    A face used to display leading stars if
+    ~org-sstar-prettify-leading-stars~ is enabled.
+
+*** ~org-sstar-item~
+    A face used to display prettified plain list bullets if
+    ~org-sstar-prettify-item-bullets~ is enabled.
+
+#  LocalWords:  org's sstar
