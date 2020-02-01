@@ -1,5 +1,7 @@
 #+TITLE: org-superstar-mode
 
+[[sample_image.png]]
+
 * WARNING
   This package is under construction.  I am still working out the kinks.
   Any function and variable defined here *is subject to change* until
