@@ -4,9 +4,10 @@
 
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
-;; Keywords: faces, outlines, org
-;; Version: 0.0.8
-;; Homepage: None
+;; Keywords: faces, outlines
+;; Version: 0
+;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
+;; Package-Requires: ((org "9.1.9") (emacs "26"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -39,6 +40,8 @@
 
 ;;; Code:
 
+(require 'org)
+
 (defgroup org-superstar nil
   "Use UTF8 bullets for headlines and plain lists."
   :group 'org-appearance)
@@ -57,7 +60,7 @@ corresponding to the bullet used for level N.  The way this list
 is cycled through can use fine-tuned by customizing
 ‘org-sstar-cycle-headline-bullets’.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
     :group 'org-superstar
     :type '(repeat (string :tag "Bullet character")))
@@ -70,7 +73,7 @@ variable for your changes to take effect."
 Each key should be a plain list bullet character (*,+,-), and
 each value should be the UTF8 character to be displayed.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(alist :options ((?* (character))
@@ -94,7 +97,7 @@ are represented as a sequence of this bullet using the face
 ‘org-sstar-leading’.  Otherwise, this variable has no effect and
 ‘org-mode’ covers leading stars using ‘org-hide’.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice
@@ -122,12 +125,13 @@ variable for your changes to take effect."
 ;;; Other Custom Variables
 
 (defcustom org-sstar-prettify-leading-stars t
-  "If nil, keep leading stars in headlines unchanged.
+  "Non-nil means prettify leading stars in headlines.
+
 It is a good idea to disable this feature when you run into any
 peformance issues because of this package.  You can still hide
 leading stars using ‘org-hide-leading-stars’.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice
@@ -135,7 +139,7 @@ variable for your changes to take effect."
           (const :tag "Don’t prettify leading stars." nil)))
 
 (defcustom org-sstar-cycle-headline-bullets t
-  "Non-nil means headline bullets cycle through ‘org-sstar-headline-bullets-list’.
+  "Non-nil means cycle through all available headline bullets.
 
 The following values are meaningful:
 
@@ -147,7 +151,7 @@ This is the default behavior inherited from org-bullets.
 
 If nil, repeat the final list entry for all successive levels.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice
@@ -174,12 +178,12 @@ set it to the length and raise an error."
       text-field)))
 
 (defcustom org-sstar-prettify-item-bullets t
-  "If non-nil, display plain lists bullets as UTF8 bullets.
+  "Non-nil means display plain lists bullets as UTF8 bullets.
 
 Each type of plain list bullet is associated with a
 corresponding UTF8 character in ‘org-sstar-item-bullet-alist’.
 
-You should restart ‘org-superstar-mode’ after changing this
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice (const :tag "Enable item bullet fontification" t)
@@ -201,7 +205,7 @@ fontification provided by org, allowing you to inherit the
 default look of a heading line while still being able to make
 modifications.  Every specified face property will replace those
 currently in place.  Consequently, leaving all face properties
-unspecified causes bullets to inherit the org-level-X faces."
+unspecified inherits the org-level-X faces for header bullets."
   :group 'org-superstar)
 
 (defface org-sstar-item
@@ -212,7 +216,7 @@ unspecified causes bullets to inherit the org-level-X faces."
 ;;; Functions
 
 (defun org-sstar-configure-like-org-bullets ()
-  "Configure ‘org-superstar-mode’ to approximate ‘org-bullets-mode’.
+  "Configure ‘\\[org-superstar-mode]’ to approximate ‘\\[org-bullets-mode]’.
 This function automatically sets various custom variables, and
 therefore should only be called *once* per session, before any
 other manual customization of this package.
@@ -221,7 +225,7 @@ Warning: This function sets a variable outside of this package:
 ‘org-hide-leading-stars’.
 
 This function is only meant as a small convenience for people who
-just want minor depatures from ‘org-bullets-mode’.  For a more
+just want minor depatures from ‘\\[org-bullets-mode]’.  For a more
 fine-grained customization, it’s better to just set the variables
 you want.
 
@@ -231,7 +235,7 @@ This changes the following variables:
 ‘org-sstar-cycle-headline-bullets’: Enabled.
 ‘org-hide-leading-stars’: Enabled.
 
-You should restart ‘org-superstar-mode’ after calling this
+You should re-enable ‘\\[org-superstar-mode]’ after calling this
 function for your changes to take effect."
   (setq org-sstar-prettify-leading-stars nil)
   (setq org-sstar-cycle-headline-bullets t)
@@ -245,7 +249,7 @@ function for your changes to take effect."
   (length org-sstar-headline-bullets-list))
 
 (defun org-sstar--hbullet (level)
-  "Return the desired headline bullet replacement for level N.
+  "Return the desired headline bullet replacement for LEVEL N.
 
 See also ‘org-sstar-cycle-headline-bullets’."
   (let ((max-bullets org-sstar-cycle-headline-bullets)
@@ -365,7 +369,7 @@ prettifying bullets in (for example) source blocks."
 (defun org-sstar--update-font-lock-keywords ()
   "Set ‘org-sstar--font-lock-keywords’ to reflect current settings.
 You should not call this function to avoid confusing the cleanup
-routines of ‘org-superstar-mode’."
+routines of ‘\\[org-superstar-mode]’."
   ;; The below regex is nicked from ‘org-list-full-item-re’, but
   ;; reduced to only match simple lists.  Replaced [ \t]* by [ \t]+ to
   ;; avoid confusion with title bullets.
@@ -384,6 +388,7 @@ routines of ‘org-superstar-mode’."
           )))
 
 (defun org-sstar--fontify-buffer ()
+  "Fontify the buffer."
   (when font-lock-mode
     (if (and (fboundp 'font-lock-flush)
              (fboundp 'font-lock-ensure))
@@ -408,8 +413,7 @@ routines of ‘org-superstar-mode’."
     (font-lock-remove-keywords nil org-sstar--font-lock-keywords)
     (org-sstar--unprettify-ibullets)
     (org-sstar--unprettify-hbullets)
-    (org-sstar--fontify-buffer))
-   ))
+    (org-sstar--fontify-buffer))))
 
 (provide 'org-superstar)
 ;;; org-superstar.el ends here
