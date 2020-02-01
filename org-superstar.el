@@ -60,7 +60,7 @@
     "◉"
     "○"
     "✸"
-    "✿")
+    "✿") ;; "◉" "🞛" "○" "▷"
     "List of bullets used in Org headings.
 It can contain any number of bullets, the Nth entry usually
 corresponding to the bullet used for level N.  The way this list
@@ -283,6 +283,10 @@ replaced by their corresponding entry in ‘org-sstar-item-bullet-alist’."
 
 ;;; Fontification
 
+(defun org-sstar-in-valid-context-p ()
+  "Return t if the current match is in a meaningful context."
+  (org-list-in-valid-context-p))
+
 (defun org-sstar--prettify-ibullets ()
   "Prettify plain list bullets.
 
@@ -307,9 +311,9 @@ prettifying bullets in (for example) source blocks."
 (defun org-sstar--prettify-main-hbullet ()
   "Prettify the trailing star in a headline.
 
-This function uses ‘org-list-in-valid-context-p’ to avoid
+This function uses ‘org-sstar-in-valid-context-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (when (org-list-in-valid-context-p)
+  (when (org-sstar-in-valid-context-p)
     (let ((level (- (match-end 0) (match-beginning 0) 1)))
       (compose-region (match-beginning 1) (match-end 1)
                       (org-sstar--hbullet level))))
@@ -322,9 +326,9 @@ inline task, see ‘org-inlinetask-min-level’.  Otherwise, this
 block is formatted like the leading asterisks, see
 ‘org-sstar--prettify-leading-hbullets’.
 
-This function uses ‘org-list-in-valid-context-p’ to avoid
+This function uses ‘org-sstar-in-valid-context-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (when (org-list-in-valid-context-p)
+  (when (org-sstar-in-valid-context-p)
     (let* ((level (- (match-end 0) (match-beginning 0) 1))
            (is-inline-task
             (and (boundp 'org-inlinetask-min-level)
@@ -349,9 +353,9 @@ Unless ‘org-hide-leading-stars’ is non-nil, each leading star is
 visually replaced by ‘org-sstar-leading-bullet-char’ and inherits
 face properties from ‘org-sstar-leading’.
 
-This function uses ‘org-list-in-valid-context-p’ to avoid
+This function uses ‘org-sstar-in-valid-context-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (when (org-list-in-valid-context-p)
+  (when (org-sstar-in-valid-context-p)
     (unless org-hide-leading-stars
       (let ((star-beg (match-beginning 3))
             (lead-end (match-end 3)))
