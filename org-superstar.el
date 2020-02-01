@@ -26,6 +26,13 @@
 
 ;;; Commentary:
 
+;; This package is heavily influenced by (and uses snippets from) the
+;; popular package "org-bullets", created by sabof.  It was made with
+;; the goal of inheriting features the author liked about org-bullets
+;; while being able to introduce compatibility-breaking changes to it.
+;; It is largely rewritten, to the point of almost no function being
+;; identical to it's org-bullets counterpart.
+
 ;; *IMPORTANT*: This package is under construction.  I am still
 ;; working out the kinks.  Any function and variable defined here is
 ;; subject to change until version 1.0.0, from which point on I will
