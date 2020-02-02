@@ -3,10 +3,48 @@
 [[sample_image.png]]
 
 * WARNING
-  This package is under construction.  I am still working out the kinks.
-  Any function and variable defined here *is subject to change* until
-  version 1.0.0, from which point on I will try my best not to
-  inconvenience people.
+  This package is under construction.  I am still working out the
+  kinks.  Any function and variable defined here *is subject to change*
+  until version 1.0.0, from which point on I will try my best not to
+  inconvenience people.  See below for announcements regarding the
+  current state of affairs.
+
+* NEWS
+
+** =2020-02-02=
+   *Good news!* The project is reaching an /acceptable/ first draft state.
+   This means I am now preparing getting this package properly wrapped
+   up and published on MELPA, with a side goal of trying to also be
+   available on ELPA.  My conservative estimate for at least being
+   available on MELPA is roughly by the end of this month.  Here's
+   what I have planned for the near future, in semi-chronological
+   order:
+
+   * rigorous testing :: currently I am doing my best to test every
+        reasonable configuration of options I can think of to make
+        sure the package works as intended.  Since I can only really
+        allocate time on weekends for this, this will take
+        realistically one or two weeks from now.  I intend to not get
+        lost in details and prioritize the package working "reasonably
+        well".  And most importantly *I will keep you updated.*
+   * achieving MELPA compliance :: The most important point before
+        going live.  I'll just read carefully through the technical
+        requirements and set things up accordingly.
+   * getting =org-superstar= up on MELPA :: This is my #1 priority right
+        now.  Get it out, get it tested, get feedback.
+   * optimization :: From what I read there were some users
+                     experiencing performance issues with the original
+                     package.  I will try to optimize bottlenecks and
+                     include package-independent solutions I find in
+                     the README.
+   * reviewing open suggestions left on =org-bullets= :: There have been
+        further requests and suggestions made on the original Github.
+        I am /very/ interested in looking more deeply into them as the
+        project matures.
+   * (optional) achieving ELPA compliance and getting on ELPA :: I
+        will try to get the package on ELPA too.  However, this seems
+        more involved than to get it on MELPA, with more checks and
+        monitoring before things can go live.
 
 * About
   Prettify headings and plain lists in org-mode.  This package is a
@@ -14,7 +52,7 @@
   completely rewritten.  Currently, this package supports:
 
  * Prettifying org header lines by:
-   + replacing trailing bullets by UTF-8 bullets^{a)c)}
+   + replacing trailing bullets by UTF-8 bullets^{a)}
    + hiding leading stars^{b)} or customizing their look^{(new!)}
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
@@ -30,15 +68,13 @@ variable ~org-hide-leading-stars~ as well as ~org-hide~, as suggested
 by [[https://github.com/Kaligule][Kaligule]].
 
 c) ~org-superstar-mode~ tries to prettify in a context-sensitive
-fashion: It strives to only recognize heading lines which are really
-*meant* to be heading lines (same for item bullets).  Your ~SRC~ blocks
-are safe!
+fashion: It strives to only recognize item bullets which are really
+*meant* to be item bullets.  Your ~SRC~ blocks are safe!
 
 d) Instead of providing the symbol of an existing face in a
 variable to replace org's usual title face(s) for the UTF-8 character,
 superstar merges a custom face with the face that would have been
 used, allowing the user to inherit the level-dependent default look.
-
 
 * Installation
 
@@ -62,13 +98,13 @@ used, allowing the user to inherit the level-dependent default look.
 ** "Can you make it more like =org-bullets=?"
    Naturally!  In fact, I made the answer to this it's own function:
 
-*** ~org-sstar-configure-like-org-bullets~
+*** ~org-superstar-configure-like-org-bullets~
     This function configures ~superstar-mode~ to be as similar to
     =org-bullets= as possible.  Since this function automatically sets
     various custom variables, it should only be called *once* per
     session, before any other (manual) customization of this package.
 
-    ~org-sstar-configure-like-org-bullets~ is only meant as a small
+    ~org-superstar-configure-like-org-bullets~ is only meant as a small
     convenience for people who just want minor depatures from
     ~org-bullets-mode~.  For a more fine-grained customization, it’s
     better to just set the variables you want.
@@ -76,14 +112,14 @@ used, allowing the user to inherit the level-dependent default look.
 ** Custom UTF8-Bullets for heading lines
    Here's how you change which bullets are used for which level.
 
-*** ~org-sstar-headline-bullets-list~
+*** ~org-superstar-headline-bullets-list~
     Those of you familiar with =org-bullets= will be recognize this
     list: It's a list of single-character strings where the /Nth/ entry
     is used to determine the bullet used for heading level /N/.  By
     default, this list is cycled through for /N/ greater than the length
     of the list.
 
-*** ~org-sstar-cycle-headline-bullets~
+*** ~org-superstar-cycle-headline-bullets~
     This variable gives you more control over how ~superstar-mode~ picks
     headline bullets.  The default, ~t~, cycles through the list as
     explained above.  Other values are:
@@ -92,32 +128,32 @@ used, allowing the user to inherit the level-dependent default look.
                indefinitely.
     * any integer /k/ :: Cycle through the first /k/ elements of the list.
 
-*** ~org-sstar-leading-bullet~
+*** ~org-superstar-leading-bullet~
     Maybe you actually /like/ that org's heading lines are connected to
     the left margin, but you find a line of stars too visually busy?
-    Enter ~org-sstar-leading-bullet~.  Provide a character of your
+    Enter ~org-superstar-leading-bullet~.  Provide a character of your
     choice to be displayed instead.  Strings are superimposed
     according to the rules of ~compose-region~.  =org-superstar= ships
     with a subtle [[https://en.wikipedia.org/wiki/Leader_(typography)][leader]] as the default.
 
-*** Hide leading stars and ~org-sstar-prettify-leading-stars~
+*** Hide leading stars and ~org-superstar-prettify-leading-stars~
     Since ~org-mode~ already takes care of hiding leading stars by
     providing the dedicated variable ~org-hide-leading-stars~ and it's
     associated face ~org-hide~, there is no extra option for /hiding/
     leading stars.  However, you can stop ~superstar-mode~ from
-    prettifying them by setting ~org-sstar-prettify-leading-stars~ to
+    prettifying them by setting ~org-superstar-prettify-leading-stars~ to
     ~nil~.
 
 ** Custom UTF8-Bullets for plain lists
    Why stop at heading lines?  Customize the look of your list bullets
    to make plain lists a little less so.
 
-*** ~org-sstar-item-bullet-alist~
+*** ~org-superstar-item-bullet-alist~
     Since the concept of "levels" does not really apply to lists, this
     association list simply assigns a UTF-8 character to each of the
     three possible bullet characters for plain org lists.
 
-*** ~org-sstar-prettify-item-bullets~
+*** ~org-superstar-prettify-item-bullets~
     Exactly as it says on the tin.  Set this variable to ~nil~ to stop
     ~org-superstar-mode~ from prettifying lists.
 
@@ -125,19 +161,19 @@ used, allowing the user to inherit the level-dependent default look.
    These faces allow you to further manipulate the look and feel of
    prettified bullets.
 
-*** ~org-sstar-header-bullet~: "Use ~org-level-N~, but..."
+*** ~org-superstar-header-bullet~: "Use ~org-level-N~, but..."
     A face containing essentially the /difference/ between the default
     heading face for the given level (like ~org-level-1~) and the
     bullet.  This face is completely unspecified by default.  Any
     property set will override the corresponding face property of
     ~org-level-N~.
 
-*** ~org-sstar-leading~
+*** ~org-superstar-leading~
     A face used to display leading stars if
-    ~org-sstar-prettify-leading-stars~ is enabled.
+    ~org-superstar-prettify-leading-stars~ is enabled.
 
-*** ~org-sstar-item~
+*** ~org-superstar-item~
     A face used to display prettified plain list bullets if
-    ~org-sstar-prettify-item-bullets~ is enabled.
+    ~org-superstar-prettify-item-bullets~ is enabled.
 
-#  LocalWords:  org's sstar
+#  LocalWords:  org's MELPA ELPA
