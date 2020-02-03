@@ -11,27 +11,15 @@
 
 * NEWS
 
-** =2020-02-02=
-   *Good news!* The project is reaching an /acceptable/ first draft state.
-   This means I am now preparing getting this package properly wrapped
-   up and published on MELPA, with a side goal of trying to also be
-   available on ELPA.  My conservative estimate for at least being
-   available on MELPA is roughly by the end of this month.  Here's
-   what I have planned for the near future, in semi-chronological
-   order:
+** Current road map
 
-   * +rigorous testing+ Done. :: currently I am doing my best to test every
-        reasonable configuration of options I can think of to make
-        sure the package works as intended.  Since I can only really
-        allocate time on weekends for this, this will take
-        realistically one or two weeks from now.  I intend to not get
-        lost in details and prioritize the package working "reasonably
-        well".  And most importantly *I will keep you updated.*
-   * achieving MELPA compliance :: The most important point before
-        going live.  I'll just read carefully through the technical
-        requirements and set things up accordingly.
+   * +rigorous testing+ *UPDATE:* Done.
+   * +achieving MELPA compliance+ *UPDATE:* I think I did.
    * getting =org-superstar= up on MELPA :: This is my #1 priority right
         now.  Get it out, get it tested, get feedback.
+     + UPDATE :: The pull request is done.  Now it's time to be
+                 patient.
+
    * put the project on Worg :: I guess it's only reasonable to put
         =org-superstar= on Worg at that point.
    * reviewing open suggestions left on =org-bullets= :: There have been
@@ -48,9 +36,21 @@
         more involved than to get it on MELPA, with more checks and
         monitoring before things can go live.
 
+
+
+** =2020-02-02=
+   *Good news!* The project is reaching an /acceptable/ first draft state.
+   This means I am now preparing getting this package properly wrapped
+   up and published on MELPA, with a side goal of trying to also be
+   available on ELPA.  My conservative estimate for at least being
+   available on MELPA is roughly by the end of this month.
+
 ** =2020-02-03=
    Everything went better than expected!  The tests seem to cover most
    use cases now, and it seems I have added proper terminal support.
+
+** =2020-02-04=
+   I set up a pull request, we will see how this goes.
 
 * About
   Prettify headings and plain lists in org-mode.  This package is a
