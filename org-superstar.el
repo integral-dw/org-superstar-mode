@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0
+;; Version: 0.1.0
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -26,6 +26,22 @@
 
 ;;; Commentary:
 
+;;  Prettify headings and plain lists in org-mode.  This package is a
+;;  direct descendant of ‘org-bullets’, with most of the code base
+;;  completely rewritten (See https://github.com/sabof/org-bullets).
+;;  Currently, this package supports:
+
+;; * Prettifying org header lines by:
+;;   + replacing trailing bullets by UTF-8 bullets
+;;   + hiding leading stars or customizing their look
+;;   + applying a custom face to the header bullet
+;;   + applying a custom face to the leading bullets
+;;   + using double-bullets for inline tasks (see org-inlinetask.el)
+;; * Prettifying org plain list bullets by:
+;;   + replacing each bullet type (*, + and -) with UTF-8 bullets
+;;   + applying a custom face to item bullets
+;; * Gracefully degrading features when viewed from terminal
+
 ;; This package is heavily influenced by (and uses snippets from) the
 ;; popular package "org-bullets", created by sabof.  It was made with
 ;; the goal of inheriting features the author liked about org-bullets
@@ -38,12 +54,26 @@
 ;; subject to change until version 1.0.0, from which point on I will
 ;; try my best not to inconvenience people.
 
+;; This package is versioned using (the author's understanding of)
+;; semantic versioning: "<major>.<minor>.<patch>".
+;; <major> version increments signify backward incompatible changes.
+;; <minor> version increments signify backward compatible but
+;;         significant changes.
+;; <patch> version increments signify changes not affecting the API.
+
 ;; Here are some Unicode blocks which are generally nifty resources
 ;; for this package:
 ;;
-;; General Punctuation (U+2000-U+206F): bullets, leaders, asterisms
+;; General Punctuation (U+2000-U+206F): Bullets, leaders, asterisms.
 ;; Dingbats (U+2700-U+27BF)
-;; Miscellaneous Symbols and Arrows (U+2B00-U+2BFF)
+;; Miscellaneous Symbols and Arrows (U+2B00-U+2BFF):
+;;     Further stars and arrowheads.
+;; Miscellaneous Symbols (U+2600–U+26FF): Smileys and card suits.
+;; Supplemental Arrows-C (U+1F800-U+1F8FF)
+;; Geometric Shapes (U+25A0-U+25FF): Circles, shapes within shapes.
+;; Geometric Shapes Extended (U+1F780-U+1F7FF):
+;;     More of the above, and stars.
+;;
 
 ;;; Code:
 
