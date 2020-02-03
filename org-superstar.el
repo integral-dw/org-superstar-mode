@@ -55,6 +55,10 @@
   "Use UTF8 bullets for headlines and plain lists."
   :group 'org-appearance)
 
+(defun org-superstar-graphic-p ()
+  "Return t if the current display supports proper composing."
+  (display-graphic-p))
+
 ;;; Bullet Variables
 
 (defcustom org-superstar-headline-bullets-list
@@ -94,6 +98,13 @@ variable for your changes to take effect."
      'safe-local-variable
      #'char-or-string-p)
 
+(defun org-superstar--set-lbullet (symbol value)
+  "Set SYMBOL ‘org-superstar-leading-bullet’ to VALUE.
+If set to a character, also set ‘org-superstar-leading-fallback’."
+  (set-default symbol value)
+  (when (characterp value)
+    (set-default 'org-superstar-leading-fallback value)))
+
 (defcustom org-superstar-leading-bullet " ․"
   "A special bullet used for leading stars.
 Normally, this variable is a character replacing the default
@@ -105,6 +116,10 @@ If ‘org-hide-leading-stars’ is nil, leading stars in a headline
 are represented as a sequence of this bullet using the face
 ‘org-superstar-leading’.  Otherwise, this variable has no effect and
 ‘org-mode’ covers leading stars using ‘org-hide’.
+
+This variable is only used for graphical displays.
+‘org-superstar-leading-fallback’ is used for terminal displays
+instead.
 
 You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
@@ -128,7 +143,29 @@ variable for your changes to take effect."
            (list :inline t :tag "Composition pair"
                  (character :tag "alt char" :value ?\s)
                  (sexp :tag "rule"))))
-  :risky t)
+  :risky t
+  :set #'org-superstar--set-lbullet)
+
+(defcustom org-superstar-leading-fallback
+  (cond ((characterp org-superstar-leading-bullet)
+         org-superstar-leading-bullet)
+        (t ?‥))
+  "A special bullet used for leading stars.
+This variable is a character replacing the default stars in
+terminal displays instead of ‘org-superstar-leading-bullet’.
+
+If the leading bullet is set to a character before the package is
+loaded, this variable’s default value is set to that character as
+well.  Setting the leading bullet to a character using the custom
+interface also automatically sets this variable.
+
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
+variable for your changes to take effect."
+  :group 'org-superstar
+  :type '(character :tag "Single character to display"
+                    :format "\n%t: %v\n"
+                    :value ?‥))
+
 
 
 ;;; Other Custom Variables
@@ -225,7 +262,7 @@ unspecified inherits the org-level-X faces for header bullets."
   :group 'org-superstar)
 
 
-;;; Functions
+;;; Functions intended for users
 
 (defun org-superstar-configure-like-org-bullets ()
   "Configure ‘\\[org-superstar-mode]’ to approximate ‘\\[org-bullets-mode]’.
@@ -287,22 +324,27 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
                  org-superstar-item-bullet-alist))
       (string-to-char bullet-string)))
 
+(defun org-superstar-lbullet ()
+  "Return the correct leading bullet for the current display."
+  (if (org-superstar-graphic-p)
+      org-superstar-leading-bullet
+    org-superstar-leading-fallback))
+
 
 ;;; Fontification
-
 ;; ‘org-list-in-valid-context-p’ is currently not working.
 
 ;; Explicitly returning t is redundant, but does not leak information
 ;; about how the predicate is implemented.
 (defun org-superstar-plain-list-p ()
-  "Return non-nil if the current match is a proper plain list."
+  "Return t if the current match is a proper plain list."
   (save-match-data
     (when (org-element-lineage (org-element-at-point)
                                '(plain-list) t)
       t)))
 
 (defun org-superstar-headline-or-inlinetask-p ()
-  "Return non-nil if the current match is a proper headline or inlinetask."
+  "Return t if the current match is a proper headline or inlinetask."
   (save-match-data
     (when (org-element-lineage (org-element-at-point)
                                '(headline inlinetask) t)
@@ -359,20 +401,22 @@ prettifying bullets in (for example) source blocks."
                                   org-superstar-prettify-leading-stars)))
            (bullet-char (if is-inline-task
                             (org-superstar--hbullet level)
-                            org-superstar-leading-bullet)))
+                          (org-superstar-lbullet))))
       (when compose-star
         (compose-region (match-beginning 2) (match-end 2)
                         bullet-char))
       (cond (is-inline-task 'org-superstar-header-bullet)
-            (org-superstar-prettify-leading-stars 'org-superstar-leading)
-            (t 'custom-invalid)))))
+            (org-superstar-prettify-leading-stars 'org-superstar-leading)))))
 
 
 (defun org-superstar--prettify-leading-hbullets ()
   "Prettify the leading bullets of a header line.
 Unless ‘org-hide-leading-stars’ is non-nil, each leading star is
-visually replaced by ‘org-superstar-leading-bullet-char’ and inherits
+visually replaced by ‘org-superstar-leading-bullet’ and inherits
 face properties from ‘org-superstar-leading’.
+
+If viewed from a terminal, ‘org-superstar-leading-fallback’ is
+used instead of the regular leading bullet to avoid errors.
 
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
@@ -382,7 +426,7 @@ prettifying bullets in (for example) source blocks."
             (lead-end (match-end 3)))
         (while (< star-beg lead-end)
           (compose-region star-beg (setq star-beg (1+ star-beg))
-                          org-superstar-leading-bullet))
+                          (org-superstar-lbullet)))
         'org-superstar-leading))))
 
 
