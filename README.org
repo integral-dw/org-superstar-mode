@@ -20,7 +20,7 @@
    what I have planned for the near future, in semi-chronological
    order:
 
-   * rigorous testing :: currently I am doing my best to test every
+   * +rigorous testing+ Done. :: currently I am doing my best to test every
         reasonable configuration of options I can think of to make
         sure the package works as intended.  Since I can only really
         allocate time on weekends for this, this will take
