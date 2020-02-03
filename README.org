@@ -48,6 +48,10 @@
         more involved than to get it on MELPA, with more checks and
         monitoring before things can go live.
 
+** =2020-02-03=
+   Everything went better than expected!  The tests seem to cover most
+   use cases now, and it seems I have added proper terminal support.
+
 * About
   Prettify headings and plain lists in org-mode.  This package is a
   direct descendant of ‘[[https://github.com/sabof/org-bullets][org-bullets]]’, with most of the code base
@@ -62,6 +66,7 @@
  * Prettifying org plain list bullets^{(new!)} by:
    + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
    + applying a custom face to item bullets
+ * Gracefully degrading features when viewed from terminal
 
 a) These features are mostly the same as in ~org-bullets-mode~.
 
@@ -77,6 +82,16 @@ d) Instead of providing the symbol of an existing face in a
 variable to replace org's usual title face(s) for the UTF-8 character,
 superstar merges a custom face with the face that would have been
 used, allowing the user to inherit the level-dependent default look.
+
+** Planned features
+   In this section I maintain a list of possible feature candidates.
+
+   * hiding leading commas of quoted stars :: hide the comma of
+        expressions like ~,*~ from view.
+     + unhiding commas whilst editing :: display the comma again if
+          the line is being worked on (if the point is on the same
+          line).
+   * optional display of two leading bullets for inline tasks
 
 * Installation
 
