@@ -274,6 +274,9 @@ variable for your changes to take effect."
   '((default . (:inherit default :foreground "gray")))
   "Face used to display prettified leading stars in a headline."
   :group 'org-superstar)
+;; REVIEW: I read that it's generally discouraged to :inherit while
+;; overriding certain properties.  Does that also apply to inheriting
+;; default?
 
 (defface org-superstar-header-bullet
   '((default . nil))
