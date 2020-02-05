@@ -1,0 +1,35 @@
+#+TITLE: Sample File
+#+STARTUP: showeverything
+* Lorem ipsum dolor sit amet
+** Consectetur adipiscing elit
+*** Eiusmod tempor incididunt
+    Ut labore et dolore magna aliqua. Fringilla phasellus faucibus
+    scelerisque eleifend donec pretium vulputate sapien. Odio pellentesque
+    diam volutpat commodo.
+    * Varius morbi enim nunc
+    * faucibus, ultrices vitae
+      + auctor eu augue ut lectus arcu bibendum.
+      + neque egestas congue quisque
+        - Et ultrices neque ornare aenean euismod.
+    * Tristique nulla!
+
+#+BEGIN_SRC C
+/*
+,* This is not a header
+  + this
+    + is not
+      * a list.
+*/
+#+END_SRC
+
+
+*************** Inline task?
+**************** second
+***************** third
+
+* 1
+** 2
+*** 3
+**** 4
+***** 5
+****** 6

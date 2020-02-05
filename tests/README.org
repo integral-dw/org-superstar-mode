@@ -1,0 +1,36 @@
+#+TITLE: Testing Routines: There be Dragons
+
+* Purpose
+This is where I will put cleaned up testing routines meant for testing
+and debugging ~org-superstar-mode~.  However, as the title suggests,
+*none of these files are meant for normal package usage*.  Consequently,
+I advise to run these files with a minimal setup (think =emacs -Q=) and
+only keep sessions involving them open /as long as necessary/.  Since
+the things I want to test are very side effect reliant, I see myself
+forced to rely on ~advice~ and family.  To further emphasize that I do
+not intend to ship any of these functions as part of my package, I use
+the non-standard (yet popular) naming convention
+~org-superstar/variable-name~.  See below for the purpose of the
+individual files included here.
+
+** =sample.org=
+A harmless sample file.  An earlier version was used for the sample
+image in the top-level README.
+
+** =minimal-setup.el=
+This file contains a minimal setup useful for testing.  Just run:
+#+BEGIN_SRC bash
+emacs -Q -l ../org-superstar.el -l minimal-setup.el sample.org
+#+END_SRC
+
+To run additional test files, it is easiest to just =-l= them as well.
+
+** =composure-test.el=
+This file adds lots of information regarding calls to ~compose-region~
+for functions defined in =org-superstar.el=.  They are written to the
+=*Messages*= buffer.  It also makes sure all ~--prettify-~ functions
+return proper faces (or ~nil~).
+
+
+
+#  LocalWords:  README el
