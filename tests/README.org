@@ -33,5 +33,11 @@ return proper faces (or ~nil~).  This module auto-enables
 ~column-number-mode~ as well as ~linum-mode~ for org to allow for manual,
 character-wise comparison of the characters prettified.
 
+** =face-test.el=
+This file sets all faces to strongly contrasting colors and adds many
+different face properties to see if and how they work.  It essentially
+serves as a test image for quick visual confirmation that all faces
+are applied consistently.
+
 
 #  LocalWords:  README el
