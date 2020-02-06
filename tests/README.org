@@ -29,8 +29,9 @@ To run additional test files, it is easiest to just =-l= them as well.
 This file adds lots of information regarding calls to ~compose-region~
 for functions defined in =org-superstar.el=.  They are written to the
 =*Messages*= buffer.  It also makes sure all ~--prettify-~ functions
-return proper faces (or ~nil~).
-
+return proper faces (or ~nil~).  This module auto-enables
+~column-number-mode~ as well as ~linum-mode~ for org to allow for manual,
+character-wise comparison of the characters prettified.
 
 
 #  LocalWords:  README el
