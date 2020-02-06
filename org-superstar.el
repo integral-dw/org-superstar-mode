@@ -324,6 +324,13 @@ function for your changes to take effect."
   (setq org-hide-leading-stars t)
   nil)
 
+(defun org-superstar-restart ()
+  "Re-enable ‘\\[org-bullets-mode]’, if the mode is enabled."
+  (interactive)
+  (when org-superstar-mode
+    (org-superstar-mode 0)
+    (org-superstar-mode 1)))
+
 
 ;;; Accessor Functions
 
@@ -424,22 +431,22 @@ block is formatted like the leading asterisks, see
 
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (when (org-superstar-headline-or-inlinetask-p)
-    (let* ((level (- (match-end 0) (match-beginning 0) 1))
-           (is-inline-task
-            (and (boundp 'org-inlinetask-min-level)
-                 (>= level org-inlinetask-min-level)))
-           (compose-star (or is-inline-task
-                             (and (not org-hide-leading-stars)
-                                  org-superstar-prettify-leading-stars)))
-           (bullet-char (if is-inline-task
-                            (org-superstar--hbullet level)
-                          (org-superstar-lbullet))))
-      (when compose-star
-        (compose-region (match-beginning 2) (match-end 2)
-                        bullet-char))
-      (cond (is-inline-task 'org-superstar-header-bullet)
-            (org-superstar-prettify-leading-stars 'org-superstar-leading)))))
+  (let ((level (- (match-end 0) (match-beginning 0) 1)))
+    (when (and (> level 1) (org-superstar-headline-or-inlinetask-p))
+      (let* ((is-inline-task
+              (and (boundp 'org-inlinetask-min-level)
+                   (>= level org-inlinetask-min-level)))
+             (compose-star (or is-inline-task
+                               (and (not org-hide-leading-stars)
+                                    org-superstar-prettify-leading-stars)))
+             (bullet-char (if is-inline-task
+                              (org-superstar--hbullet level)
+                            (org-superstar-lbullet))))
+        (when compose-star
+          (compose-region (match-beginning 2) (match-end 2)
+                          bullet-char))
+        (cond (is-inline-task 'org-superstar-header-bullet)
+              (org-superstar-prettify-leading-stars 'org-superstar-leading))))))
 
 
 (defun org-superstar--prettify-leading-hbullets ()
@@ -524,6 +531,7 @@ routines of ‘\\[org-superstar-mode]’."
     (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
     (org-superstar--fontify-buffer))))
+
 
 (provide 'org-superstar)
 ;;; org-superstar.el ends here
