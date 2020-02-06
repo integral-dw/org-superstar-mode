@@ -499,6 +499,8 @@ routines of ‘\\[org-superstar-mode]’."
            ,@(when org-superstar-prettify-leading-stars
                '((3 (org-superstar--prettify-leading-hbullets)
                     t)))
+           ;; FIXME: prepend works unintuitively when the other bullet
+           ;; is just another lead (e.g.: still scales with title
            (2 (org-superstar--prettify-other-hbullet) prepend))
           ;; If requested, put another function here that formats the
           ;; first two stars of an inline as a bullet.
