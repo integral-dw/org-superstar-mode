@@ -5,14 +5,9 @@
 ;; This file purposefully breaks naming conventions to indicate that
 ;; it is *NOT* part of the main package.
 
-;; WARNING: This testing package is *not* suitable for any purpose
-;; other than testing org-superstar-mode.  ONLY use this code on a
-;; clean Emacs install ("emacs -Q") and ONLY keep the Emacs session
-;; running for as long as you need to.  DO NOT use an Emacs session
-;; loading this file for everyday editing.
-
-;; THIS FILE ADVISES EMACS INTERNALS FOR DEBUGGING PURPOSES ONLY.
-;; USE AT YOUR OWN RISK.
+;; Load this file with a minimal setup to confirm that composition
+;; works as intended.  You can dismiss all advices applied by calling
+;; ‘org-superstar/dismiss-composure’.
 
 ;;; Code:
 
@@ -113,10 +108,17 @@ Ensure the return value is a face or nil.  Also toggle
              (advice-add symbol
                          :around #'org-superstar/wrap-prettify))))))
 
+
+(defun org-superstar/dismiss-composure ()
+  "Remove all advices added by composure-test."
+  (interactive)
+  (advice-remove 'compose-region #'org-superstar/comp-test)
+  (dolist (symbol org-superstar/comp-listeners)
+    (advice-remove symbol #'org-superstar/wrap-prettify)))
+
 ;; listen in on compose-region
 (advice-add 'compose-region :before #'org-superstar/comp-test)
 
 ;; advise prettifyers
-
 (dolist (symbol org-superstar/comp-listeners)
   (org-superstar/toggle-listener symbol))
