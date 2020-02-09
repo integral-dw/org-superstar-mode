@@ -1,0 +1,4 @@
+#+STARTUP: showeverything
+ * item
+   + item
+     - item

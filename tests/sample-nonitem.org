@@ -1,0 +1,6 @@
+#+STARTUP: showeverything
+#+BEGIN_SRC C
+/*
+ + noitem
+*/
+#+END_SRC
