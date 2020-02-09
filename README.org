@@ -153,13 +153,17 @@ used, allowing the user to inherit the level-dependent default look.
     according to the rules of ~compose-region~.  =org-superstar= ships
     with a subtle [[https://en.wikipedia.org/wiki/Leader_(typography)][leader]] as the default.
 
-*** Hide leading stars and ~org-superstar-prettify-leading-stars~
+    *Note for terminal users:* You can apply a simplified composition to
+    leading stars for terminal sessions.  See
+    ~org-superstar-leading-fallback~ for details.
+
+*** Hide leading stars
     Since ~org-mode~ already takes care of hiding leading stars by
     providing the dedicated variable ~org-hide-leading-stars~ and it's
     associated face ~org-hide~, there is no extra option for /hiding/
-    leading stars.  However, you can stop ~superstar-mode~ from
-    prettifying them by setting ~org-superstar-prettify-leading-stars~ to
-    ~nil~.
+    leading stars.  The variable ~org-superstar-prettify-leading-stars~
+    has been deprecated.  Instead, ~org-hide-leading-stars~ implicitly
+    disables further fontification.
 
 ** Custom UTF8-Bullets for plain lists
    Why stop at heading lines?  Customize the look of your list bullets
@@ -193,4 +197,4 @@ used, allowing the user to inherit the level-dependent default look.
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
 
-#  LocalWords:  org's MELPA ELPA Worg
+#  LocalWords:  org's MELPA ELPA Worg fontification
