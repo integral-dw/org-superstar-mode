@@ -13,7 +13,7 @@
 
 ** Current road map
 
-   * +rigorous testing+ *UPDATE:* Done.
+   * +rigorous testing+ *UPDATE:* +Done.+ Testing is never done, but things get better!
    * +achieving MELPA compliance+ *UPDATE:* I think I did.
    * getting =org-superstar= up on MELPA :: This is my #1 priority right
         now.  Get it out, get it tested, get feedback.
