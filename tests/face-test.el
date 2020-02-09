@@ -7,8 +7,6 @@
 
 ;;; Code:
 
-
-
 (setq org-superstar-item-bullet-alist
   '((?* . ?⌬)
     (?+ . ?◐)
