@@ -1,0 +1,7 @@
+«:org-meta-line:#+STARTUP: showeverything»
+«:org-block-begin-line:#+BEGIN_SRC C
+»«:org-block:«m:/*»«x:
+ + noitem
+»«m:*/»
+»«:org-block-end-line:#+END_SRC
+»

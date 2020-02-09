@@ -1,0 +1,5 @@
+«:org-meta-line:#+STARTUP: showeverything»
+«:org-level-1:«:org-superstar-header-bullet:*» 1»
+«:org-hide:*»«:org-level-2:«:org-superstar-header-bullet:*» 2»
+«:org-hide:**»«:org-level-3:«:org-superstar-header-bullet:*» 3»
+«:org-hide:***»«:org-level-4:«:org-superstar-header-bullet:*» 4»
