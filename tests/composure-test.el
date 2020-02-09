@@ -13,7 +13,6 @@
 
 (require 'cl-macs)
 (require 'subr-x)
-(require 'linum)
 
 (defvar-local org-superstar/listen nil
   "If t, activate the advice ‘org-superstar/comp-test’.
@@ -27,15 +26,9 @@ active listeners by calling ‘org-superstar/toggle-listener’.")
   '(org-superstar--prettify-ibullets
     org-superstar--prettify-main-hbullet
     org-superstar--prettify-other-hbullet
+    org-superstar--prettify-other-lbullet
     org-superstar--prettify-leading-hbullets)
   "List of functions ‘org-superstar/comp-test’ can be applied to.")
-
-;;; Hooks
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (linum-mode 1)
-            (column-number-mode 1)))
 
 ;;; Advice definitions
 
@@ -48,7 +41,7 @@ of ‘compose-region’."
     ;; time.  This test will only fail when I mess up regex grouping,
     ;; but it serves as a reminder that composing a region is not as
     ;; trivial as making the region bigger.
-    (cl-assert (= 1 (- end start)))
+    (should (= 1 (- end start)))
     (let ((line (line-number-at-pos start))
           (col (save-excursion (goto-char start) (current-column)))
           (composed-string (buffer-substring-no-properties start end)))
@@ -75,7 +68,7 @@ Ensure the return value is a face or nil.  Also toggle
   (let ((org-superstar/listen t)
          (returned-face nil))
     (prog1 (setq returned-face (apply face-function args))
-      (cl-assert (or (facep returned-face)
+      (should (or (facep returned-face)
                      (null returned-face)))
       (when (facep returned-face)
         (message "Applied face ‘%s’ to group (line %d)"
@@ -109,16 +102,17 @@ Ensure the return value is a face or nil.  Also toggle
                          :around #'org-superstar/wrap-prettify))))))
 
 
-(defun org-superstar/dismiss-composure ()
+(defun org-superstar/start-listening ()
+  "Set up all advices provided by composure-test."
+  (interactive)
+  (advice-add 'compose-region :before #'org-superstar/comp-test)
+  (dolist (symbol org-superstar/comp-listeners)
+    (org-superstar/toggle-listener symbol)))
+
+
+(defun org-superstar/dismiss-listening ()
   "Remove all advices added by composure-test."
   (interactive)
   (advice-remove 'compose-region #'org-superstar/comp-test)
   (dolist (symbol org-superstar/comp-listeners)
     (advice-remove symbol #'org-superstar/wrap-prettify)))
-
-;; listen in on compose-region
-(advice-add 'compose-region :before #'org-superstar/comp-test)
-
-;; advise prettifyers
-(dolist (symbol org-superstar/comp-listeners)
-  (org-superstar/toggle-listener symbol))
