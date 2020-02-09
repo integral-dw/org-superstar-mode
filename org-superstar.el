@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.1.0
+;; Version: 0.2.0
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -85,10 +85,6 @@
   "Use UTF8 bullets for headlines and plain lists."
   :group 'org-appearance)
 
-(defun org-superstar-graphic-p ()
-  "Return t if the current display supports proper composing."
-  (display-graphic-p))
-
 ;;; Bullet Variables
 
 (defcustom org-superstar-headline-bullets-list
@@ -97,7 +93,7 @@
     "○"
     "✸"
     "✿") ;; "◉" "🞛" "○" "▷"
-    "List of bullets used in Org headings.
+  "List of bullets used in Org headings.
 It can contain any number of bullets, the Nth entry usually
 corresponding to the bullet used for level N.  The way this list
 is cycled through can use fine-tuned by customizing
@@ -105,8 +101,8 @@ is cycled through can use fine-tuned by customizing
 
 You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
-    :group 'org-superstar
-    :type '(repeat (string :tag "Bullet character")))
+  :group 'org-superstar
+  :type '(repeat (string :tag "Bullet character")))
 
 (defcustom org-superstar-item-bullet-alist
   '((?* . ?•)
@@ -162,12 +158,12 @@ variable for your changes to take effect."
                   :format "\n%t:\n%v"
                   :value " ․")
           (vector :tag "Vector of chars and composition rules"
-           (repeat
-            :inline t
-            :tag "Composition sequence"
-            (list :inline t :tag "Composition pair"
-                  (character :tag "alt char" :value ?\s)
-                  (sexp :tag "rule"))))
+                  (repeat
+                   :inline t
+                   :tag "Composition sequence"
+                   (list :inline t :tag "Composition pair"
+                         (character :tag "alt char" :value ?\s)
+                         (sexp :tag "rule"))))
           (repeat
            :tag "Sequence of chars and composition rules"
            (list :inline t :tag "Composition pair"
@@ -196,23 +192,8 @@ variable for your changes to take effect."
                     :format "\n%t: %v\n"
                     :value ?‥))
 
-
 
 ;;; Other Custom Variables
-
-(defcustom org-superstar-prettify-leading-stars t
-  "Non-nil means prettify leading stars in headlines.
-
-It is a good idea to disable this feature when you run into any
-peformance issues because of this package.  You can still hide
-leading stars using ‘org-hide-leading-stars’.
-
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
-variable for your changes to take effect."
-  :group 'org-superstar
-  :type '(choice
-          (const :tag "Prettify leading stars." t)
-          (const :tag "Don’t prettify leading stars." nil)))
 
 (defcustom org-superstar-cycle-headline-bullets t
   "Non-nil means cycle through all available headline bullets.
@@ -312,30 +293,20 @@ fine-grained customization, it’s better to just set the variables
 you want.
 
 This changes the following variables:
-‘org-superstar-prettify-leading-stars’: Disabled.
-‘org-superstar-prettify-leading-stars’: Disabled.
 ‘org-superstar-cycle-headline-bullets’: Enabled.
 ‘org-hide-leading-stars’: Enabled.
 
 You should re-enable ‘\\[org-superstar-mode]’ after calling this
 function for your changes to take effect."
-  (setq org-superstar-prettify-leading-stars nil)
   (setq org-superstar-cycle-headline-bullets t)
   (setq org-hide-leading-stars t)
   nil)
-
-(defun org-superstar-restart ()
-  "Re-enable ‘\\[org-bullets-mode]’, if the mode is enabled."
-  (interactive)
-  (when org-superstar-mode
-    (org-superstar-mode 0)
-    (org-superstar-mode 1)))
 
 
 ;;; Accessor Functions
 
 (defun org-superstar--hbullets ()
-    "Return the length of ‘org-superstar-headline-bullets-list’."
+  "Return the length of ‘org-superstar-headline-bullets-list’."
   (length org-superstar-headline-bullets-list))
 
 (defun org-superstar--hbullet (level)
@@ -364,14 +335,18 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
                  org-superstar-item-bullet-alist))
       (string-to-char bullet-string)))
 
-(defun org-superstar-lbullet ()
+(defun org-superstar--lbullet ()
   "Return the correct leading bullet for the current display."
   (if (org-superstar-graphic-p)
       org-superstar-leading-bullet
     org-superstar-leading-fallback))
 
+(defun org-superstar--heading-level ()
+  "Return the heading level of the currently matched headline."
+  (- (match-end 0) (match-beginning 0) 1))
+
 
-;;; Fontification
+;;; Predicates
 ;; ‘org-list-in-valid-context-p’ is currently not working.
 
 ;; Explicitly returning t is redundant, but does not leak information
@@ -390,6 +365,29 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
                                '(headline inlinetask) t)
       t)))
 
+(defun org-superstar-headline-p ()
+  "Return t if the current match is a proper headline."
+  (interactive)
+  (save-match-data
+    (when (org-element-lineage (org-element-at-point)
+                               '(headline) t)
+      t)))
+
+(defun org-superstar-inlinetask-p ()
+  "Return t if the current match is a proper inlinetask."
+  (and (featurep 'org-inlinetask)
+       (save-match-data
+         (when (org-element-lineage (org-element-at-point)
+                                    '(inlinetask) t)
+           t))))
+
+(defun org-superstar-graphic-p ()
+  "Return t if the current display supports proper composing."
+  (display-graphic-p))
+
+
+;;; Fontification
+
 (defun org-superstar--prettify-ibullets ()
   "Prettify plain list bullets.
 
@@ -400,7 +398,6 @@ prettifying bullets in (for example) source blocks."
       (compose-region (match-beginning 1)
                       (match-end 1)
                       (org-superstar--ibullet current-bullet)))
-
     'org-superstar-item))
 
 (defun org-superstar--unprettify-ibullets ()
@@ -408,8 +405,7 @@ prettifying bullets in (for example) source blocks."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "^[ \t]+\\([-+*]\\) " nil t)
-        (decompose-region (match-beginning 1) (match-end 1)))))
-
+      (decompose-region (match-beginning 1) (match-end 1)))))
 
 (defun org-superstar--prettify-main-hbullet ()
   "Prettify the trailing star in a headline.
@@ -417,7 +413,7 @@ prettifying bullets in (for example) source blocks."
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-headline-or-inlinetask-p)
-    (let ((level (- (match-end 0) (match-beginning 0) 1)))
+    (let ((level (org-superstar--heading-level)))
       (compose-region (match-beginning 1) (match-end 1)
                       (org-superstar--hbullet level))))
   'org-superstar-header-bullet)
@@ -425,28 +421,26 @@ prettifying bullets in (for example) source blocks."
 (defun org-superstar--prettify-other-hbullet ()
   "Prettify the second last star in a headline.
 This is only done if the particular title’s level is part of an
-inline task, see ‘org-inlinetask-min-level’.  Otherwise, this
-block is formatted like the leading asterisks, see
-‘org-superstar--prettify-leading-hbullets’.
+inline task, see ‘org-inlinetask-min-level’.
 
-This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
+This function uses ‘org-superstar-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (let ((level (- (match-end 0) (match-beginning 0) 1)))
-    (when (and (> level 1) (org-superstar-headline-or-inlinetask-p))
-      (let* ((is-inline-task
-              (and (boundp 'org-inlinetask-min-level)
-                   (>= level org-inlinetask-min-level)))
-             (compose-star (or is-inline-task
-                               (and (not org-hide-leading-stars)
-                                    org-superstar-prettify-leading-stars)))
-             (bullet-char (if is-inline-task
-                              (org-superstar--hbullet level)
-                            (org-superstar-lbullet))))
-        (when compose-star
-          (compose-region (match-beginning 2) (match-end 2)
-                          bullet-char))
-        (cond (is-inline-task 'org-superstar-header-bullet)
-              (org-superstar-prettify-leading-stars 'org-superstar-leading))))))
+  (when (org-superstar-inlinetask-p)
+    (let ((level (org-superstar--heading-level)))
+      (compose-region (match-beginning 2) (match-end 2)
+                      (org-superstar--hbullet level))
+      'org-superstar-header-bullet)))
+
+(defun org-superstar--prettify-other-lbullet ()
+  "Prettify the first leading bullet after the headline bullet.
+This function serves as an extension of
+‘org-superstar--prettify-leading-hbullets’.
+This function uses ‘org-superstar-headline-p’ to avoid
+prettifying bullets in (for example) source blocks."
+  (cond ((org-superstar-headline-p)
+         'org-superstar-leading)
+        ((org-superstar-inlinetask-p)
+         'org-inlinetask)))
 
 
 (defun org-superstar--prettify-leading-hbullets ()
@@ -461,13 +455,13 @@ used instead of the regular leading bullet to avoid errors.
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-headline-or-inlinetask-p)
-    (unless org-hide-leading-stars
-      (let ((star-beg (match-beginning 3))
-            (lead-end (match-end 3)))
-        (while (< star-beg lead-end)
-          (compose-region star-beg (setq star-beg (1+ star-beg))
-                          (org-superstar-lbullet)))
-        'org-superstar-leading))))
+    (let ((star-beg (match-beginning 3))
+          (lead-end (if (org-superstar-headline-p)
+                        (match-end 2) (match-end 3))))
+      (while (< star-beg lead-end)
+        (compose-region star-beg (setq star-beg (1+ star-beg))
+                        (org-superstar--lbullet)))
+      'org-superstar-leading)))
 
 
 
@@ -476,7 +470,7 @@ prettifying bullets in (for example) source blocks."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "^\\*+ " nil t)
-        (decompose-region (match-beginning 0) (match-end 0)))))
+      (decompose-region (match-beginning 0) (match-end 0)))))
 
 
 ;;; Font Lock
@@ -496,26 +490,27 @@ routines of ‘\\[org-superstar-mode]’."
                  (1 (org-superstar--prettify-ibullets)))))
           ("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
            (1 (org-superstar--prettify-main-hbullet) prepend)
-           ,@(when org-superstar-prettify-leading-stars
+           ,@(unless org-hide-leading-stars
                '((3 (org-superstar--prettify-leading-hbullets)
+                    t)
+                 (2 (org-superstar--prettify-other-lbullet)
                     t)))
-           ;; FIXME: prepend works unintuitively when the other bullet
-           ;; is just another lead (e.g.: still scales with title
-           (2 (org-superstar--prettify-other-hbullet) prepend))
-          ;; If requested, put another function here that formats the
-          ;; first two stars of an inline as a bullet.
-          )))
+           ,@(when (featurep 'org-inlinetask)
+               '((2 (org-superstar--prettify-other-hbullet)
+                    prepend)))
+           ;; If requested, put another function here that formats the
+           ;; first star of an inlinetask as a bullet.
+           ))))
 
 (defun org-superstar--fontify-buffer ()
   "Fontify the buffer."
   (when font-lock-mode
-    (if (and (fboundp 'font-lock-flush)
-             (fboundp 'font-lock-ensure))
-        (save-restriction
-          (widen)
-          (font-lock-ensure)
-          (font-lock-flush)))))
+    (save-restriction
+      (widen)
+      (font-lock-ensure)
+      (font-lock-flush))))
 
+;;; Mode commands
 ;;;###autoload
 (define-minor-mode org-superstar-mode
   "Use UTF8 bullets for headlines and plain lists."
@@ -533,6 +528,13 @@ routines of ‘\\[org-superstar-mode]’."
     (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
     (org-superstar--fontify-buffer))))
+
+(defun org-superstar-restart ()
+  "Re-enable ‘\\[org-bullets-mode]’, if the mode is enabled."
+  (interactive)
+  (when org-superstar-mode
+    (org-superstar-mode 0)
+    (org-superstar-mode 1)))
 
 
 (provide 'org-superstar)
