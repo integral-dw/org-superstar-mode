@@ -519,12 +519,15 @@ routines of ‘\\[org-superstar-mode]’."
   :require 'org
   (cond
    (org-superstar-mode
+    (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (org-superstar--update-font-lock-keywords)
     (font-lock-add-keywords nil org-superstar--font-lock-keywords
                             'append)
     (org-superstar--fontify-buffer))
    (t
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
+    (setq org-superstar--font-lock-keywords
+          (default-value 'org-superstar--font-lock-keywords))
     (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
     (org-superstar--fontify-buffer))))

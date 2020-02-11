@@ -36,8 +36,6 @@
         more involved than to get it on MELPA, with more checks and
         monitoring before things can go live.
 
-
-
 ** =2020-02-02=
    *Good news!* The project is reaching an /acceptable/ first draft state.
    This means I am now preparing getting this package properly wrapped
