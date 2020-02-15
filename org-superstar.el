@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.2.0
+;; Version: 0.3.0
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -305,6 +305,14 @@ function for your changes to take effect."
 
 ;;; Accessor Functions
 
+(defun org-superstar--get-TODO (pom)
+  "Return the TODO keyword at point or marker POM.
+If no TODO property is found, return nil."
+  (let ((todo-property
+         (cdar (org-entry-properties pom "TODO"))))
+    (when (stringp todo-property)
+      todo-property)))
+
 (defun org-superstar--hbullets ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
   (length org-superstar-headline-bullets-list))
@@ -314,7 +322,7 @@ function for your changes to take effect."
 
 See also ‘org-superstar-cycle-headline-bullets’."
   (let ((max-bullets org-superstar-cycle-headline-bullets)
-        (n (1- level)))
+        (n (if org-odd-levels-only (/ (1- level) 2) (1- level))))
     (string-to-char
      (cond ((integerp max-bullets)
             (elt org-superstar-headline-bullets-list
@@ -462,8 +470,6 @@ prettifying bullets in (for example) source blocks."
         (compose-region star-beg (setq star-beg (1+ star-beg))
                         (org-superstar--lbullet)))
       'org-superstar-leading)))
-
-
 
 (defun org-superstar--unprettify-hbullets ()
   "Revert visual tweaks made to header bullets in current buffer."
