@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.3.0
+;; Version: 0.4.0
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -31,12 +31,13 @@
 ;;  completely rewritten (See https://github.com/sabof/org-bullets).
 ;;  Currently, this package supports:
 
-;; * Prettifying org header lines by:
+;; * Prettifying org heading lines by:
 ;;   + replacing trailing bullets by UTF-8 bullets
 ;;   + hiding leading stars or customizing their look
 ;;   + applying a custom face to the header bullet
 ;;   + applying a custom face to the leading bullets
 ;;   + using double-bullets for inline tasks (see org-inlinetask.el)
+;;   + (optional) using special bullets for TODO keywords
 ;; * Prettifying org plain list bullets by:
 ;;   + replacing each bullet type (*, + and -) with UTF-8 bullets
 ;;   + applying a custom face to item bullets
@@ -126,7 +127,8 @@ variable for your changes to take effect."
   "Alist of UTF-8 bullets for TODO items.
 
 Each key should be a TODO keyword, and each value should the UTF8
-character to be displayed.
+character to be displayed.  Keywords that are not included in the
+alist are handled like normal headings.
 
 You should re-enable ‘\\[org-superstar-mode]’ after changing this
 variable for your changes to take effect."
@@ -243,7 +245,7 @@ If the integer exceeds the length of
 ‘org-superstar-headline-bullets-list’, set it to the length and
 raise an error."
   (let ((ncycle (widget-value text-field))
-        (maxcycle (org-superstar--hbullets)))
+        (maxcycle (org-superstar--hbullets-length)))
     (unless (<= 1 ncycle maxcycle)
       (widget-put
        text-field
@@ -345,16 +347,21 @@ If no TODO property is found, return nil."
   "Return the desired TODO item bullet, if defined.
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
 the current keyword, return nil."
-  (cdr (assoc
+  (cdr (assoc-string
         (org-superstar--get-todo (match-beginning 0))
         org-superstar-todo-bullet-alist)))
 
-(defun org-superstar--hbullets ()
+(defun org-superstar--hbullets-length ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
   (length org-superstar-headline-bullets-list))
 
 (defun org-superstar--hbullet (level)
   "Return the desired headline bullet replacement for LEVEL N.
+
+If the headline is also a TODO item, you can override the usually
+displayed bullet depending on the TODO keyword by setting
+‘org-superstar-special-todo-items’ to t and adding relevant
+TODO keyword entries to ‘org-superstar-todo-bullet-alist’.
 
 See also ‘org-superstar-cycle-headline-bullets’."
   (let ((max-bullets org-superstar-cycle-headline-bullets)
@@ -369,11 +376,11 @@ See also ‘org-superstar-cycle-headline-bullets’."
           (max-bullets
            (string-to-char
             (elt org-superstar-headline-bullets-list
-                 (% n (org-superstar--hbullets)))))
+                 (% n (org-superstar--hbullets-length)))))
           (t
            (string-to-char
             (elt org-superstar-headline-bullets-list
-                 (min n (1- (org-superstar--hbullets)))))))))
+                 (min n (1- (org-superstar--hbullets-length)))))))))
 
 (defun org-superstar--ibullet (bullet-string)
   "Return BULLET-STRINGs desired UTF-8 replacement.
