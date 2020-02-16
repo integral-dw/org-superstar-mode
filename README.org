@@ -56,17 +56,23 @@
    good and move to version *1.0.0* once the pull request is closed.  I
    will keep the "under construction" tags around for the time being,
    however.
+
+** =2020-02-16=
+   Version *0.4.0* has been released!  You can now associate =TODO=
+   keywords with special headline bullets.
+
 * About
   Prettify headings and plain lists in org-mode.  This package is a
   direct descendant of ‘[[https://github.com/sabof/org-bullets][org-bullets]]’, with most of the code base
   completely rewritten.  Currently, this package supports:
 
- * Prettifying org header lines by:
+ * Prettifying org heading lines by:
    + replacing trailing bullets by UTF-8 bullets^{a)}
    + hiding leading stars^{b)} or customizing their look^{(new!)}
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
    + using double-bullets for inline tasks (see =org-inlinetask.el=)
+   + (optional) using special bullets for =TODO= keywords^{(new!)}
  * Prettifying org plain list bullets^{(new!)} by:
    + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
    + applying a custom face to item bullets
@@ -91,7 +97,7 @@ used, allowing the user to inherit the level-dependent default look.
    In this section I maintain a list of possible feature candidates.
 
    * hiding leading commas of quoted stars :: hide the comma of
-        expressions like ~,*~ from view.
+        expressions quoting leading stars from view.
      + unhiding commas whilst editing :: display the comma again if
           the line is being worked on (if the point is on the same
           line).
@@ -169,6 +175,13 @@ used, allowing the user to inherit the level-dependent default look.
     has been deprecated.  Instead, ~org-hide-leading-stars~ implicitly
     disables further fontification.
 
+*** Fancy =TODO= items
+    You can substitute standard headline bullets with specialized ones
+    fitting the current =TODO= keyword!  To enable this feature, set
+    ~org-superstar-special-todo-items~ to ~t~.  To set which =TODO= keywords
+    you want to have displayed differently, see
+    ~org-superstar-todo-bullet-alist~.
+
 ** Custom UTF8-Bullets for plain lists
    Why stop at heading lines?  Customize the look of your list bullets
    to make plain lists a little less so.
@@ -201,4 +214,4 @@ used, allowing the user to inherit the level-dependent default look.
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
 
-#  LocalWords:  org's MELPA ELPA Worg fontification
+#  LocalWords:  org's MELPA ELPA Worg fontification TODO
