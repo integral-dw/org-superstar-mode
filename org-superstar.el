@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.4.1
+;; Version: 0.5.0
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -508,7 +508,6 @@ prettifying bullets in (for example) source blocks."
         ((org-superstar-inlinetask-p)
          'org-inlinetask)))
 
-
 (defun org-superstar--prettify-leading-hbullets ()
   "Prettify the leading bullets of a header line.
 Unless ‘org-hide-leading-stars’ is non-nil, each leading star is
@@ -528,6 +527,16 @@ prettifying bullets in (for example) source blocks."
         (compose-region star-beg (setq star-beg (1+ star-beg))
                         (org-superstar--lbullet)))
       'org-superstar-leading)))
+
+(defun org-superstar--make-invisible (subexp)
+  "Make part of the text matched by the last search invisible.
+SUBEXP, a number, specifies which parenthesized expression in the
+last regexp.  If there is no SUBEXPth pair, do nothing."
+  (let ((start (match-beginning subexp))
+        (end (match-end subexp)))
+    (when start
+      (add-text-properties
+       start end '(invisible org-superstar-hide)))))
 
 (defun org-superstar--unprettify-hbullets ()
   "Revert visual tweaks made to header bullets in current buffer."
@@ -554,11 +563,15 @@ routines of ‘\\[org-superstar-mode]’."
                  (1 (org-superstar--prettify-ibullets)))))
           ("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
            (1 (org-superstar--prettify-main-hbullet) prepend)
-           ,@(unless org-hide-leading-stars
+           ,@(unless (or org-hide-leading-stars
+                         org-superstar-remove-leading-stars)
                '((3 (org-superstar--prettify-leading-hbullets)
                     t)
                  (2 (org-superstar--prettify-other-lbullet)
                     t)))
+           ,@(when org-superstar-remove-leading-stars
+               '((3 (org-superstar--make-invisible 3))
+                 (2 (org-superstar--make-invisible 2))))
            ,@(when (featurep 'org-inlinetask)
                '((2 (org-superstar--prettify-other-hbullet)
                     prepend)))
@@ -583,12 +596,15 @@ routines of ‘\\[org-superstar-mode]’."
   :require 'org
   (cond
    (org-superstar-mode
+    ;;TODO: do not allow this mode outside of org
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (org-superstar--update-font-lock-keywords)
     (font-lock-add-keywords nil org-superstar--font-lock-keywords
                             'append)
-    (org-superstar--fontify-buffer))
+    (org-superstar--fontify-buffer)
+    (add-to-invisibility-spec '(org-superstar-hide)))
    (t
+    (remove-from-invisibility-spec '(org-superstar-hide))
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (setq org-superstar--font-lock-keywords
           (default-value 'org-superstar--font-lock-keywords))
