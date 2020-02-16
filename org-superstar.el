@@ -119,6 +119,22 @@ variable for your changes to take effect."
                           (?+ (character))
                           (?- (character)))))
 
+
+(defcustom org-superstar-todo-bullet-alist
+  '(("TODO" . ?☐)
+    ("DONE" . ?☑))
+  "Alist of UTF-8 bullets for TODO items.
+
+Each key should be a TODO keyword, and each value should the UTF8
+character to be displayed.
+
+You should re-enable ‘\\[org-superstar-mode]’ after changing this
+variable for your changes to take effect."
+  :group 'org-superstar
+  :type '(alist :key-type (string :format "TODO keyword: %v")
+                :value-type (character :value ?◉
+                                       :format "Bullet character: %v\n")))
+
 ;;;###autoload
 (put 'org-superstar-leading-bullet
      'safe-local-variable
@@ -248,6 +264,15 @@ variable for your changes to take effect."
   :type '(choice (const :tag "Enable item bullet fontification" t)
                  (const :tag "Disable item bullet fontification" nil)))
 
+(defcustom org-superstar-special-todo-items nil
+  "Non-nil means use special bullets for TODO items.
+
+Instead of displaying bullets corresponding to TODO items
+according to ‘org-superstar-headline-bullets-list’ (dependent on
+the headline’s level), display a bullet according to
+‘org-superstar-todo-bullet-alist’ (dependent on the TODO
+keyword).")
+
 
 ;;; Faces
 
@@ -295,23 +320,34 @@ you want.
 This changes the following variables:
 ‘org-superstar-cycle-headline-bullets’: Enabled.
 ‘org-hide-leading-stars’: Enabled.
+‘org-superstar-special-todo-items’: Disabled.
 
 You should re-enable ‘\\[org-superstar-mode]’ after calling this
 function for your changes to take effect."
   (setq org-superstar-cycle-headline-bullets t)
   (setq org-hide-leading-stars t)
+  (setq org-superstar-special-todo-items nil)
   nil)
 
 
 ;;; Accessor Functions
 
-(defun org-superstar--get-TODO (pom)
+(defun org-superstar--get-todo (pom)
   "Return the TODO keyword at point or marker POM.
 If no TODO property is found, return nil."
-  (let ((todo-property
-         (cdar (org-entry-properties pom "TODO"))))
-    (when (stringp todo-property)
-      todo-property)))
+  (save-match-data
+    (let ((todo-property
+           (cdar (org-entry-properties pom "TODO"))))
+      (when (stringp todo-property)
+        todo-property))))
+
+(defun org-superstar--todo-bullet ()
+  "Return the desired TODO item bullet, if defined.
+If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
+the current keyword, return nil."
+  (cdr (assoc
+        (org-superstar--get-todo (match-beginning 0))
+        org-superstar-todo-bullet-alist)))
 
 (defun org-superstar--hbullets ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
@@ -322,15 +358,20 @@ If no TODO property is found, return nil."
 
 See also ‘org-superstar-cycle-headline-bullets’."
   (let ((max-bullets org-superstar-cycle-headline-bullets)
-        (n (if org-odd-levels-only (/ (1- level) 2) (1- level))))
-    (string-to-char
-     (cond ((integerp max-bullets)
+        (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
+        (todo-bullet (when org-superstar-special-todo-items
+                       (org-superstar--todo-bullet))))
+    (cond (todo-bullet)
+          ((integerp max-bullets)
+           (string-to-char
             (elt org-superstar-headline-bullets-list
-                 (% n max-bullets)))
-           (max-bullets
+                 (% n max-bullets))))
+          (max-bullets
+           (string-to-char
             (elt org-superstar-headline-bullets-list
-                 (% n (org-superstar--hbullets))))
-           (t
+                 (% n (org-superstar--hbullets)))))
+          (t
+           (string-to-char
             (elt org-superstar-headline-bullets-list
                  (min n (1- (org-superstar--hbullets)))))))))
 
