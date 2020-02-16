@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.4.0
+;; Version: 0.4.1
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -119,7 +119,6 @@ variable for your changes to take effect."
   :type '(alist :options ((?* (character))
                           (?+ (character))
                           (?- (character)))))
-
 
 (defcustom org-superstar-todo-bullet-alist
   '(("TODO" . ?☐)
@@ -273,7 +272,9 @@ Instead of displaying bullets corresponding to TODO items
 according to ‘org-superstar-headline-bullets-list’ (dependent on
 the headline’s level), display a bullet according to
 ‘org-superstar-todo-bullet-alist’ (dependent on the TODO
-keyword).")
+keyword)."
+  :group 'org-superstar
+  :type 'boolean)
 
 
 ;;; Faces
