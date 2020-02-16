@@ -303,6 +303,15 @@ unspecified inherits the org-level-X faces for header bullets."
   "Face used to display prettified item bullets."
   :group 'org-superstar)
 
+(defcustom org-superstar-remove-leading-stars nil
+  "Non-nil means font-lock should hide leading star characters.
+
+A more radical version of ‘org-hide-leading-stars’, where the
+indentation caused by leading stars is completely removed.  It
+works similar to ‘org-hide-emphasis-markers’."
+  :group 'org-superstar
+  :type 'boolean)
+
 
 ;;; Functions intended for users
 
