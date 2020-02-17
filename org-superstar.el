@@ -33,7 +33,8 @@
 
 ;; * Prettifying org heading lines by:
 ;;   + replacing trailing bullets by UTF-8 bullets
-;;   + hiding leading stars or customizing their look
+;;   + hiding leading stars, customizing their look or removing them
+;;     from vision
 ;;   + applying a custom face to the header bullet
 ;;   + applying a custom face to the leading bullets
 ;;   + using double-bullets for inline tasks (see org-inlinetask.el)
@@ -100,7 +101,7 @@ corresponding to the bullet used for level N.  The way this list
 is cycled through can use fine-tuned by customizing
 ‘org-superstar-cycle-headline-bullets’.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(repeat (string :tag "Bullet character")))
@@ -113,7 +114,7 @@ variable for your changes to take effect."
 Each key should be a plain list bullet character (*,+,-), and
 each value should be the UTF8 character to be displayed.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(alist :options ((?* (character))
@@ -129,7 +130,7 @@ Each key should be a TODO keyword, and each value should the UTF8
 character to be displayed.  Keywords that are not included in the
 alist are handled like normal headings.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(alist :key-type (string :format "TODO keyword: %v")
@@ -164,7 +165,7 @@ This variable is only used for graphical displays.
 ‘org-superstar-leading-fallback’ is used for terminal displays
 instead.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice
@@ -202,7 +203,7 @@ loaded, this variable’s default value is set to that character as
 well.  Setting the leading bullet to a character using the custom
 interface also automatically sets this variable.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(character :tag "Single character to display"
@@ -225,7 +226,7 @@ This is the default behavior inherited from org-bullets.
 
 If nil, repeat the final list entry for all successive levels.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice
@@ -259,7 +260,7 @@ raise an error."
 Each type of plain list bullet is associated with a
 corresponding UTF8 character in ‘org-superstar-item-bullet-alist’.
 
-You should re-enable ‘\\[org-superstar-mode]’ after changing this
+You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(choice (const :tag "Enable item bullet fontification" t)
@@ -308,7 +309,10 @@ unspecified inherits the org-level-X faces for header bullets."
 
 A more radical version of ‘org-hide-leading-stars’, where the
 indentation caused by leading stars is completely removed.  It
-works similar to ‘org-hide-emphasis-markers’."
+works similar to ‘org-hide-emphasis-markers’.
+
+You should call ‘org-superstar-restart’ after changing this
+variable for your changes to take effect."
   :group 'org-superstar
   :type 'boolean)
 
@@ -316,7 +320,7 @@ works similar to ‘org-hide-emphasis-markers’."
 ;;; Functions intended for users
 
 (defun org-superstar-configure-like-org-bullets ()
-  "Configure ‘\\[org-superstar-mode]’ to approximate ‘\\[org-bullets-mode]’.
+  "Configure Superstar mode to approximate ‘org-bullets-mode’.
 This function automatically sets various custom variables, and
 therefore should only be called *once* per session, before any
 other manual customization of this package.
@@ -325,7 +329,7 @@ Warning: This function sets a variable outside of this package:
 ‘org-hide-leading-stars’.
 
 This function is only meant as a small convenience for people who
-just want minor depatures from ‘\\[org-bullets-mode]’.  For a more
+just want minor depatures from ‘org-bullets-mode’.  For a more
 fine-grained customization, it’s better to just set the variables
 you want.
 
@@ -334,8 +338,8 @@ This changes the following variables:
 ‘org-hide-leading-stars’: Enabled.
 ‘org-superstar-special-todo-items’: Disabled.
 
-You should re-enable ‘\\[org-superstar-mode]’ after calling this
-function for your changes to take effect."
+You should call ‘org-superstar-restart’ after changing this
+variable for your changes to take effect."
   (setq org-superstar-cycle-headline-bullets t)
   (setq org-hide-leading-stars t)
   (setq org-superstar-special-todo-items nil)
@@ -552,8 +556,8 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
 
 (defun org-superstar--update-font-lock-keywords ()
   "Set ‘org-superstar--font-lock-keywords’ to reflect current settings.
-You should not call this function to avoid confusing the cleanup
-routines of ‘\\[org-superstar-mode]’."
+You should not call this function to avoid confusing this mode’s
+cleanup routines."
   ;; The below regex is nicked from ‘org-list-full-item-re’, but
   ;; reduced to only match simple lists.  Replaced [ \t]* by [ \t]+ to
   ;; avoid confusion with title bullets.
@@ -595,14 +599,20 @@ routines of ‘\\[org-superstar-mode]’."
   :group 'org-superstar
   :require 'org
   (cond
+   ;; Bail if Org is not enabled.
+   ((and org-superstar-mode
+         (not (derived-mode-p 'org-mode)))
+    (message "Org mode is not enabled in this buffer.")
+    (org-superstar-mode 0))
+   ;; Set up Superstar.
    (org-superstar-mode
-    ;;TODO: do not allow this mode outside of org
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (org-superstar--update-font-lock-keywords)
     (font-lock-add-keywords nil org-superstar--font-lock-keywords
                             'append)
     (org-superstar--fontify-buffer)
     (add-to-invisibility-spec '(org-superstar-hide)))
+   ;; Clean up nd exit.
    (t
     (remove-from-invisibility-spec '(org-superstar-hide))
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
@@ -613,7 +623,7 @@ routines of ‘\\[org-superstar-mode]’."
     (org-superstar--fontify-buffer))))
 
 (defun org-superstar-restart ()
-  "Re-enable ‘\\[org-bullets-mode]’, if the mode is enabled."
+  "Re-enable ‘org-bullets-mode’, if the mode is enabled."
   (interactive)
   (when org-superstar-mode
     (org-superstar-mode 0)

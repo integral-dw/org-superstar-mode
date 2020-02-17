@@ -61,6 +61,12 @@
    Version *0.4.0* has been released!  You can now associate =TODO=
    keywords with special headline bullets.
 
+** =2020-02-17=
+   Version *0.5.0* now supports a new kind of way to hide leading
+   bullets: Instead of using =org-hide=, setting
+   ~org-superstar-remove-leading-stars~ allows you hide them akin to
+   emphasis markers (see =org-hide-emphasis-markers=).
+
 * About
   Prettify headings and plain lists in org-mode.  This package is a
   direct descendant of ‘[[https://github.com/sabof/org-bullets][org-bullets]]’, with most of the code base
@@ -68,7 +74,8 @@
 
  * Prettifying org heading lines by:
    + replacing trailing bullets by UTF-8 bullets^{a)}
-   + hiding leading stars^{b)} or customizing their look^{(new!)}
+   + hiding leading stars^{b)}, customizing their look^{(new!)} or removing
+     them from vision^{(new!)}
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
    + using double-bullets for inline tasks (see =org-inlinetask.el=)
@@ -171,9 +178,11 @@ used, allowing the user to inherit the level-dependent default look.
     Since ~org-mode~ already takes care of hiding leading stars by
     providing the dedicated variable ~org-hide-leading-stars~ and it's
     associated face ~org-hide~, there is no extra option for /hiding/
-    leading stars.  The variable ~org-superstar-prettify-leading-stars~
-    has been deprecated.  Instead, ~org-hide-leading-stars~ implicitly
-    disables further fontification.
+    leading stars like that.  Instead, ~org-hide-leading-stars~
+    implicitly disables further fontification.
+
+    If you want to get rid of the indentation caused by leading stars
+    entirely, set ~org-superstar-remove-leading-stars~ to ~t~.
 
 *** Fancy =TODO= items
     You can substitute standard headline bullets with specialized ones
