@@ -51,11 +51,6 @@
 ;; It is largely rewritten, to the point of almost no function being
 ;; identical to it's org-bullets counterpart.
 
-;; *IMPORTANT*: This package is under construction.  I am still
-;; working out the kinks.  Any function and variable defined here is
-;; subject to change until version 1.0.0, from which point on I will
-;; try my best not to inconvenience people.
-
 ;; This package is versioned using (the author's understanding of)
 ;; semantic versioning: "<major>.<minor>.<patch>".
 ;; <major> version increments signify backward incompatible changes.
