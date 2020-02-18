@@ -2,18 +2,10 @@
 
 [[sample_image.png]]
 
-* WARNING
-  This package is under construction.  I am still working out the
-  kinks.  Any function and variable defined here *is subject to change*
-  until version 1.0.0, from which point on I will try my best not to
-  inconvenience people.  See below for announcements regarding the
-  current state of affairs.
-
 * NEWS
 
 ** Current road map
 
-   * +rigorous testing+ *UPDATE:* +Done.+ Testing is never done, but things get better!
    * +achieving MELPA compliance+ *UPDATE:* I think I did.
    * getting =org-superstar= up on MELPA :: This is my #1 priority right
         now.  Get it out, get it tested, get feedback.
@@ -22,10 +14,7 @@
 
    * put the project on Worg :: I guess it's only reasonable to put
         =org-superstar= on Worg at that point.
-   * +reviewing open suggestions left on org-bullets+ UPDATE ::  I have
-        looked into the suggestions made and opened an issue about
-        them.  I am currently working on figuring out the
-        implementation.
+   * +reviewing open suggestions left on org-bullets+ UPDATE ::  Done.
    * optimization :: From what I read there were some users
                      experiencing performance issues with the original
                      package.  I will try to optimize bottlenecks and
@@ -112,7 +101,7 @@ used, allowing the user to inherit the level-dependent default look.
 
 * Installation
 
-  Once ready, this package will likely be available using =package.el=.
+  This package will likely be available on MELPA soon.
 
   A manual installation is as simple as plugging =org-superstar.el= into
   your load path and adding the following to your =.emacs=:
@@ -223,4 +212,4 @@ used, allowing the user to inherit the level-dependent default look.
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
 
-#  LocalWords:  org's MELPA ELPA Worg fontification TODO
+#  LocalWords:  org's MELPA ELPA Worg fontification TODO README
