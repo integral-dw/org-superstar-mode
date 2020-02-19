@@ -306,6 +306,15 @@ A more radical version of ‘org-hide-leading-stars’, where the
 indentation caused by leading stars is completely removed.  It
 works similar to ‘org-hide-emphasis-markers’.
 
+If Non-nil, this variable takes precedence over
+‘org-hide-leading-stars’ and
+‘org-hide-leading-stars-before-indent-mode’.
+
+This variable only eliminates indentation caused directly by
+leading stars, meaning additional indentation should be
+preserved.  For an example of this, see the minor-mode command
+‘org-indent-mode’.
+
 You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
