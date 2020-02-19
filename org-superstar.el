@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 0.5.0
+;; Version: 0.5.1
 ;; Homepage: https://github.com/dw-github-mirror/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -563,6 +563,7 @@ cleanup routines."
           ("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
            (1 (org-superstar--prettify-main-hbullet) prepend)
            ,@(unless (or org-hide-leading-stars
+                         org-hide-leading-stars-before-indent-mode
                          org-superstar-remove-leading-stars)
                '((3 (org-superstar--prettify-leading-hbullets)
                     t)
