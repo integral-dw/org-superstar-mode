@@ -307,8 +307,7 @@ indentation caused by leading stars is completely removed.  It
 works similar to ‘org-hide-emphasis-markers’.
 
 If Non-nil, this variable takes precedence over
-‘org-hide-leading-stars’ and
-‘org-hide-leading-stars-before-indent-mode’.
+‘org-hide-leading-stars’.
 
 This variable only eliminates indentation caused directly by
 leading stars, meaning additional indentation should be
@@ -572,7 +571,6 @@ cleanup routines."
           ("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
            (1 (org-superstar--prettify-main-hbullet) prepend)
            ,@(unless (or org-hide-leading-stars
-                         org-hide-leading-stars-before-indent-mode
                          org-superstar-remove-leading-stars)
                '((3 (org-superstar--prettify-leading-hbullets)
                     t)
