@@ -25,31 +25,6 @@
         more involved than to get it on MELPA, with more checks and
         monitoring before things can go live.
 
-** =2020-02-02=
-   *Good news!* The project is reaching an /acceptable/ first draft state.
-   This means I am now preparing getting this package properly wrapped
-   up and published on MELPA, with a side goal of trying to also be
-   available on ELPA.  My conservative estimate for at least being
-   available on MELPA is roughly by the end of this month.
-
-** =2020-02-03=
-   Everything went better than expected!  The tests seem to cover most
-   use cases now, and it seems I have added proper terminal support.
-
-** =2020-02-04=
-   I set up a pull request, we will see how this goes.
-
-** =2020-02-15=
-   Version *0.3.0* is out and tagged for your convenience.  I am now
-   content enough with the package to "freeze" elements of the API for
-   good and move to version *1.0.0* once the pull request is closed.  I
-   will keep the "under construction" tags around for the time being,
-   however.
-
-** =2020-02-16=
-   Version *0.4.0* has been released!  You can now associate =TODO=
-   keywords with special headline bullets.
-
 ** =2020-02-17=
    Version *0.5.0* now supports a new kind of way to hide leading
    bullets: Instead of using =org-hide=, setting
@@ -211,5 +186,32 @@ used, allowing the user to inherit the level-dependent default look.
 *** ~org-superstar-item~
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
+
+* Announcement Log
+** =2020-02-02=
+   *Good news!* The project is reaching an /acceptable/ first draft state.
+   This means I am now preparing getting this package properly wrapped
+   up and published on MELPA, with a side goal of trying to also be
+   available on ELPA.  My conservative estimate for at least being
+   available on MELPA is roughly by the end of this month.
+
+** =2020-02-03=
+   Everything went better than expected!  The tests seem to cover most
+   use cases now, and it seems I have added proper terminal support.
+
+** =2020-02-04=
+   I set up a pull request, we will see how this goes.
+
+** =2020-02-15=
+   Version *0.3.0* is out and tagged for your convenience.  I am now
+   content enough with the package to "freeze" elements of the API for
+   good and move to version *1.0.0* once the pull request is closed.  I
+   will keep the "under construction" tags around for the time being,
+   however.
+
+** =2020-02-16=
+   Version *0.4.0* has been released!  You can now associate =TODO=
+   keywords with special headline bullets.
+
 
 #  LocalWords:  org's MELPA ELPA Worg fontification TODO README
