@@ -4,7 +4,7 @@
 ;; start the test with ‘M-x slo-mode’.
 (require 'org)
 
-(defvar test-case 2
+(defvar test-case 1
   "Check one of several plausible test cases.")
 
 (if (= test-case 1)
@@ -17,7 +17,7 @@
 
 (defvar slo-keywords
   `(("^\\**\\(?1:\\*\\) "
-     (1 slo-face ,how-kw))))
+     (1 'slo-face ,how-kw))))
 
 (defun slo-fontify-buffer ()
   "Fontify the buffer."
