@@ -1,32 +1,23 @@
 ;; this is a temporary file for testing slowdown issues.
-;; edit the variable test-case to 1,2 or 3, then run:
-;; emacs -Q -l slomode-redux-1.el <your sample file>
+;; edit the variable test-case to 1 or 2, then run:
+;; emacs -Q -l slomode.el <your sample file>
 ;; start the test with ‘M-x slo-mode’.
 (require 'org)
 
-(defvar test-case 1
+(defvar test-case 2
   "Check one of several plausible test cases.")
 
-(setq inhibit-compacting-font-caches nil)
+(if (= test-case 1)
+    (setq how-kw 'prepend)
+  (setq how-kw nil))
 
-(cond ((= test-case 1)
-       ;; same as 2 and 3 combined
-       (defun slo-compose ()
-         (compose-region (match-beginning 1) (match-end 1) ?◉)
-         'slo-face))
-      ((= test-case 2)
-       (defun slo-compose ()
-         'slo-face))
-      ((= test-case 3)
-       (defun slo-compose ()
-         (compose-region (match-beginning 1) (match-end 1) ?◉)
-         nil)))
+(setq inhibit-compacting-font-caches nil)
 
 (defface slo-face '((default . nil)) "Sloface")
 
 (defvar slo-keywords
-  '(("^\\**\\(?1:\\*\\) "
-     (1 (slo-compose) prepend))))
+  `(("^\\**\\(?1:\\*\\) "
+     (1 slo-face ,how-kw))))
 
 (defun slo-fontify-buffer ()
   "Fontify the buffer."
@@ -35,13 +26,6 @@
       (widen)
       (font-lock-ensure)
       (font-lock-flush))))
-
-(defun un-slo ()
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "^\\*+ " nil t)
-      (decompose-region (match-beginning 0) (match-end 0)))))
-
 
 ;;; Mode commands
 ;;;###autoload
@@ -55,5 +39,4 @@
     (slo-fontify-buffer))
    (t
     (font-lock-remove-keywords nil slo-keywords)
-    (un-slo)
     (slo-fontify-buffer))))
