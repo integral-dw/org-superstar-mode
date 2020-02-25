@@ -539,6 +539,7 @@ prettifying bullets in (for example) source blocks."
   "Make part of the text matched by the last search invisible.
 SUBEXP, a number, specifies which parenthesized expression in the
 last regexp.  If there is no SUBEXPth pair, do nothing."
+  ;; REVIEW: Do you think when-let would be nicer here?
   (let ((start (match-beginning subexp))
         (end (match-end subexp)))
     (when start
