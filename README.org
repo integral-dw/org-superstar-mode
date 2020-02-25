@@ -1,4 +1,5 @@
 #+TITLE: org-superstar-mode
+#+STARTUP: showeverything
 
 [[sample_image.png]]
 
@@ -32,11 +33,11 @@
    emphasis markers (see =org-hide-emphasis-markers=).
 
 * About
-  Prettify headings and plain lists in org-mode.  This package is a
+  Prettify headings and plain lists in Org mode.  This package is a
   direct descendant of ‘[[https://github.com/sabof/org-bullets][org-bullets]]’, with most of the code base
   completely rewritten.  Currently, this package supports:
 
- * Prettifying org heading lines by:
+ * Prettifying Org heading lines by:
    + replacing trailing bullets by UTF-8 bullets^{a)}
    + hiding leading stars^{b)}, customizing their look^{(new!)} or removing
      them from vision^{(new!)}
@@ -44,14 +45,14 @@
    + applying a custom face to the leading bullets^{(new!)}
    + using double-bullets for inline tasks (see =org-inlinetask.el=)
    + (optional) using special bullets for =TODO= keywords^{(new!)}
- * Prettifying org plain list bullets^{(new!)} by:
+ * Prettifying Org plain list bullets^{(new!)} by:
    + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
    + applying a custom face to item bullets
  * Gracefully degrading features when viewed from terminal
 
 a) These features are mostly the same as in ~org-bullets-mode~.
 
-b) Plain hiding is now left to org-mode and the associated
+b) Plain hiding is now left to Org mode and the associated
 variable ~org-hide-leading-stars~ as well as ~org-hide~, as suggested
 by [[https://github.com/Kaligule][Kaligule]].
 
@@ -60,19 +61,23 @@ fashion: It strives to only recognize item bullets which are really
 *meant* to be item bullets.  Your ~SRC~ blocks are safe!
 
 d) Instead of providing the symbol of an existing face in a
-variable to replace org's usual title face(s) for the UTF-8 character,
+variable to replace Org's usual title face(s) for the UTF-8 character,
 superstar merges a custom face with the face that would have been
 used, allowing the user to inherit the level-dependent default look.
 
 ** Planned features
    In this section I maintain a list of possible feature candidates.
 
-   * hiding leading commas of quoted stars :: hide the comma of
-        expressions quoting leading stars from view.
-     + unhiding commas whilst editing :: display the comma again if
-          the line is being worked on (if the point is on the same
-          line).
-   * optional display of two leading bullets for inline tasks
+   * +hiding leading commas of quoted stars+ ::
+     + +unhiding commas whilst editing+ ::
+          I have realized that this feature exceeds the scope of the
+          package, being too interactive.  This would require a lot of
+          font-lock related boilerplate which I am currently
+          in the process of dedicating it's own package to.
+   * optional display of two leading bullets for inline tasks :: This
+        feature is perfectly within the scope of this package.
+        However, I will not add it unless asked, to avoid preemptive
+        accumulation of features no one asked for.
 
 * Installation
 
@@ -127,7 +132,7 @@ used, allowing the user to inherit the level-dependent default look.
     * any integer /k/ :: Cycle through the first /k/ elements of the list.
 
 *** ~org-superstar-leading-bullet~
-    Maybe you actually /like/ that org's heading lines are connected to
+    Maybe you actually /like/ that Org's heading lines are connected to
     the left margin, but you find a line of stars too visually busy?
     Enter ~org-superstar-leading-bullet~.  Provide a character of your
     choice to be displayed instead.  Strings are superimposed
@@ -162,7 +167,7 @@ used, allowing the user to inherit the level-dependent default look.
 *** ~org-superstar-item-bullet-alist~
     Since the concept of "levels" does not really apply to lists, this
     association list simply assigns a UTF-8 character to each of the
-    three possible bullet characters for plain org lists.
+    three possible bullet characters for plain Org lists.
 
 *** ~org-superstar-prettify-item-bullets~
     Exactly as it says on the tin.  Set this variable to ~nil~ to stop
@@ -186,6 +191,20 @@ used, allowing the user to inherit the level-dependent default look.
 *** ~org-superstar-item~
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
+
+* FAQ / Troubleshooting
+** "This mode causes significant slowdown!"
+   I have looked into the matter [[https://github.com/integral-dw/org-superstar-mode/issues/3][in the past]], and from what I
+   understand the usual cause of this is relates to a deeper rooted
+   issue involving fonts and font-lock reliant packages.  I recommend
+   adding the following to your =.emacs=:
+   #+BEGIN_SRC emacs-lisp
+   (setq inhibit-compacting-font-caches t)
+   #+END_SRC
+   or any more fancy variation thereof.  This variable also holds
+   further information regarding what I believe is the cause of the
+   problem.  If this should not fix the problem, please consider
+   opening an issue or sending me a mail!
 
 * Announcement Log
 ** =2020-02-02=
@@ -214,4 +233,4 @@ used, allowing the user to inherit the level-dependent default look.
    keywords with special headline bullets.
 
 
-#  LocalWords:  org's MELPA ELPA Worg fontification TODO README
+#  LocalWords:  Org's MELPA ELPA Worg fontification TODO README
