@@ -11,7 +11,6 @@
         now.  Get it out, get it tested, get feedback.
      + UPDATE :: The pull request is done.  Now it's time to be
                  patient.
-
    * put the project on Worg :: I guess it's only reasonable to put
         =org-superstar= on Worg at that point.
    * (optional) achieving ELPA compliance and getting on ELPA :: I
@@ -25,7 +24,7 @@
    * I will try my best not to break backwards compatibility.
    * If I conclude that I have to, I will not do it silently.
      Instead, you can rely on appropriate warnings.
-   * Even then, a backwards incompatible changes will result it a
+   * Even then, a backwards incompatible change will result it a
      major version number change.
 
 * About
