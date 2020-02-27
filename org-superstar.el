@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.0.0
+;; Version: 1.0.1
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -434,25 +434,20 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
 (defun org-superstar-headline-or-inlinetask-p ()
   "Return t if the current match is a proper headline or inlinetask."
   (save-match-data
-    (when (org-element-lineage (org-element-at-point)
-                               '(headline inlinetask) t)
-      t)))
+    (and (org-at-heading-p) t)))
 
 (defun org-superstar-headline-p ()
   "Return t if the current match is a proper headline."
   (interactive)
   (save-match-data
-    (when (org-element-lineage (org-element-at-point)
-                               '(headline) t)
-      t)))
+    (org-with-limited-levels
+     (and (org-at-heading-p) t))))
 
 (defun org-superstar-inlinetask-p ()
   "Return t if the current match is a proper inlinetask."
   (and (featurep 'org-inlinetask)
-       (save-match-data
-         (when (org-element-lineage (org-element-at-point)
-                                    '(inlinetask) t)
-           t))))
+       (org-superstar-headline-or-inlinetask-p)
+       (not (org-superstar-headline-p))))
 
 (defun org-superstar-graphic-p ()
   "Return t if the current display supports proper composing."
