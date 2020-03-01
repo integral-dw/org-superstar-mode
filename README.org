@@ -11,12 +11,11 @@
         now.  Get it out, get it tested, get feedback.
      + UPDATE :: The pull request is done.  Now it's time to be
                  patient.
-   * put the project on Worg :: I guess it's only reasonable to put
-        =org-superstar= on Worg at that point.
-   * (optional) achieving ELPA compliance and getting on ELPA :: I
-        will try to get the package on ELPA too.  However, this seems
-        more involved than to get it on MELPA, with more checks and
-        monitoring before things can go live.
+   * +put the project on Worg+ *UPDATE:* The project is now listed [[https://orgmode.org/worg/org-contrib/index.html][here]].
+   * +reviewing open suggestions left on org-bullets+ UPDATE ::  Done.
+   * +(optional) achieving ELPA compliance and getting on ELPA+
+     I have decided against it for the time being.
+
 
 ** =2020-02-26=
    Version *1.0.0* has been released!  With this I consider the package
