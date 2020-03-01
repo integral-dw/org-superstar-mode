@@ -12,7 +12,6 @@
      + UPDATE :: The pull request is done.  Now it's time to be
                  patient.
    * +put the project on Worg+ *UPDATE:* The project is now listed [[https://orgmode.org/worg/org-contrib/index.html][here]].
-   * +reviewing open suggestions left on org-bullets+ UPDATE ::  Done.
    * +(optional) achieving ELPA compliance and getting on ELPA+
      I have decided against it for the time being.
 
