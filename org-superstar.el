@@ -1,4 +1,4 @@
-;;; org-superstar.el --- Prettify headings and plain lists in org-mode -*- lexical-binding: t; -*-
+;;; org-superstar.el --- Prettify headings and plain lists in Org mode -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  D. Williams, sabof
 
