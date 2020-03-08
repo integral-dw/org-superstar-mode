@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.0.1
+;; Version: 1.0.2
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -332,7 +332,7 @@ Warning: This function sets a variable outside of this package:
 ‘org-hide-leading-stars’.
 
 This function is only meant as a small convenience for people who
-just want minor depatures from ‘org-bullets-mode’.  For a more
+just want minor departures from ‘org-bullets-mode’.  For a more
 fine-grained customization, it’s better to just set the variables
 you want.
 
