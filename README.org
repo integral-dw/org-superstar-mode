@@ -1,20 +1,10 @@
 #+TITLE: org-superstar-mode
 #+STARTUP: showeverything
+[[https://melpa.org/#/org-superstar][file:https://melpa.org/packages/org-superstar-badge.svg]]
 
 [[sample_image.png]]
 
 * NEWS
-
-** Current road map
-
-   * getting =org-superstar= up on MELPA :: This is my #1 priority right
-        now.  Get it out, get it tested, get feedback.
-     + UPDATE :: The pull request is done.  Now it's time to be
-                 patient.
-   * +put the project on Worg+ *UPDATE:* The project is now listed [[https://orgmode.org/worg/org-contrib/index.html][here]].
-   * +(optional) achieving ELPA compliance and getting on ELPA+
-     I have decided against it for the time being.
-
 
 ** =2020-02-26=
    Version *1.0.0* has been released!  With this I consider the package
@@ -24,6 +14,11 @@
      Instead, you can rely on appropriate warnings.
    * Even then, a backwards incompatible change will result it a
      major version number change.
+
+** =2020-03-08=
+   The package is now available on MELPA!  My sincerest thanks to all
+   the people on GitHub and the Org mailing list that helped me along!
+   I would not have managed without you! :)
 
 * About
   Prettify headings and plain lists in Org mode.  This package is a
@@ -74,10 +69,10 @@ used, allowing the user to inherit the level-dependent default look.
 
 * Installation
 
-  This package will likely be available on MELPA soon.
+  The package is available [[https://melpa.org/#/org-superstar][on MELPA]]!
 
-  A manual installation is as simple as plugging =org-superstar.el= into
-  your load path and adding the following to your =.emacs=:
+  If you prefer a manual installation, just plug =org-superstar.el= into
+  your load path and add the following to your =.emacs=:
 #+BEGIN_SRC elisp
 (require 'org-superstar)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
