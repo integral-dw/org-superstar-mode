@@ -101,7 +101,7 @@ used, allowing the user to inherit the level-dependent default look.
     session, before any other (manual) customization of this package.
 
     ~org-superstar-configure-like-org-bullets~ is only meant as a small
-    convenience for people who just want minor depatures from
+    convenience for people who just want minor departures from
     ~org-bullets-mode~.  For a more fine-grained customization, it’s
     better to just set the variables you want.
 
