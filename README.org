@@ -81,7 +81,7 @@ used, allowing the user to inherit the level-dependent default look.
 
     ~org-superstar-configure-like-org-bullets~ is only meant as a small
     convenience for people who just want minor departures from
-    ~org-bullets-mode~.  For a more fine-grained customization, it’s
+    ~org-bullets-mode~.  For a more fine-grained customization, it's
     better to just set the variables you want.
 
 ** Custom UTF8-Bullets for heading lines
@@ -226,4 +226,4 @@ used, allowing the user to inherit the level-dependent default look.
    * Even then, a backwards incompatible change will result it a
      major version number change.
 
-#  LocalWords:  Org's MELPA ELPA Worg fontification TODO README
+#  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF
