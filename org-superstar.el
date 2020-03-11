@@ -622,7 +622,7 @@ cleanup routines."
     (org-superstar--fontify-buffer))))
 
 (defun org-superstar-restart ()
-  "Re-enable ‘org-bullets-mode’, if the mode is enabled."
+  "Re-enable ‘org-superstar-mode’, if the mode is enabled."
   (interactive)
   (when org-superstar-mode
     (org-superstar-mode 0)
