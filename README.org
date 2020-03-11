@@ -1,6 +1,6 @@
 #+TITLE: org-superstar-mode
 #+STARTUP: showeverything
-[[https://melpa.org/#/org-superstar][file:https://melpa.org/packages/org-superstar-badge.svg]]
+[[https://melpa.org/#/org-superstar][file:https://melpa.org/packages/org-superstar-badge.svg]] [[https://stable.melpa.org/#/org-superstar][file:https://stable.melpa.org/packages/org-superstar-badge.svg]]
 
 [[sample_image.png]]
 
