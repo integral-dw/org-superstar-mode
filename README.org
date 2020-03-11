@@ -4,22 +4,6 @@
 
 [[sample_image.png]]
 
-* NEWS
-
-** =2020-02-26=
-   Version *1.0.0* has been released!  With this I consider the package
-   as ready for use as it gets.  The change primarily means that:
-   * I will try my best not to break backwards compatibility.
-   * If I conclude that I have to, I will not do it silently.
-     Instead, you can rely on appropriate warnings.
-   * Even then, a backwards incompatible change will result it a
-     major version number change.
-
-** =2020-03-08=
-   The package is now available on MELPA!  My sincerest thanks to all
-   the people on GitHub and the Org mailing list that helped me along!
-   I would not have managed without you! :)
-
 * About
   Prettify headings and plain lists in Org mode.  This package is a
   direct descendant of ‘[[https://github.com/sabof/org-bullets][org-bullets]]’, with most of the code base
@@ -194,6 +178,13 @@ used, allowing the user to inherit the level-dependent default look.
    problem.  If this should not fix the problem, please consider
    opening an issue or sending me a mail!
 
+* NEWS
+
+** =2020-03-08=
+   The package is now available on MELPA!  My sincerest thanks to all
+   the people on GitHub and the Org mailing list that helped me along!
+   I would not have managed without you! :)
+
 * Announcement Log
 ** =2020-02-02=
    *Good news!* The project is reaching an /acceptable/ first draft state.
@@ -226,5 +217,13 @@ used, allowing the user to inherit the level-dependent default look.
    ~org-superstar-remove-leading-stars~ allows you hide them akin to
    emphasis markers (see =org-hide-emphasis-markers=).
 
+** =2020-02-26=
+   Version *1.0.0* has been released!  With this I consider the package
+   as ready for use as it gets.  The change primarily means that:
+   * I will try my best not to break backwards compatibility.
+   * If I conclude that I have to, I will not do it silently.
+     Instead, you can rely on appropriate warnings.
+   * Even then, a backwards incompatible change will result it a
+     major version number change.
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README
