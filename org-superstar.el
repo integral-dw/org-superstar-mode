@@ -7,7 +7,7 @@
 ;; Keywords: faces, outlines
 ;; Version: 1.1.0
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
-;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
+;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
