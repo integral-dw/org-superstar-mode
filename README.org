@@ -151,10 +151,9 @@ used, allowing the user to inherit the level-dependent default look.
     of plain list items.  The command
     =org-superstar-toggle-lightweight-lists= allows the user to disable
     syntax checking for plain lists both interactively and in code.
-    This can even be done programmatically.  For example, if you
-    experience issues for files with more than 100 list items, you
-    could simply add the following to ~org-mode-hook~ instead of a
-    direct call to ~org-superstar-mode~:
+    For example, if you experience issues for files with more than 100
+    list items, you could simply add the following to ~org-mode-hook~
+    instead of a direct call to ~org-superstar-mode~:
 
     #+BEGIN_SRC emacs-lisp
       (defun my-auto-lightweight-mode ()
