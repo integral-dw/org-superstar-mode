@@ -46,7 +46,7 @@ used, allowing the user to inherit the level-dependent default look.
           package, being too interactive.  This would require a lot of
           font-lock related boilerplate which I am currently
           in the process of dedicating it's own package to.
-   * optional display a leading bullet for inline tasks :: Please see
+   * optionally display a leading bullet for inline tasks :: Please see
         [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].
 
 * Installation
