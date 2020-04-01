@@ -1,5 +1,0 @@
-This is a MWE for the bug discussed in Issue #10.
-
-- A.
-  - B.
-  - B.
