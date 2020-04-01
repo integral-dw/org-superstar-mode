@@ -151,7 +151,23 @@ used, allowing the user to inherit the level-dependent default look.
     of plain list items.  The command
     =org-superstar-toggle-lightweight-lists= allows the user to disable
     syntax checking for plain lists both interactively and in code.
-**** TODO Give an elisp example for automated toggling!
+    This can even be done programmatically.  For example, if you
+    experience issues for files with more than 100 list items, you
+    could simply add the following to ~org-mode-hook~ instead of a
+    direct call to ~org-superstar-mode~:
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-auto-lightweight-mode ()
+        "Start Org Superstar differently depending on the number of lists items."
+        (let ((list-items
+               (count-matches "^[ \t]*?\\([+-]\\|[ \t]\\*\\)"
+                              (point-min) (point-max))))
+          (unless (< list-items 100)
+            (org-superstar-toggle-lightweight-lists)))
+        (org-superstar))
+
+      (add-hook 'org-mode-hook #'my-auto-lightweight-mode)
+    #+END_SRC
 
 ** Custom faces
    These faces allow you to further manipulate the look and feel of
