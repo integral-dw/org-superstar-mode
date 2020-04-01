@@ -180,10 +180,15 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
-** =2020-03-08=
-   The package is now available on MELPA!  My sincerest thanks to all
-   the people on GitHub and the Org mailing list that helped me along!
-   I would not have managed without you! :)
+** =2020-04-01=
+   A minor status update.  [[https://melpa.org/#/org-superstar][We cracked the 500 downloads mark on MELPA!]]
+   Unbelievable! Thank you all for your support!  Should we reach the
+   1-2000 downloads mark by the end of the year, I will consider
+   contacting major Emacs releases shipping with org-bullets, such as
+   Spacemacs or Doom.
+
+   In other news, version =1.0.3= is now available, featuring a few
+   minor fixes.
 
 * Announcement Log
 ** =2020-02-02=
@@ -225,5 +230,10 @@ used, allowing the user to inherit the level-dependent default look.
      Instead, you can rely on appropriate warnings.
    * Even then, a backwards incompatible change will result it a
      major version number change.
+
+** =2020-03-08=
+   The package is now available on MELPA!  My sincerest thanks to all
+   the people on GitHub and the Org mailing list that helped me along!
+   I would not have managed without you! :)
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF
