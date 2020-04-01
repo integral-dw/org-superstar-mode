@@ -46,10 +46,8 @@ used, allowing the user to inherit the level-dependent default look.
           package, being too interactive.  This would require a lot of
           font-lock related boilerplate which I am currently
           in the process of dedicating it's own package to.
-   * optional display of two leading bullets for inline tasks :: This
-        feature is perfectly within the scope of this package.
-        However, I will not add it unless asked, to avoid preemptive
-        accumulation of features no one asked for.
+   * optionally display a leading bullet for inline tasks :: Please see
+        [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].
 
 * Installation
 
@@ -145,6 +143,31 @@ used, allowing the user to inherit the level-dependent default look.
     Exactly as it says on the tin.  Set this variable to ~nil~ to stop
     ~org-superstar-mode~ from prettifying lists.
 
+*** Fast Plain List Items
+    The default syntax-checking done to ensure only actual plain list
+    items are prettified is rather expensive, but usually not
+    expensive enough to cause significant slowdown.  This can change
+    when dealing with Org files containing hundreds or even thousands
+    of plain list items.  The command
+    =org-superstar-toggle-lightweight-lists= allows the user to disable
+    syntax checking for plain lists both interactively and in code.
+    For example, if you experience issues for files with more than 100
+    list items, you could simply add the following to ~org-mode-hook~
+    instead of a direct call to ~org-superstar-mode~:
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my-auto-lightweight-mode ()
+        "Start Org Superstar differently depending on the number of lists items."
+        (let ((list-items
+               (count-matches "^[ \t]*?\\([+-]\\|[ \t]\\*\\)"
+                              (point-min) (point-max))))
+          (unless (< list-items 100)
+            (org-superstar-toggle-lightweight-lists)))
+        (org-superstar))
+
+      (add-hook 'org-mode-hook #'my-auto-lightweight-mode)
+    #+END_SRC
+
 ** Custom faces
    These faces allow you to further manipulate the look and feel of
    prettified bullets.
@@ -177,6 +200,15 @@ used, allowing the user to inherit the level-dependent default look.
    further information regarding what I believe is the cause of the
    problem.  If this should not fix the problem, please consider
    opening an issue or sending me a mail!
+
+*** "I experience lag when working with long plain lists!"
+    By default, Org Superstar does expensive syntax checking to ensure
+    plain lists are actual plain lists.  This is usually not an issue
+    for small files.  However, this may pose a problem when your file
+    contains hundreds or thousands of items!  You can deal with this
+    interactively using the command
+    =org-superstar-toggle-lightweight-lists=.  See also the subsection
+    "*Fast Plain List Items*" above.
 
 * NEWS
 
