@@ -219,8 +219,9 @@ used, allowing the user to inherit the level-dependent default look.
    contacting major Emacs releases shipping with org-bullets, such as
    Spacemacs or Doom.
 
-   In other news, version =1.0.3= is now available, featuring a few
-   minor fixes.
+   In other news, version *1.1.0* is now available, providing a few
+   minor fixes, as well as a new feature to disable expensive syntax
+   checks for plain list items. See the FAQ for more info.
 
 * Announcement Log
 ** =2020-02-02=
