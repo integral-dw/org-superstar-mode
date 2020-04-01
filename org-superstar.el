@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.0.2
+;; Version: 1.0.3
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.2"))
 
@@ -558,11 +558,12 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
 You should not call this function to avoid confusing this mode’s
 cleanup routines."
   ;; The below regex is nicked from ‘org-list-full-item-re’, but
-  ;; reduced to only match simple lists.  Replaced [ \t]* by [ \t]+ to
-  ;; avoid confusion with title bullets.
+  ;; reduced to only match simple lists.  Changes were made to enforce
+  ;; a leading space before asterisks to avoid confusion with title
+  ;; bullets.
   (setq org-superstar--font-lock-keywords
         `(,@(when org-superstar-prettify-item-bullets
-              '(("^[ \t]+\\([-+*]\\) "
+              '(("^[ \t]*?\\(?:\\(?1:[-+]\\)\\|[ \t]\\(?1:\\*\\)\\) "
                  (1 (org-superstar--prettify-ibullets)))))
           ("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
            (1 (org-superstar--prettify-main-hbullet) prepend)
