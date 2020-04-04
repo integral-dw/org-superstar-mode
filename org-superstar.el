@@ -129,8 +129,16 @@ You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
   :type '(alist :key-type (string :format "TODO keyword: %v")
-                :value-type (character :value ?◉
-                                       :format "Bullet character: %v\n")))
+                :value-type
+                (choice
+                 (character :value ?◉
+                            :format "Bullet character: %v\n"
+                            :tag "Simple bullet character")
+                 (list :tag "Advanced string and fallback"
+                  (string :value "◉"
+                          :format "String of characters to compose: %v")
+                  (character :value ?◉
+                             :format "Fallback character for terminal: %v\n")))))
 
 ;;;###autoload
 (put 'org-superstar-leading-bullet
@@ -382,9 +390,22 @@ If no TODO property is found, return nil."
   "Return the desired TODO item bullet, if defined.
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
 the current keyword, return nil."
-  (cdr (assoc-string
-        (org-superstar--get-todo (match-beginning 0))
-        org-superstar-todo-bullet-alist)))
+  (let* ((todo-kw
+          (org-superstar--get-todo (match-beginning 0)))
+         (todo-bullet
+          (assoc-string todo-kw
+                        org-superstar-todo-bullet-alist))
+         (todo-bullet (cdr todo-bullet))
+         (todo-fallback nil))
+      (cond
+       ((characterp todo-bullet)
+        todo-bullet)
+       ((listp todo-bullet)
+        (setq todo-fallback (cadr todo-bullet))
+        (setq todo-bullet (car todo-bullet))
+        (if (org-superstar-graphic-p)
+            todo-bullet
+          todo-fallback)))))
 
 (defun org-superstar--hbullets-length ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
