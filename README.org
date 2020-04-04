@@ -120,6 +120,18 @@ used, allowing the user to inherit the level-dependent default look.
     leading stars like that.  Instead, ~org-hide-leading-stars~
     implicitly disables further fontification.
 
+    While there is no explicit feature for hiding leading stars, you
+    can also use ~org-superstar-leading-bullet~ to hide leading stars
+    independently of ~org-hide~: Simply choose a space character as your
+    leading bullet.
+
+    #+BEGIN_SRC emacs-lisp
+      ;; This is usually the default, but keep in mind it must be nil
+      (setq org-hide-leading-stars nil)
+      ;; This line is necessary.
+      (setq org-superstar-leading-bullet ?\s)
+    #+END_SRC
+
     If you want to get rid of the indentation caused by leading stars
     entirely, set ~org-superstar-remove-leading-stars~ to ~t~.
 
