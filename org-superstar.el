@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -121,9 +121,19 @@ variable for your changes to take effect."
     ("DONE" . ?☑))
   "Alist of UTF-8 bullets for TODO items.
 
-Each key should be a TODO keyword, and each value should the UTF8
-character to be displayed.  Keywords that are not included in the
-alist are handled like normal headings.
+In the simplest case each key should be a TODO keyword, and each
+value should the UTF8 character to be displayed.  Keywords that
+are not included in the alist are handled like normal headings.
+
+Alternatively, each alist element may be a proper list of the form
+(KEYWORD COMPOSE-STRING CHARACTER [REST...])
+
+where KEYWORD should be a TODO keyword, and COMPOSE-STRING should
+be a string according to the rules of the third argument of
+‘compose-region’.  It will be used to compose the specific TODO
+item bullet.  CHARACTER is the fallback character used in
+terminal displays, where composing characters cannot be relied
+upon.  See also ‘org-superstar-leading-fallback’.
 
 You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."

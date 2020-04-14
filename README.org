@@ -224,16 +224,17 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
-** =2020-04-01=
-   A minor status update.  [[https://melpa.org/#/org-superstar][We cracked the 500 downloads mark on MELPA!]]
-   Unbelievable! Thank you all for your support!  Should we reach the
-   1-2000 downloads mark by the end of the year, I will consider
-   contacting major Emacs releases shipping with org-bullets, such as
-   Spacemacs or Doom.
+** =2020-04-14=
+   Version *1.2.0* is now available.  This version adds support for
+   using advanced features of ~compose-region~ for TODO item bullets.
 
-   In other news, version *1.1.0* is now available, providing a few
-   minor fixes, as well as a new feature to disable expensive syntax
-   checks for plain list items. See the FAQ for more info.
+   Also, the package's downloads doubled in less than two weeks,
+   meaning Org Superstar now has [[https://melpa.org/#/org-superstar][over 1000 downloads on MELPA]]!  I have
+   given the whole situation some more thought, and decided that I
+   will contact the Spacemacs team should we reach 2000 downloads this
+   year, which I would consider enough proof of the package's
+   popularity.
+
 
 * Announcement Log
 ** =2020-02-02=
@@ -281,4 +282,15 @@ used, allowing the user to inherit the level-dependent default look.
    the people on GitHub and the Org mailing list that helped me along!
    I would not have managed without you! :)
 
-#  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF
+** =2020-04-01=
+   A minor status update.  [[https://melpa.org/#/org-superstar][We cracked the 500 downloads mark on MELPA!]]
+   Unbelievable! Thank you all for your support!  Should we reach the
+   1-2000 downloads mark by the end of the year, I will consider
+   contacting major Emacs releases shipping with org-bullets, such as
+   Spacemacs or Doom.
+
+   In other news, version *1.1.0* is now available, providing a few
+   minor fixes, as well as a new feature to disable expensive syntax
+   checks for plain list items. See the FAQ for more info.
+
+#  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
