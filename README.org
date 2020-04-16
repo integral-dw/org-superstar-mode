@@ -82,7 +82,7 @@ used, allowing the user to inherit the level-dependent default look.
     ~org-bullets-mode~.  For a more fine-grained customization, it's
     better to just set the variables you want.
 
-** Custom UTF8-Bullets for heading lines
+** Custom UTF8-bullets for heading lines
    Here's how you change which bullets are used for which level.
 
 *** ~org-superstar-headline-bullets-list~
@@ -221,6 +221,14 @@ used, allowing the user to inherit the level-dependent default look.
     interactively using the command
     =org-superstar-toggle-lightweight-lists=.  See also the subsection
     "*Fast Plain List Items*" above.
+
+** "What are these weird points in front of heading bullets?"
+   While Org Bullet mode ships only with a feature to hide leading
+   stars, Org Superstar allows you to customize leading stars to still
+   provide some visual guidance without causing too much visual noise.
+   For more information on this topic, see the Section *Customization*
+   above, in particular the subsections ~org-superstar-leading-bullet~
+   and *Hide leading stars*.
 
 * NEWS
 
