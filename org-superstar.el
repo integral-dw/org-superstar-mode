@@ -126,7 +126,7 @@ value should the UTF8 character to be displayed.  Keywords that
 are not included in the alist are handled like normal headings.
 
 Alternatively, each alist element may be a proper list of the form
-(KEYWORD COMPOSE-STRING CHARACTER [REST...])
+\(KEYWORD COMPOSE-STRING CHARACTER [REST...])
 
 where KEYWORD should be a TODO keyword, and COMPOSE-STRING should
 be a string according to the rules of the third argument of
