@@ -492,7 +492,6 @@ such cases to avoid slowdown."
 
 (defun org-superstar-headline-p ()
   "Return t if the current match is a proper headline."
-  (interactive)
   (save-match-data
     (org-with-limited-levels
      (and (org-at-heading-p) t))))
