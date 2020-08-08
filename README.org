@@ -45,7 +45,7 @@ used, allowing the user to inherit the level-dependent default look.
           I have realized that this feature exceeds the scope of the
           package, being too interactive.  This would require a lot of
           font-lock related boilerplate which I am currently
-          in the process of dedicating it's own package to.
+          in the process of dedicating its own package to.
    * optionally display a leading bullet for inline tasks :: Please see
         [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].
 
@@ -69,7 +69,7 @@ used, allowing the user to inherit the level-dependent default look.
   documentation.
 
 ** "Can you make it more like =org-bullets=?"
-   Naturally!  In fact, I made the answer to this it's own function:
+   Naturally!  In fact, I made the answer to this its own function:
 
 *** ~org-superstar-configure-like-org-bullets~
     This function configures ~superstar-mode~ to be as similar to
@@ -90,7 +90,13 @@ used, allowing the user to inherit the level-dependent default look.
     list: It's a list of single-character strings where the /Nth/ entry
     is used to determine the bullet used for heading level /N/.  By
     default, this list is cycled through for /N/ greater than the length
-    of the list.
+    of the list.  Strings are not the only valid way to provide
+    headline bullets, however.  Since version *1.3.0*, this variable
+    also recognizes characters as well as specific lists, with
+    characters being the new default way of providing bullets.  Lists
+    on the other hand provide the user with the means to access
+    advanced composition features and fallback options for terminal
+    users.
 
 *** ~org-superstar-cycle-headline-bullets~
     This variable gives you more control over how ~superstar-mode~ picks
@@ -115,7 +121,7 @@ used, allowing the user to inherit the level-dependent default look.
 
 *** Hide leading stars
     Since ~org-mode~ already takes care of hiding leading stars by
-    providing the dedicated variable ~org-hide-leading-stars~ and it's
+    providing the dedicated variable ~org-hide-leading-stars~ and its
     associated face ~org-hide~, there is no extra option for /hiding/
     leading stars like that.  Instead, ~org-hide-leading-stars~
     implicitly disables further fontification.
@@ -232,17 +238,18 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
-** =2020-04-14=
-   Version *1.2.0* is now available.  This version adds support for
-   using advanced features of ~compose-region~ for TODO item bullets.
+** =2020-08-08=
+   Version *1.3.0* is about to go live.  This version adds support for
+   using advanced features of ~compose-region~ for headline bullets,
+   thus continuing efforts to make the package more visually coherent
+   for general setups while remaining terminal friendly.
 
-   Also, the package's downloads doubled in less than two weeks,
-   meaning Org Superstar now has [[https://melpa.org/#/org-superstar][over 1000 downloads on MELPA]]!  I have
-   given the whole situation some more thought, and decided that I
-   will contact the Spacemacs team should we reach 2000 downloads this
-   year, which I would consider enough proof of the package's
-   popularity.
-
+   In other news, Org Superstar reached [[https://melpa.org/#/org-superstar][over 16000 downloads on MELPA]]!
+   This is absolutely insane, and already surpasses my hopes for this
+   year by more than a factor of 8!  I am speechless.  And, as
+   promised, I will contact the Spacemacs team sometimes this year.
+   However, updates may be slow, given current circumstances.  My
+   apologies.
 
 * Announcement Log
 ** =2020-02-02=
@@ -301,4 +308,17 @@ used, allowing the user to inherit the level-dependent default look.
    minor fixes, as well as a new feature to disable expensive syntax
    checks for plain list items. See the FAQ for more info.
 
+** =2020-04-14=
+   Version *1.2.0* is now available.  This version adds support for
+   using advanced features of ~compose-region~ for TODO item bullets.
+
+   Also, the package's downloads doubled in less than two weeks,
+   meaning Org Superstar now has [[https://melpa.org/#/org-superstar][over 1000 downloads on MELPA]]!  I have
+   given the whole situation some more thought, and decided that I
+   will contact the Spacemacs team should we reach 2000 downloads this
+   year, which I would consider enough proof of the package's
+   popularity.
+
+
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
+#  LocalWords:  Org fallback setups

@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.2.1
+;; Version: 1.2.2
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -86,20 +86,44 @@
 
 (defcustom org-superstar-headline-bullets-list
   '(;; Original ones nicked from org-bullets
-    "◉"
-    "○"
-    "✸"
-    "✿") ;; "◉" "🞛" "○" "▷"
+    ?◉
+    ?○
+    ?✸
+    ?✿) ;; My default: ?◉ ?🞛 ?○ ?▷
   "List of bullets used in Org headings.
 It can contain any number of bullets, the Nth entry usually
 corresponding to the bullet used for level N.  The way this list
 is cycled through can use fine-tuned by customizing
 ‘org-superstar-cycle-headline-bullets’.
 
+Every entry in this list can either be a string, a character, or
+a cons cell.  Characters and strings are used as simple, verbatim
+replacements of the asterisk for every display (be it graphical
+or terminal).  In the case of strings, everything past the first
+character is ignored.  If the list element is a cons cell, it
+should be a proper list of the form
+\(COMPOSE-STRING CHARACTER [REST...])
+
+where COMPOSE-STRING should be a string according to the rules of
+the third argument of ‘compose-region’.  It will be used to
+compose the specific headline bullet.  CHARACTER is the fallback
+character used in terminal displays, where composing characters
+cannot be relied upon.
+
 You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
-  :type '(repeat (string :tag "Bullet character")))
+  :type '(repeat (choice
+                  (character :value ?◉
+                             :format "Bullet character: %v\n"
+                             :tag "Simple bullet character")
+                  (string :value "◉"
+                          :tag "Bullet character")
+                  (list :tag "Advanced string and fallback"
+                        (string :value "◉"
+                                :format "String of characters to compose: %v")
+                        (character :value ?◉
+                                   :format "Fallback character for terminal: %v\n")))))
 
 (defcustom org-superstar-item-bullet-alist
   '((?* . ?•)
@@ -426,27 +450,54 @@ the current keyword, return nil."
 
 If the headline is also a TODO item, you can override the usually
 displayed bullet depending on the TODO keyword by setting
-‘org-superstar-special-todo-items’ to t and adding relevant
-TODO keyword entries to ‘org-superstar-todo-bullet-alist’.
+‘org-superstar-special-todo-items’ to t and adding relevant TODO
+keyword entries to ‘org-superstar-todo-bullet-alist’.
+
+For more information on how to customize headline bullets, see
+‘org-superstar-headline-bullets-list’.
 
 See also ‘org-superstar-cycle-headline-bullets’."
+  ;; string-to-char no longer makes sense here.
+  ;; If you want to support strings properly, return the string.
+  ;; However, allowing for fallback means the list may contain
+  ;; strings, chars or conses.  The cons must be resolved.
+  ;; Hence, a new funtion is needed to keep the complexity to a minimum.
   (let ((max-bullets org-superstar-cycle-headline-bullets)
         (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
     (cond (todo-bullet)
           ((integerp max-bullets)
-           (string-to-char
-            (elt org-superstar-headline-bullets-list
-                 (% n max-bullets))))
+           (org-superstar--nth-headline-bullet (% n max-bullets)))
           (max-bullets
-           (string-to-char
-            (elt org-superstar-headline-bullets-list
-                 (% n (org-superstar--hbullets-length)))))
+           (org-superstar--nth-headline-bullet
+            (% n (org-superstar--hbullets-length))))
           (t
-           (string-to-char
-            (elt org-superstar-headline-bullets-list
-                 (min n (1- (org-superstar--hbullets-length)))))))))
+           (org-superstar--nth-headline-bullet
+            (min n (1- (org-superstar--hbullets-length))))))))
+
+(defun org-superstar--nth-headline-bullet (n)
+  "Return the Nth specified headline bullet or its corresponding fallback.
+N counts from zero.  Headline bullets are specified in
+‘org-superstar-headline-bullets-list’."
+  (let ((bullet-entry
+         (elt org-superstar-headline-bullets-list n)))
+    (cond
+     ;; Using characters for bullets is actually way more consistent
+     ;; with the rest of the package, so why not just support it.
+     ((characterp bullet-entry)
+      bullet-entry)
+     ;; Strip bullets provided as strings down to their first char.
+     ;; The main reason hbullets can be defined using strings is
+     ;; because org-bullets did it.
+     ((stringp bullet-entry)
+      (string-to-char bullet-entry))
+     ;; If the element is a cons, assume the user knows what they are
+     ;; doing.
+     ((org-superstar-graphic-p)
+      (elt bullet-entry 0))
+     (t
+      (elt bullet-entry 1)))))
 
 (defun org-superstar--ibullet (bullet-string)
   "Return BULLET-STRINGs desired UTF-8 replacement.
@@ -492,7 +543,6 @@ such cases to avoid slowdown."
 
 (defun org-superstar-headline-p ()
   "Return t if the current match is a proper headline."
-  (interactive)
   (save-match-data
     (org-with-limited-levels
      (and (org-at-heading-p) t))))
