@@ -239,10 +239,10 @@ used, allowing the user to inherit the level-dependent default look.
 * NEWS
 
 ** =2020-08-08=
-   Version *1.3.0* is about to go live.  This version adds support for
-   using advanced features of ~compose-region~ for headline bullets,
-   thus continuing efforts to make the package more visually coherent
-   for general setups while remaining terminal friendly.
+   Version *1.3.0* is here!  This version adds support for using
+   advanced features of ~compose-region~ for headline bullets, thus
+   continuing efforts to make the package more visually coherent for
+   general setups while remaining terminal friendly.
 
    In other news, Org Superstar reached [[https://melpa.org/#/org-superstar][over 16000 downloads on MELPA]]!
    This is absolutely insane, and already surpasses my hopes for this
