@@ -118,7 +118,7 @@ variable for your changes to take effect."
                              :format "Bullet character: %v\n"
                              :tag "Simple bullet character")
                   (string :value "◉"
-                          :tag "Bullet character")
+                          :tag "Bullet character (legacy method)")
                   (list :tag "Advanced string and fallback"
                         (string :value "◉"
                                 :format "String of characters to compose: %v")
