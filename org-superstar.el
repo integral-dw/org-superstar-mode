@@ -89,7 +89,7 @@
     "◉"
     "○"
     "✸"
-    "✿") ;; "◉" "🞛" "○" "▷"
+    "✿") ;; "◉" "◈" "○" "▷"
   "List of bullets used in Org headings.
 It can contain any number of bullets, the Nth entry usually
 corresponding to the bullet used for level N.  The way this list
