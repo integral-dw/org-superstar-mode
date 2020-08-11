@@ -82,6 +82,32 @@ used, allowing the user to inherit the level-dependent default look.
     ~org-bullets-mode~.  For a more fine-grained customization, it's
     better to just set the variables you want.
 
+** "Where do I find UTF8-bullets to use?"
+   While it strongly depends on the font(s) you are using which
+   characters are going to be supported, here are some nifty Unicode
+   blocks to consider.  I sorted them by the respective Unicode plane.
+
+   * Basic Multilingual Plane (U+0000-U+FFFF) :: As the name suggests,
+        the Unicode plane containing most languages, and hence the
+        most commonly encoded.  I recommend the following blocks:
+     + [[https://en.wikipedia.org/wiki/General_Punctuation][General Punctuation]] (U+2000-U+206F) :: Bullets, leaders, asterisms.
+     + [[https://en.wikipedia.org/wiki/Dingbat#Unicode][Dingbats]] (U+2700-U+27BF) :: Common typesetting ornaments.
+     + [[https://en.wikipedia.org/wiki/Geometric_Shapes][Geometric Shapes]] (U+25A0-U+25FF) :: Circles, shapes within
+          shapes, etc.
+     + [[https://en.wikipedia.org/wiki/Miscellaneous_Symbols][Miscellaneous Symbols]] (U+2600–U+26FF) :: Smileys and card suits.
+     + [[https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Arrows][Miscellaneous Symbols and Arrows]] (U+2B00-U+2BFF) ::
+           Further stars and arrowheads, polygons, etc.
+   * Supplementary Multilingual Plane (U+10000-U+1FFFF) ::  This one
+        contains (among other things) Emoji and plenty of symbols.
+     + [[https://en.wikipedia.org/wiki/Ornamental_Dingbats][Ornamental Dingbats]] (U+1F650-U+1F67F) :: A few more ornaments,
+          some quotation marks and fancy ampersands.
+     + [[https://en.wikipedia.org/wiki/Geometric_Shapes_Extended][Geometric Shapes Extended]] (U+1F780-U+1F7FF) ::
+          Even more geometric shapes and shapes within shapes, but
+          also asterisk variations.
+     + [[https://en.wikipedia.org/wiki/Supplemental_Arrows-C][Supplemental Arrows-C]] (U+1F800-U+1F8FF) :: A collection of chunky
+           arrows.
+
+
 ** Custom UTF8-bullets for heading lines
    Here's how you change which bullets are used for which level.
 
@@ -321,4 +347,4 @@ used, allowing the user to inherit the level-dependent default look.
 
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
-#  LocalWords:  Org fallback setups
+#  LocalWords:  Org fallback setups asterisms Emoji Smileys
