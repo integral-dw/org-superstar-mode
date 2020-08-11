@@ -254,6 +254,22 @@ used, allowing the user to inherit the level-dependent default look.
     =org-superstar-toggle-lightweight-lists=.  See also the subsection
     "*Fast Plain List Items*" above.
 
+** "I get an error when trying to use it."
+   This of course should not happen.  If your problem is not listed
+   below, please file a bug report!
+*** Unknown function: ~org-element-lineage~
+    This is one of the functions my package relies on missing in older
+    versions of Org.  The following hack should circumvent the issue,
+    at the cost of the package treating some comments in code blocks
+    as lists.  Just put it in your ~.emacs~ before loading up the
+    package.  If I messed up, be sure to open an Issue!
+    #+BEGIN_SRC emacs-lisp
+      (setq-default org-superstar-lightweight-lists t)
+      (defun org-element-lineage (x)
+        "Mock function for future Org feature."
+        nil)
+    #+END_SRC
+
 ** "What are these weird points in front of heading bullets?"
    While Org Bullet mode ships only with a feature to hide leading
    stars, Org Superstar allows you to customize leading stars to still
