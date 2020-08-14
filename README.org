@@ -260,7 +260,7 @@ used, allowing the user to inherit the level-dependent default look.
        Headline bullets themselves can be declared independently for
        graphical and terminal displays in
        ~org-superstar-headline-bullets-list~.  For example, replacing an
-       entry ~"◉"~ with the entry ~("◉" ?*)~ will make the headline
+       entry ~?◉~ with the entry ~("◉" ?*)~ will make the headline
        bullet that would normally display as ‘◉’ a plain asterisk on
        terminal displays.
     3) *Replace the bullet character altogether:* A valid option, but
