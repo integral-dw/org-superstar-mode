@@ -53,6 +53,9 @@ used, allowing the user to inherit the level-dependent default look.
 
   The package is available [[https://melpa.org/#/org-superstar][on MELPA]]!
 
+  Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]]^{}^{} (~develop~ branch) and [[https://github.com/hlissner/doom-emacs][Doom
+  Emacs]].
+
   If you prefer a manual installation, just plug =org-superstar.el= into
   your load path and add the following to your =.emacs=:
 #+BEGIN_SRC elisp
@@ -232,6 +235,45 @@ used, allowing the user to inherit the level-dependent default look.
     ~org-superstar-prettify-item-bullets~ is enabled.
 
 * FAQ / Troubleshooting
+
+** "Question marks everywhere!  Help!"
+   Did you enable this mode for example in a terminal session and have
+   been greeted by wonky replacement characters like ‘�’ or plain
+   question marks in headlines or items?  Try turning
+   ~org-superstar-mode~ off to see what its /supposed/ to be if it is too
+   visually broken to recognize.  The fix depends on whether you are
+   experiencing this on a graphic or terminal display
+
+*** Question mark salad on terminal
+    This usually happens because the font of your terminal does not
+    have a glyph for this character.  There are two plausible fixes:
+
+    1) *Change your terminal font:* Emacs has no control over the font
+       of your terminal display.  As a consequence, if you want to
+       keep these particular bullets, your best bet is to change the
+       font.  For example, the default settings should work out of the
+       box for the excellent *DejaVu Sans Mono*.
+    2) *Utilize terminal fallback options:* Org Superstar is written
+       with terminal users in mind.  Hence you can roll an entirely
+       different set of bullets for terminal sessions without much
+       effort.  Leading stars have ~org-superstar-leading-fallback~.
+       Headline bullets themselves can be declared independently for
+       graphical and terminal displays in
+       ~org-superstar-headline-bullets-list~.  For example, replacing an
+       entry ~"◉"~ with the entry ~("◉" ?*)~ will make the headline
+       bullet that would normally display as ‘◉’ a plain asterisk on
+       terminal displays.
+    3) *Replace the bullet character altogether:* A valid option, but
+       likely not the most desirable.  Check out the documentation for
+       more info on how to customize this package.
+
+*** Borked even in graphical sessions
+    In this case it is all up to your Emacs configuration.  The
+    problem remains the fonts available, this time to Emacs.  You can
+    either [[https://www.emacswiki.org/emacs/SetFonts][change your Emacs font]].  Other options include specifying
+    specific fonts for specific Unicode character ranges, which is
+    part of Emacs' intricate face system.
+
 ** "This mode causes significant slowdown!"
    I have looked into the matter [[https://github.com/integral-dw/org-superstar-mode/issues/3][in the past]], and from what I
    understand the usual cause of this is relates to a deeper rooted
@@ -289,9 +331,13 @@ used, allowing the user to inherit the level-dependent default look.
    In other news, Org Superstar reached [[https://melpa.org/#/org-superstar][over 16000 downloads on MELPA]]!
    This is absolutely insane, and already surpasses my hopes for this
    year by more than a factor of 8!  I am speechless.  And, as
-   promised, I will contact the Spacemacs team sometimes this year.
-   However, updates may be slow, given current circumstances.  My
-   apologies.
+   promised, +I will contact the Spacemacs team sometimes this year.+
+   Turns out, Org Superstar [[https://github.com/syl20bnr/spacemacs/issues/13831][replaced Org Bullets]] as of the 7th of June
+   on Spacemacs' ~develop~ branch!  And it also ships with [[https://github.com/hlissner/doom-emacs][Doom Emacs]]!
+   With that, I have essentially reached every goal I had for this
+   package, apart from the one addressed [[https://github.com/integral-dw/org-superstar-mode/issues/5][in an upcoming update]].
+   However, I will naturally continue maintenance and remain open
+   towards feature suggestions.
 
 * Announcement Log
 ** =2020-02-02=
@@ -363,4 +409,4 @@ used, allowing the user to inherit the level-dependent default look.
 
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
-#  LocalWords:  Org fallback setups asterisms Emoji Smileys
+#  LocalWords:  Org fallback setups asterisms Emoji Smileys Borked
