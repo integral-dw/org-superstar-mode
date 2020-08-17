@@ -46,8 +46,11 @@ used, allowing the user to inherit the level-dependent default look.
           package, being too interactive.  This would require a lot of
           font-lock related boilerplate which I am currently
           in the process of dedicating its own package to.
-   * optionally display a leading bullet for inline tasks :: Please see
-        [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].
+   * +optionally display a leading bullet for inline tasks+ :: The new
+        feature is on its way, with a working but not thoroughly
+        tested version on the volatile branch.  If you want to
+        contribute (for example, by testing the volatile version) see
+        [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].  The README will be updated soon.
 
 * Installation
 
@@ -260,9 +263,9 @@ used, allowing the user to inherit the level-dependent default look.
        Headline bullets themselves can be declared independently for
        graphical and terminal displays in
        ~org-superstar-headline-bullets-list~.  For example, replacing an
-       entry ~?◉~ with the entry ~("◉" ?*)~ will make the headline
-       bullet that would normally display as ‘◉’ a plain asterisk on
-       terminal displays.
+       entry ~?◉~ with the entry ~("◉" ?*)~ will make the headline bullet
+       that would normally display as ‘◉’ a plain asterisk on terminal
+       displays.
     3) *Replace the bullet character altogether:* A valid option, but
        likely not the most desirable.  Check out the documentation for
        more info on how to customize this package.
