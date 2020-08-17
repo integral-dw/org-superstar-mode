@@ -15,9 +15,9 @@ Emacs (~emacs -q~) and only do the absolute minimum to set up Superstar
 automatically.
 
   #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (org-superstar-mode 1)))
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (org-superstar-mode 1)))
   #+END_SRC
 
 ** Graphical Session
@@ -27,8 +27,9 @@ automatically.
 
 * LaTeX-style headings
   As the title suggests, this setup provides a quick alternative to
-  the Emacs typical [[https://www.emacswiki.org/emacs/AngryFruitSalad][angry fruit salad look]], replacing it with a more
+  the Emacs-typical [[https://www.emacswiki.org/emacs/AngryFruitSalad][angry fruit salad look]], replacing it with a more
   in-print style.
+
   #+BEGIN_SRC emacs-lisp
     ;;; Titles and Sections
     ;; hide #+TITLE:
@@ -53,6 +54,7 @@ automatically.
                         :foreground 'unspecified
                         :inherit 'org-level-8)
 
+    ;;; Basic Setup
     ;; Auto-start Superstar with Org
     (add-hook 'org-mode-hook
               (lambda ()
@@ -66,13 +68,13 @@ automatically.
 
 * Customized Bullets and Terminal Fallback
   This time we want all of the above but a little more personalized.
-  First off, lets make bullets a little more chunky.  Mind that the
+  First off, let's make bullets a little more chunky.  Mind that the
   height we provide for bullet faces is not the /actual/ height of a
-  bullet, but its height /relative to/ its surroundings.  Additionally,
-  let's hide the leading stars for terminal, as the default leader
-  does not look all that good in my chosen terminal font.  I make use
-  of the fact that ~org-superstar-leading-fallback~ can be set to the
-  space character.  This has the nice advantage over
+  bullet, but its height /relative to its surroundings/.  Additionally,
+  let's hide the leading stars for terminal sessions, as the default
+  leader does not look all that good in my chosen terminal font.  I
+  make use of the fact that ~org-superstar-leading-fallback~ can be set
+  to the space character.  This has the nice advantage over
   ~org-hide-leading-stars~ that it does not just "paint over" the
   asterisks, but makes them completely indistinguishable from white
   space, neat!
@@ -99,7 +101,40 @@ automatically.
 * Org Inline Tasks
   Inline tasks behave as you would expect them to, for the most part.
   They have two bullets instead of one, but are otherwise treated the
-  same as regular headlines by Org Superstar.
+  same as regular headlines by Org Superstar, meaning
+  ~org-superstar-headline-bullets-list~ controls the bullet used as if
+  it were a regular headline.  If ~org-inlinetask-show-first-star~ is
+  non-nil, you can customize the additional marker.  Just like with
+  the rest of Superstar's decorations, you can more or less fully
+  control how it looks, with independent settings for graphical and
+  terminal displays and a dedicated face, should you find the default
+  of using ~org-warn~ a little\dots unsubtle.  We again use the LaTeX setup
+  as a base and add a few tweaks.
 
+  #+BEGIN_SRC emacs-lisp
+  (require 'org-inlinetask)
+  (setq org-inlinetask-show-first-star t)
+  ;; Less gray please.
+  (set-face-attribute 'org-inlinetask nil
+                      :foreground nil
+		      :inherit 'bold)
+  (with-eval-after-load 'org-superstar
+    (set-face-attribute 'org-superstar-first nil
+                        :foreground "#9000e1"))
+  ;; Set different bullets, with one getting a terminal fallback.
+  (setq org-superstar-headline-bullets-list
+        '("◉" ("🞛" ?◈) "○" "▷"))
+  ;; Set up a different marker for graphic display.
+  (setq org-superstar-first-inlinetask-bullet ?🞸)
+  ;; Stop cycling bullets to emphasize hierarchy of headlines.
+  (setq org-superstar-cycle-headline-bullets nil)
+  ;; A simple period works fine, too.
+  (setq org-superstar-leading-fallback ?.)
+  #+END_SRC
 
-#  LocalWords:  demos DejaVu inline Org
+** Graphical Session
+[[file:demos/inline.png]]
+** Terminal Session
+[[file:demos/inline_term.png]]
+
+#  LocalWords:  DejaVu inline Org LaTeX
