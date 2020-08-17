@@ -78,6 +78,11 @@
 (require 'org-element)
 (require 'wid-edit)
 
+(declare-function org-indent-mode "org-indent" (arg))
+(defvar org-indent-mode)
+(defvar org-inlinetask-show-first-star)
+(defvar org-indent-inlinetask-first-star)
+
 (defgroup org-superstar nil
   "Use UTF8 bullets for headlines and plain lists."
   :group 'org-appearance)
@@ -709,11 +714,52 @@ is used instead of the regular bullet to avoid errors.
 
 This function uses ‘org-superstar-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (when (org-superstar-inlinetask-p)
-    (let ((star-beg (match-beginning 3)))
+  (cond
+   ((and (featurep 'org-indent) org-indent-mode)
+    'org-hide)
+   ((org-superstar-inlinetask-p)
+    (let ((star-beg (match-beginning 4)))
       (compose-region star-beg (1+ star-beg)
                       (org-superstar--fbullet))
-      'org-superstar-first)))
+      'org-superstar-first))
+   (org-hide-leading-stars 'org-hide)
+   (t 'org-superstar-leading)))
+
+(defun org-superstar--prettify-indent ()
+  "Set up ‘org-indent-inlinetask-first-star’ buffer-locally.
+Restart Org Indent Mode to enforce the change to take effect, if
+enabled.  This way, ‘org-indent-mode’ uses the correct bullet
+instead of a star.  If Org Indent is not loaded, this function
+does nothing.
+
+See also ‘org-superstar-first-inlinetask-bullet’."
+  (when (featurep 'org-indent)
+    (let ((bullet-components (org-superstar--fbullet))
+          (bullet "*"))
+      (cond
+       ((characterp bullet-components)
+        (setq bullet (string bullet-components)))
+       ;; bullet-components must be a string => compsoe!
+       (t
+        (setq bullet
+              (compose-string bullet nil nil
+                              bullet-components))))
+      (setq-local org-indent-inlinetask-first-star
+                  (org-add-props bullet '(face org-superstar-first))))
+    (when (and org-indent-mode
+               (featurep 'org-inlinetask))
+      (org-indent-mode 0)
+      (org-indent-mode 1))))
+
+(defun org-superstar--unprettify-indent ()
+  "Revert ‘org-indent-inlinetask-first-star’ to default value.
+If Org Indent Mode is enabled, also restart it if necessary."
+  (when (featurep 'org-indent)
+    (kill-local-variable 'org-indent-inlinetask-first-star)
+    (when (and org-indent-mode
+               (featurep 'org-inlinetask))
+      (org-indent-mode 0)
+      (org-indent-mode 1))))
 
 (defun org-superstar--make-invisible (subexp)
   "Make part of the text matched by the last search invisible.
@@ -763,11 +809,13 @@ cleanup routines."
                  (2 (org-superstar--make-invisible 2))))
            ,@(when (featurep 'org-inlinetask)
                '((2 (org-superstar--prettify-other-hbullet)
-                    prepend)))
+                    prepend))))
+          ("^\\(?4:\\*\\)\\(?:\\*\\{2,\\}\\) "
            ,@(when (and (featurep 'org-inlinetask)
-                        org-inlinetask-show-first-star)
-               '((3 (org-superstar--prettify-first-bullet))))
-           ))))
+                        org-inlinetask-show-first-star
+                        (not org-superstar-remove-leading-stars))
+               '((4 (org-superstar--prettify-first-bullet)
+                    t)))))))
 
 (defun org-superstar--fontify-buffer ()
   "Fontify the buffer."
@@ -797,8 +845,9 @@ cleanup routines."
     (font-lock-add-keywords nil org-superstar--font-lock-keywords
                             'append)
     (org-superstar--fontify-buffer)
-    (add-to-invisibility-spec '(org-superstar-hide)))
-   ;; Clean up nd exit.
+    (add-to-invisibility-spec '(org-superstar-hide))
+    (org-superstar--prettify-indent))
+   ;; Clean up and exit.
    (t
     (remove-from-invisibility-spec '(org-superstar-hide))
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
@@ -806,7 +855,8 @@ cleanup routines."
           (default-value 'org-superstar--font-lock-keywords))
     (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
-    (org-superstar--fontify-buffer))))
+    (org-superstar--fontify-buffer)
+    (org-superstar--unprettify-indent))))
 
 (defun org-superstar-restart ()
   "Re-enable Org Superstar mode, if the mode is enabled."
