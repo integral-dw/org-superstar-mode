@@ -1,0 +1,105 @@
+#+TITLE:Demo Reel
+
+Here I present a couple of screen shots for a variety of simple
+configurations (source included).  Regarding the primary fonts used, I
+picked:
+ * *DejaVu Sans Mono* for graphical sessions
+ * *Liberation Mono* for terminal sessions.
+
+The file used for all demos can be found in ~tests/sample.org~.
+
+* Vanilla
+
+This is the current default experience you get when using vanilla
+Emacs (~emacs -q~) and only do the absolute minimum to set up Superstar
+automatically.
+
+  #+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-superstar-mode 1)))
+  #+END_SRC
+
+** Graphical Session
+[[file:demos/vanilla.png]]
+** Terminal Session
+[[file:demos/vanilla_term.png]]
+
+* LaTeX-style headings
+  As the title suggests, this setup provides a quick alternative to
+  the Emacs typical [[https://www.emacswiki.org/emacs/AngryFruitSalad][angry fruit salad look]], replacing it with a more
+  in-print style.
+  #+BEGIN_SRC emacs-lisp
+    ;;; Titles and Sections
+    ;; hide #+TITLE:
+    (setq org-hidden-keywords '(title))
+    ;; set basic title font
+    (set-face-attribute 'org-level-8 nil :weight 'bold :inherit 'default)
+    ;; Low levels are unimportant => no scaling
+    (set-face-attribute 'org-level-7 nil :inherit 'org-level-8)
+    (set-face-attribute 'org-level-6 nil :inherit 'org-level-8)
+    (set-face-attribute 'org-level-5 nil :inherit 'org-level-8)
+    (set-face-attribute 'org-level-4 nil :inherit 'org-level-8)
+    ;; Top ones get scaled the same as in LaTeX (\large, \Large, \LARGE)
+    (set-face-attribute 'org-level-3 nil :inherit 'org-level-8 :height 1.2) ;\large
+    (set-face-attribute 'org-level-2 nil :inherit 'org-level-8 :height 1.44) ;\Large
+    (set-face-attribute 'org-level-1 nil :inherit 'org-level-8 :height 1.728) ;\LARGE
+    ;; Only use the first 4 styles and do not cycle.
+    (setq org-cycle-level-faces nil)
+    (setq org-n-level-faces 4)
+    ;; Document Title, (\huge)
+    (set-face-attribute 'org-document-title nil
+                        :height 2.074
+                        :foreground 'unspecified
+                        :inherit 'org-level-8)
+
+    ;; Auto-start Superstar with Org
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (org-superstar-mode 1)))
+  #+END_SRC
+
+** Graphical Session
+[[file:demos/LaTeX.png]]
+** Terminal Session
+[[file:demos/LaTeX_term.png]]
+
+* Customized Bullets and Terminal Fallback
+  This time we want all of the above but a little more personalized.
+  First off, lets make bullets a little more chunky.  Mind that the
+  height we provide for bullet faces is not the /actual/ height of a
+  bullet, but its height /relative to/ its surroundings.  Additionally,
+  let's hide the leading stars for terminal, as the default leader
+  does not look all that good in my chosen terminal font.  I make use
+  of the fact that ~org-superstar-leading-fallback~ can be set to the
+  space character.  This has the nice advantage over
+  ~org-hide-leading-stars~ that it does not just "paint over" the
+  asterisks, but makes them completely indistinguishable from white
+  space, neat!
+
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'org-superstar
+      (set-face-attribute 'org-superstar-item nil :height 1.2)
+      (set-face-attribute 'org-superstar-header-bullet nil :height 1.2)
+      (set-face-attribute 'org-superstar-leading nil :height 1.3))
+    ;; Set different bullets, with one getting a terminal fallback.
+    (setq org-superstar-headline-bullets-list
+          '("◉" ("🞛" ?◈) "○" "▷"))
+    ;; Stop cycling bullets to emphasize hierarchy of headlines.
+    (setq org-superstar-cycle-headline-bullets nil)
+    ;; Hide away leading stars on terminal.
+    (setq org-superstar-leading-fallback ?\s)
+  #+END_SRC
+
+** Graphical Session
+[[file:demos/bullets.png]]
+** Terminal Session
+[[file:demos/bullets_term.png]]
+
+* Org Inline Tasks
+  Inline tasks behave as you would expect them to, for the most part.
+  They have two bullets instead of one, but are otherwise treated the
+  same as regular headlines by Org Superstar.
+
+
+#  LocalWords:  demos DejaVu inline Org

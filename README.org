@@ -2,7 +2,7 @@
 #+STARTUP: showeverything
 [[https://melpa.org/#/org-superstar][file:https://melpa.org/packages/org-superstar-badge.svg]] [[https://stable.melpa.org/#/org-superstar][file:https://stable.melpa.org/packages/org-superstar-badge.svg]]
 
-[[sample_image.png]]
+[[file:sample_image.png]]
 
 * About
   Prettify headings and plain lists in Org mode.  This package is a
@@ -51,6 +51,10 @@ used, allowing the user to inherit the level-dependent default look.
         tested version on the volatile branch.  If you want to
         contribute (for example, by testing the volatile version) see
         [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].  The README will be updated soon.
+
+* Demos
+  You can find a small demo reel with a variety of configurations
+  [[file:DEMO.org][here]].
 
 * Installation
 

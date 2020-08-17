@@ -49,7 +49,7 @@
 ;; the goal of inheriting features the author liked about org-bullets
 ;; while being able to introduce compatibility-breaking changes to it.
 ;; It is largely rewritten, to the point of almost no function being
-;; identical to it's org-bullets counterpart.
+;; identical to its org-bullets counterpart.
 
 ;; This package is versioned using (the author's understanding of)
 ;; semantic versioning: "<major>.<minor>.<patch>".
