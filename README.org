@@ -65,7 +65,7 @@ used, allowing the user to inherit the level-dependent default look.
 
   The package is available [[https://melpa.org/#/org-superstar][on MELPA]]!
 
-  Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]]^{}^{} (~develop~ branch) and [[https://github.com/hlissner/doom-emacs][Doom
+  Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]] (~develop~ branch) and [[https://github.com/hlissner/doom-emacs][Doom
   Emacs]].
 
   If you prefer a manual installation, just plug =org-superstar.el= into
@@ -298,9 +298,9 @@ used, allowing the user to inherit the level-dependent default look.
 *** Borked even in graphical sessions
     In this case it is all up to your Emacs configuration.  The
     problem remains the fonts available, this time to Emacs.  You can
-    either [[https://www.emacswiki.org/emacs/SetFonts][change your Emacs font]].  Other options include specifying
-    specific fonts for specific Unicode character ranges, which is
-    part of Emacs' intricate face system.
+    either [[https://www.emacswiki.org/emacs/SetFonts][change your Emacs font]] or specify specific fonts for
+    specific Unicode character ranges, which is part of Emacs'
+    intricate face system.
 
 ** "This mode causes significant slowdown!"
    I have looked into the matter [[https://github.com/integral-dw/org-superstar-mode/issues/3][in the past]], and from what I
@@ -332,7 +332,8 @@ used, allowing the user to inherit the level-dependent default look.
     versions of Org.  The following hack should circumvent the issue,
     at the cost of the package treating some comments in code blocks
     as lists.  Just put it in your ~.emacs~ before loading up the
-    package.  If I messed up, be sure to open an Issue!
+    package.  If I messed up and this does not fix the problem, be
+    sure to open an Issue!
     #+BEGIN_SRC emacs-lisp
       (setq-default org-superstar-lightweight-lists t)
       (defun org-element-lineage (x)
@@ -373,9 +374,8 @@ used, allowing the user to inherit the level-dependent default look.
    Turns out, Org Superstar [[https://github.com/syl20bnr/spacemacs/issues/13831][replaced Org Bullets]] as of the 7th of June
    on Spacemacs' ~develop~ branch!  And it also ships with [[https://github.com/hlissner/doom-emacs][Doom Emacs]]!
    With that, I have essentially reached every goal I had for this
-   package, apart from the one addressed [[https://github.com/integral-dw/org-superstar-mode/issues/5][in an upcoming update]].
-   However, I will naturally continue maintenance and remain open
-   towards feature suggestions.
+   package.  However, I will naturally continue maintenance and remain
+   open towards feature suggestions.
 
 * Announcement Log
 ** =2020-02-02=

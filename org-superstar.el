@@ -432,7 +432,8 @@ unspecified inherits the org-level-X faces for header bullets."
   '((default . (:inherit org-warning)))
   "Face used to display the first bullet of an inline task.
 This face is only used when ‘org-inlinetask-show-first-star’ is
-non-nil.")
+non-nil."
+  :group 'org-superstar)
 
 
 ;;; Functions intended for users
