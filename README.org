@@ -122,9 +122,9 @@ used, allowing the user to inherit the level-dependent default look.
    Here's how you change which bullets are used for which level.
 
 *** ~org-superstar-headline-bullets-list~
-    Those of you familiar with =org-bullets= will be recognize this
-    list: It's a list of single-character strings where the /Nth/ entry
-    is used to determine the bullet used for heading level /N/.  By
+    Those of you familiar with =org-bullets= will recognize this list:
+    It's a list of single-character strings where the /Nth/ entry is
+    used to determine the bullet used for heading level /N/.  By
     default, this list is cycled through for /N/ greater than the length
     of the list.  Strings are not the only valid way to provide
     headline bullets, however.  Since version *1.3.0*, this variable
@@ -154,6 +154,16 @@ used, allowing the user to inherit the level-dependent default look.
     *Note for terminal users:* You can apply a simplified composition to
     leading stars for terminal sessions.  See
     ~org-superstar-leading-fallback~ for details.
+
+*** ~org-superstar-first-inlinetask-bullet~
+    This bullet replaces the red star inline tasks use when
+    ~org-inlinetask-show-first-star~ is non-nil.  Strings are
+    superimposed according to the rules of ~compose-region~, characters
+    render as expected.
+
+    *Note for terminal users:* You can apply a simplified composition
+    for terminal sessions.  See
+    ~org-superstar-first-inlinetask-fallback~ for details.
 
 *** Hide leading stars
     Since ~org-mode~ already takes care of hiding leading stars by
@@ -240,6 +250,12 @@ used, allowing the user to inherit the level-dependent default look.
 *** ~org-superstar-item~
     A face used to display prettified plain list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
+
+*** ~org-superstar-first~
+    A face used for the marker star of inline tasks (see the package
+    ~org-inlinetask~, in particular ~org-inlinetask-show-first-star~
+    instead of the default ~org-warning~, which it inherits from by
+    default.
 
 * FAQ / Troubleshooting
 
@@ -328,6 +344,16 @@ used, allowing the user to inherit the level-dependent default look.
    and *Hide leading stars*.
 
 * NEWS
+
+** =2020-08-18=
+   We have reached version *1.4.0*, which concludes the series of
+   feature updates I have planned out.  In other words, this package
+   has reached a point of maturity where I would consider it complete.
+   This does /not/ mean that no new features will be added/accepted, but
+   it does mean that I will from now on rely on feature suggestions
+   from the community, and focus on maintenance rather than
+   innovation.  The next scheduled update (*2.0.0*) will likely involve
+   a subtle revamp of the default values.  I will keep you posted.
 
 ** =2020-08-08=
    Version *1.3.0* is here!  This version adds support for using
