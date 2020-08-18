@@ -15,7 +15,11 @@
      them from vision^{(new!)}
    + applying a custom face to the header bullet^{d)}
    + applying a custom face to the leading bullets^{(new!)}
-   + using double-bullets for inline tasks (see =org-inlinetask.el=)
+   + making inline tasks (see =org-inlinetask.el=) more fancy by:
+     - using double-bullets for inline tasks
+     - applying a custom face to the marker star of inline tasks^{(new!)}
+     - using a special bullet for the marker star^{(new!)}
+     - introducing an independent face for marker stars^{(new!)}
    + (optional) using special bullets for =TODO= keywords^{(new!)}
  * Prettifying Org plain list bullets^{(new!)} by:
    + replacing each bullet type (~*~, ~+~ and ~-~) with UTF-8 bullets^{c)}
@@ -38,23 +42,24 @@ superstar merges a custom face with the face that would have been
 used, allowing the user to inherit the level-dependent default look.
 
 ** Planned features
-   In this section I maintain a list of possible feature candidates.
+   There are currently no new features planned. For the time being
+   only one historically planned feature remains listed, which is
+   supposed to develop into a sister project.  See below.
 
    * +hiding leading commas of quoted stars+ ::
      + +unhiding commas whilst editing+ ::
           I have realized that this feature exceeds the scope of the
           package, being too interactive.  This would require a lot of
-          font-lock related boilerplate which I am currently
-          in the process of dedicating its own package to.
-   * +optionally display a leading bullet for inline tasks+ :: The new
-        feature is on its way, with a working but not thoroughly
-        tested version on the volatile branch.  If you want to
-        contribute (for example, by testing the volatile version) see
-        [[https://github.com/integral-dw/org-superstar-mode/issues/5][this issue]].  The README will be updated soon.
+          font-lock related boilerplate which I am currently in the
+          process of dedicating its own package to.
+       - Update :: The package in question has matured, but suffers
+                   from intricate timing errors which will require
+                   looking into.  Especially since they are so far
+                   impossible to test reliably due to their nature.
 
-* Demos
-  You can find a small demo reel with a variety of configurations
-  [[file:DEMO.org][here]].
+** Demos
+   You can find a small demo reel with a variety of configurations
+   [[file:DEMO.org][here]].
 
 * Installation
 

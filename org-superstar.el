@@ -37,7 +37,11 @@
 ;;     from vision
 ;;   + applying a custom face to the header bullet
 ;;   + applying a custom face to the leading bullets
-;;   + using double-bullets for inline tasks (see org-inlinetask.el)
+;;   + making inline tasks (see org-inlinetask.el) more fancy by:
+;;     - using double-bullets for inline tasks
+;;     - applying a custom face to the marker star of inline tasks
+;;     - using a special bullet for the marker star
+;;     - introducing an independent face for marker stars
 ;;   + (optional) using special bullets for TODO keywords
 ;; * Prettifying org plain list bullets by:
 ;;   + replacing each bullet type (*, + and -) with UTF-8 bullets
