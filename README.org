@@ -65,8 +65,7 @@ used, allowing the user to inherit the level-dependent default look.
 
   The package is available [[https://melpa.org/#/org-superstar][on MELPA]]!
 
-  Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]] (~develop~ branch) and [[https://github.com/hlissner/doom-emacs][Doom
-  Emacs]].
+  Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]].
 
   If you prefer a manual installation, just plug =org-superstar.el= into
   your load path and add the following to your =.emacs=:
@@ -270,11 +269,12 @@ used, allowing the user to inherit the level-dependent default look.
    question marks in headlines or items?  Try turning
    ~org-superstar-mode~ off to see what its /supposed/ to be if it is too
    visually broken to recognize.  The fix depends on whether you are
-   experiencing this on a graphic or terminal display
+   experiencing this on a graphical or terminal display.
 
 *** Question mark salad on terminal
     This usually happens because the font of your terminal does not
-    have a glyph for this character.  There are two plausible fixes:
+    have a glyph for a bullet character you are using.  There are two
+    plausible fixes:
 
     1) *Change your terminal font:* Emacs has no control over the font
        of your terminal display.  As a consequence, if you want to
@@ -351,6 +351,11 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
+** =2020-08-29=
+   org-superstar has reached over 32768 (2^{15}) downloads this week!
+   This is absolutely amazing.  If there is any room for improvement,
+   I'm very open to suggestions from the community!
+
 ** =2020-08-18=
    We have reached version *1.4.0*, which concludes the series of
    feature updates I have planned out.  In other words, this package
@@ -360,22 +365,6 @@ used, allowing the user to inherit the level-dependent default look.
    from the community, and focus on maintenance rather than
    innovation.  The next scheduled update (*2.0.0*) will likely involve
    a subtle revamp of the default values.  I will keep you posted.
-
-** =2020-08-08=
-   Version *1.3.0* is here!  This version adds support for using
-   advanced features of ~compose-region~ for headline bullets, thus
-   continuing efforts to make the package more visually coherent for
-   general setups while remaining terminal friendly.
-
-   In other news, Org Superstar reached [[https://melpa.org/#/org-superstar][over 16000 downloads on MELPA]]!
-   This is absolutely insane, and already surpasses my hopes for this
-   year by more than a factor of 8!  I am speechless.  And, as
-   promised, +I will contact the Spacemacs team sometimes this year.+
-   Turns out, Org Superstar [[https://github.com/syl20bnr/spacemacs/issues/13831][replaced Org Bullets]] as of the 7th of June
-   on Spacemacs' ~develop~ branch!  And it also ships with [[https://github.com/hlissner/doom-emacs][Doom Emacs]]!
-   With that, I have essentially reached every goal I had for this
-   package.  However, I will naturally continue maintenance and remain
-   open towards feature suggestions.
 
 * Announcement Log
 ** =2020-02-02=
@@ -445,6 +434,21 @@ used, allowing the user to inherit the level-dependent default look.
    year, which I would consider enough proof of the package's
    popularity.
 
+** =2020-08-08=
+   Version *1.3.0* is here!  This version adds support for using
+   advanced features of ~compose-region~ for headline bullets, thus
+   continuing efforts to make the package more visually coherent for
+   general setups while remaining terminal friendly.
+
+   In other news, Org Superstar reached [[https://melpa.org/#/org-superstar][over 16000 downloads on MELPA]]!
+   This is absolutely insane, and already surpasses my hopes for this
+   year by more than a factor of 8!  I am speechless.  And, as
+   promised, +I will contact the Spacemacs team sometimes this year.+
+   Turns out, Org Superstar [[https://github.com/syl20bnr/spacemacs/issues/13831][replaced Org Bullets]] as of the 7th of June
+   on Spacemacs' ~develop~ branch!  And it also ships with [[https://github.com/hlissner/doom-emacs][Doom Emacs]]!
+   With that, I have essentially reached every goal I had for this
+   package.  However, I will naturally continue maintenance and remain
+   open towards feature suggestions.
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
 #  LocalWords:  Org fallback setups asterisms Emoji Smileys Borked
