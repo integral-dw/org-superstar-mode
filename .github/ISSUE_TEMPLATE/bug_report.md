@@ -3,7 +3,7 @@ name: Bug report
 about: Something is wrong with org-superstar
 title: ''
 labels: bug
-assignees: ''
+assignees: integral-dw
 
 ---
 
