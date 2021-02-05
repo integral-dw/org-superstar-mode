@@ -256,8 +256,9 @@ COMPONENTS argument.
 
 If ‘org-hide-leading-stars’ is nil, leading stars in a headline
 are represented as a sequence of this bullet using the face
-‘org-superstar-leading’.  Otherwise, this variable has no effect and
-‘org-mode’ covers leading stars using ‘org-hide’.
+‘org-superstar-leading’.  Otherwise, this variable has no effect
+and ‘org-mode’ covers leading stars using ‘org-hide’.  See also
+‘org-indent-mode-turns-on-hiding-stars’.
 
 This variable is only used for graphical displays.
 ‘org-superstar-leading-fallback’ is used for terminal displays

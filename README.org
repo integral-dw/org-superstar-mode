@@ -186,6 +186,9 @@ used, allowing the user to inherit the level-dependent default look.
       (setq org-hide-leading-stars nil)
       ;; This line is necessary.
       (setq org-superstar-leading-bullet ?\s)
+      ;; If you use Org Indent you also need to add this, otherwise the
+      ;; above has no effect while Indent is enabled.
+      (setq org-indent-mode-turns-on-hiding-stars nil)
     #+END_SRC
 
     If you want to get rid of the indentation caused by leading stars

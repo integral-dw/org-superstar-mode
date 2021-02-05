@@ -1,14 +1,7 @@
-##+STARTUP: noindent
 #+STARTUP: indent
-#+TITLE: MWE
+#+TITLE:MWE
 * 1
-  sample text
 ** 2
-   sample text
 *** 3 sample text
 **** 4
 ***** 5
-******* 7
-********* 9
-************ 12
-******************** 20
