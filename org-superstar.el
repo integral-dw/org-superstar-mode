@@ -313,7 +313,7 @@ variable for your changes to take effect."
 ;;; Other Custom Variables
 
 (defcustom org-superstar-cycle-headline-bullets t
-  "Non-nil means cycle through all available headline bullets.
+  "Non-nil means cycle through available headline bullets.
 
 The following values are meaningful:
 

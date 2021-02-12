@@ -354,20 +354,15 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
-** =2020-08-29=
-   org-superstar has reached over 32768 (2^{15}) downloads this week!
-   This is absolutely amazing.  If there is any room for improvement,
-   I'm very open to suggestions from the community!
+** =2021-02-11=
+   Since I have been asked whether there is a way to extend Superstar
+   to other minor modes.  The bad news is: no, not feasibly.  The good
+   news is: I have created a comparably simple template for this exact
+   purpose for other people to bring a Superstar-like mode to your
+   favorite Outline-type of mode: [[https://github.com/integral-dw/superstar-kit][Superstar Kit]]!
 
-** =2020-08-18=
-   We have reached version *1.4.0*, which concludes the series of
-   feature updates I have planned out.  In other words, this package
-   has reached a point of maturity where I would consider it complete.
-   This does /not/ mean that no new features will be added/accepted, but
-   it does mean that I will from now on rely on feature suggestions
-   from the community, and focus on maintenance rather than
-   innovation.  The next scheduled update (*2.0.0*) will likely involve
-   a subtle revamp of the default values.  I will keep you posted.
+   Also: Earlier this month, Superstar has reached over 65536 (2^{16})
+   downloads!  Again, thank you!
 
 * Announcement Log
 ** =2020-02-02=
@@ -452,6 +447,21 @@ used, allowing the user to inherit the level-dependent default look.
    With that, I have essentially reached every goal I had for this
    package.  However, I will naturally continue maintenance and remain
    open towards feature suggestions.
+
+** =2020-08-29=
+   org-superstar has reached over 32768 (2^{15}) downloads this week!
+   This is absolutely amazing.  If there is any room for improvement,
+   I'm very open to suggestions from the community!
+
+** =2020-08-18=
+   We have reached version *1.4.0*, which concludes the series of
+   feature updates I have planned out.  In other words, this package
+   has reached a point of maturity where I would consider it complete.
+   This does /not/ mean that no new features will be added/accepted, but
+   it does mean that I will from now on rely on feature suggestions
+   from the community, and focus on maintenance rather than
+   innovation.  The next scheduled update (*2.0.0*) will likely involve
+   a subtle revamp of the default values.  I will keep you posted.
 
 #  LocalWords:  Org's MELPA ELPA Worg fontification TODO README UTF Spacemacs
 #  LocalWords:  Org fallback setups asterisms Emoji Smileys Borked
