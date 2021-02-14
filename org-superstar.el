@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.4.0
+;; Version: 1.5.0
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -178,10 +178,10 @@ variable for your changes to take effect."
                             :format "Bullet character: %v\n"
                             :tag "Simple bullet character")
                  (list :tag "Advanced string and fallback"
-                  (string :value "◉"
-                          :format "String of characters to compose: %v")
-                  (character :value ?◉
-                             :format "Fallback character for terminal: %v\n")))))
+                       (string :value "◉"
+                               :format "String of characters to compose: %v")
+                       (character :value ?◉
+                                  :format "Fallback character for terminal: %v\n")))))
 
 (defun org-superstar--set-fbullet (symbol value)
   "Set SYMBOL ‘org-superstar-first-inlinetask-bullet’ to VALUE.
@@ -372,9 +372,15 @@ Instead of displaying bullets corresponding to TODO items
 according to ‘org-superstar-headline-bullets-list’ (dependent on
 the headline’s level), display a bullet according to
 ‘org-superstar-todo-bullet-alist’ (dependent on the TODO
-keyword)."
+keyword).
+
+If set to the symbol ‘hide’, hide the leading bullet entirely
+instead."
   :group 'org-superstar
-  :type 'boolean)
+  :type '(choice
+          (const :tag "Enable special TODO item bullets" t)
+          (const :tag "Disable special TODO item bullets" nil)
+          (const :tag "Hide TODO item bullets altogether" hide)))
 
 (defvar-local org-superstar-lightweight-lists nil
   "Non-nil means circumvent expensive calls to ‘org-superstar-plain-list-p’.
@@ -500,15 +506,15 @@ the current keyword, return nil."
                         org-superstar-todo-bullet-alist))
          (todo-bullet (cdr todo-bullet))
          (todo-fallback nil))
-      (cond
-       ((characterp todo-bullet)
-        todo-bullet)
-       ((listp todo-bullet)
-        (setq todo-fallback (cadr todo-bullet))
-        (setq todo-bullet (car todo-bullet))
-        (if (org-superstar-graphic-p)
-            todo-bullet
-          todo-fallback)))))
+    (cond
+     ((characterp todo-bullet)
+      todo-bullet)
+     ((listp todo-bullet)
+      (setq todo-fallback (cadr todo-bullet))
+      (setq todo-bullet (car todo-bullet))
+      (if (org-superstar-graphic-p)
+          todo-bullet
+        todo-fallback)))))
 
 (defun org-superstar--hbullets-length ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
@@ -535,7 +541,9 @@ See also ‘org-superstar-cycle-headline-bullets’."
         (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
-    (cond (todo-bullet)
+    (cond (todo-bullet
+           (unless (eq org-superstar-special-todo-items 'hide)
+             todo-bullet))
           ((integerp max-bullets)
            (org-superstar--nth-headline-bullet (% n max-bullets)))
           (max-bullets
@@ -658,10 +666,12 @@ prettifying bullets in (for example) source blocks."
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-headline-or-inlinetask-p)
-    (let ((level (org-superstar--heading-level)))
-      (compose-region (match-beginning 1) (match-end 1)
-                      (org-superstar--hbullet level))))
-  'org-superstar-header-bullet)
+    (let ((bullet (org-superstar--hbullet (org-superstar--heading-level))))
+      (if bullet
+          (compose-region (match-beginning 1) (match-end 1)
+                          bullet)
+        (org-superstar--make-invisible 1)))
+    'org-superstar-header-bullet))
 
 (defun org-superstar--prettify-other-hbullet ()
   "Prettify the second last star in a headline.
