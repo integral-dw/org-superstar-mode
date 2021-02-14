@@ -201,6 +201,11 @@ used, allowing the user to inherit the level-dependent default look.
     you want to have displayed differently, see
     ~org-superstar-todo-bullet-alist~.
 
+*** No =TODO= bullets
+    If you prefer a more minimal look for =TODO= items, try setting
+    ~org-superstar-special-todo-items~ to the symbol ~hide~.  This causes
+    the heading bullet to disappear entirely for =TODO= items.
+
 ** Custom UTF8-Bullets for plain lists
    Why stop at heading lines?  Customize the look of your list bullets
    to make plain lists a little less so.
