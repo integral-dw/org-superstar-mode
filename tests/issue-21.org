@@ -1,7 +1,0 @@
-#+STARTUP: indent
-#+TITLE:MWE
-* 1
-** 2
-*** 3 sample text
-**** 4
-***** 5
