@@ -55,13 +55,6 @@
 ;; It is largely rewritten, to the point of almost no function being
 ;; identical to its org-bullets counterpart.
 
-;; This package is versioned using (the author's understanding of)
-;; semantic versioning: "<major>.<minor>.<patch>".
-;; <major> version increments signify backward incompatible changes.
-;; <minor> version increments signify backward compatible but
-;;         significant changes.
-;; <patch> version increments signify changes not affecting the API.
-
 ;; Here are some Unicode blocks which are generally nifty resources
 ;; for this package:
 ;;
