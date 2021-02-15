@@ -490,8 +490,11 @@ If no TODO property is found, return nil."
 
 (defun org-superstar--todo-bullet ()
   "Return the desired TODO item bullet, if defined.
-If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
-the current keyword, return nil."
+
+If we have are in a TODO entry and
+‘org-superstar-special-todo-items’ is hide return hide. Else, if no
+entry can be found in ‘org-superstar-todo-bullet-alist’ for the
+current keyword, return nil."
   (let* ((todo-kw
           (org-superstar--get-todo (match-beginning 0)))
          (todo-bullet
@@ -500,6 +503,8 @@ the current keyword, return nil."
          (todo-bullet (cdr todo-bullet))
          (todo-fallback nil))
     (cond
+     ((and todo-kw (eq org-superstar-special-todo-items 'hide))
+      'hide)
      ((characterp todo-bullet)
       todo-bullet)
      ((listp todo-bullet)
@@ -535,7 +540,7 @@ See also ‘org-superstar-cycle-headline-bullets’."
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
     (cond (todo-bullet
-           (unless (eq org-superstar-special-todo-items 'hide)
+           (unless (eq todo-bullet 'hide)
              todo-bullet))
           ((integerp max-bullets)
            (org-superstar--nth-headline-bullet (% n max-bullets)))
