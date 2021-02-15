@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.4.1
+;; Version: 1.4.2
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -520,20 +520,19 @@ symbol ‘default’, return it instead.  Otherwise, return nil."
   "Return the desired TODO item bullet, if defined.
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
 the current keyword, return nil."
-  (let* ((todo-kw
-          (org-superstar--get-todo (match-beginning 0)))
-         (todo-bullet (org-superstar--todo-assoc todo-kw))
-         (todo-bullet (cdr todo-bullet))
-         (todo-fallback nil))
-      (cond
-       ((characterp todo-bullet)
-        todo-bullet)
-       ((listp todo-bullet)
-        (setq todo-fallback (cadr todo-bullet))
-        (setq todo-bullet (car todo-bullet))
+  (when-let* ((todo-kw
+               (org-superstar--get-todo (match-beginning 0)))
+              (todo-bullet
+               (cdr (org-superstar--todo-assoc todo-kw))))
+    (cond
+     ((characterp todo-bullet)
+      todo-bullet)
+     ((listp todo-bullet)
+      (let ((todo-fallback (cadr todo-bullet))
+            (todo-bullet (car todo-bullet)))
         (if (org-superstar-graphic-p)
             todo-bullet
-          todo-fallback)))))
+          todo-fallback))))))
 
 (defun org-superstar--hbullets-length ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
