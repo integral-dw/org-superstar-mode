@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.4.0
+;; Version: 1.4.1
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -161,17 +161,27 @@ are not included in the alist are handled like normal headings.
 Alternatively, each alist element may be a proper list of the form
 \(KEYWORD COMPOSE-STRING CHARACTER [REST...])
 
-where KEYWORD should be a TODO keyword, and COMPOSE-STRING should
-be a string according to the rules of the third argument of
-‘compose-region’.  It will be used to compose the specific TODO
-item bullet.  CHARACTER is the fallback character used in
-terminal displays, where composing characters cannot be relied
-upon.  See also ‘org-superstar-leading-fallback’.
+where KEYWORD should be a TODO keyword (a string), and
+COMPOSE-STRING should be a string according to the rules of the
+third argument of ‘compose-region’.  It will be used to compose
+the specific TODO item bullet.  CHARACTER is the fallback
+character used in terminal displays, where composing characters
+cannot be relied upon.  See also
+‘org-superstar-leading-fallback’.
+
+KEYWORD may also be the symbol ‘default’ instead of a string.  In
+this case, this bullet is used for all TODO unspecified keywords.
 
 You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
   :group 'org-superstar
-  :type '(alist :key-type (string :format "TODO keyword: %v")
+  :type '(alist :key-type
+                (choice :format "%[Toggle%] %v\n"
+                        (string :tag "Bullet for (custom) TODO keyword"
+                                :format "TODO keyword: %v")
+                        (const :tag "Default TODO keyword"
+                               :format "Default TODO keyword: %v"
+                               default))
                 :value-type
                 (choice
                  (character :value ?◉
@@ -489,15 +499,30 @@ If no TODO property is found, return nil."
       (when (stringp todo-property)
         todo-property))))
 
+(defun org-superstar--todo-assoc (todo-kw)
+  "Obtain alist entry for the string keyword TODO-KW.
+
+If TODO-KW has no explicit entry in the alist
+‘org-superstar-todo-bullet-alist’, but there is an entry for the
+symbol ‘default’, return it instead.  Otherwise, return nil."
+  (or
+   (assoc todo-kw
+          org-superstar-todo-bullet-alist
+          ;; I would use assoc-string, but then I'd have to deal with
+          ;; what to do should the user create a TODO keyword
+          ;; "default" for some forsaken reason.
+          (lambda (x y) (and (stringp x)
+                             (string= x y))))
+   (assq 'default
+         org-superstar-todo-bullet-alist)))
+
 (defun org-superstar--todo-bullet ()
   "Return the desired TODO item bullet, if defined.
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
 the current keyword, return nil."
   (let* ((todo-kw
           (org-superstar--get-todo (match-beginning 0)))
-         (todo-bullet
-          (assoc-string todo-kw
-                        org-superstar-todo-bullet-alist))
+         (todo-bullet (org-superstar--todo-assoc todo-kw))
          (todo-bullet (cdr todo-bullet))
          (todo-fallback nil))
       (cond
