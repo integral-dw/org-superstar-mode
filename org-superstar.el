@@ -517,20 +517,26 @@ symbol ‘default’, return it instead.  Otherwise, return nil."
 
 (defun org-superstar--todo-bullet ()
   "Return the desired TODO item bullet, if defined.
+
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
-the current keyword, return nil."
-  (when-let* ((todo-kw
-               (org-superstar--get-todo (match-beginning 0)))
-              (todo-bullet
-               (cdr (org-superstar--todo-assoc todo-kw))))
+the current keyword, return nil.
+
+If ‘org-superstar-special-todo-items’ is set to the symbol
+‘hide’, return that instead."
+  (let* ((todo-kw
+          (org-superstar--get-todo (match-beginning 0)))
+         (todo-bullet
+          (cdr (org-superstar--todo-assoc todo-kw))))
     (cond
-     ((and todo-kw (eq org-superstar-special-todo-items 'hide))
+     ((not todo-kw)
+      nil)
+     ((eq org-superstar-special-todo-items 'hide)
       'hide)
      ((characterp todo-bullet)
       todo-bullet)
      ((listp todo-bullet)
-      (let ((todo-fallback (cadr todo-bullet))
-            (todo-bullet (car todo-bullet)))
+      (when-let ((todo-fallback (cadr todo-bullet))
+                 (todo-bullet (car todo-bullet)))
         (if (org-superstar-graphic-p)
             todo-bullet
           todo-fallback))))))

@@ -1,5 +1,6 @@
 #+TITLE:Sample File
 #+STARTUP: showeverything
+#+TODO: TODO IN-PROGRESS | DONE
 * Lorem ipsum dolor sit amet
 ** Consectetur adipiscing elit
 *** Eiusmod tempor incididunt
@@ -24,6 +25,7 @@
 
 ***** TODO A
 ***** DONE B
+***** IN-PROGRESS C
 
 *************** Inline task?
 **************** second
