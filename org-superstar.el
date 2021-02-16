@@ -524,6 +524,8 @@ the current keyword, return nil."
               (todo-bullet
                (cdr (org-superstar--todo-assoc todo-kw))))
     (cond
+     ((and todo-kw (eq org-superstar-special-todo-items 'hide))
+      'hide)
      ((characterp todo-bullet)
       todo-bullet)
      ((listp todo-bullet)
@@ -559,7 +561,7 @@ See also ‘org-superstar-cycle-headline-bullets’."
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
     (cond (todo-bullet
-           (unless (eq org-superstar-special-todo-items 'hide)
+           (unless (eq todo-bullet 'hide)
              todo-bullet))
           ((integerp max-bullets)
            (org-superstar--nth-headline-bullet (% n max-bullets)))
