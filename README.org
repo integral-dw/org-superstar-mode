@@ -359,6 +359,13 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
+** =2021-02-16=
+   *1.5.0* has been released, adding support for hiding TODO item
+   bullets as well as specifying a default bullet.  As for the plans
+   for *2.0.0*: after lots of deliberation I have come to the conclusion
+   that there is no currently scheduled change that would justify a
+   major version number change.
+
 ** =2021-02-11=
    Since I have been asked whether there is a way to extend Superstar
    to other minor modes.  The bad news is: no, not feasibly.  The good
