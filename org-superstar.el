@@ -870,7 +870,8 @@ cleanup routines."
 ;;;###autoload
 (define-minor-mode org-superstar-mode
   "Use UTF8 bullets for headlines and plain lists."
-  nil nil nil
+  :lighter nil
+  :keymap nil
   :group 'org-superstar
   :require 'org
   (cond
