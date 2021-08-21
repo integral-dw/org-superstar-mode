@@ -433,6 +433,35 @@ currently in place.  Consequently, leaving all face properties
 unspecified inherits the org-level-X faces for header bullets."
   :group 'org-superstar)
 
+(defcustom org-superstar-todo-bullet-face-alist
+  '(nil)
+  "Alist of faces for TODO items bullets.
+
+Each key should be a TODO keyword, and each value should face
+containing distinguishing features to apply to the bullets associated
+with todo items set in the variable ‘org-superstar-todo-bullet-alist’.
+If a todo item is not associated to a face in this alist, the same
+face as regular header items set in ‘org-superstar-header-bullet’ will
+be applied instead."
+  :group 'org-superstar
+  :type '(alist :key-type
+                (choice :format "%[Toggle%] %v\n"
+                        (string :tag "Face for (custom) TODO keyword"
+                                :format "TODO keyword: %v")
+                        (const :tag "Default TODO keyword"
+                               :format "Default TODO keyword: %v"
+                               default))
+                :value-type
+                (choice
+                 (character :value org-superstar-header-bullet
+                            :format "Bullet character: %v\n"
+                            :tag "Simple bullet character")
+                 (list :tag "Advanced string and fallback"
+                       (string :value "◉"
+                               :format "String of characters to compose: %v")
+                       (character :value ?◉
+                                  :format "Fallback character for terminal: %v\n")))))
+
 (defface org-superstar-item
   '((default . (:inherit default)))
   "Face used to display prettified item bullets."
@@ -498,15 +527,14 @@ If no TODO property is found, return nil."
       (when (stringp todo-property)
         todo-property))))
 
-(defun org-superstar--todo-assoc (todo-kw)
-  "Obtain alist entry for the string keyword TODO-KW.
+(defun org-superstar--todo-assoc (todo-kw todo-alist)
+  "Obtain alist entry for the string keyword TODO-KW in the alist TODO-ALIST.
 
-If TODO-KW has no explicit entry in the alist
-‘org-superstar-todo-bullet-alist’, but there is an entry for the
-symbol ‘default’, return it instead.  Otherwise, return nil."
+If TODO-KW has no explicit entry in the alist TODO-ALIST, but there is an entry
+for the symbol ‘default’, return it instead.  Otherwise, return nil."
   (or
    (assoc todo-kw
-          org-superstar-todo-bullet-alist
+          todo-alist
           ;; I would use assoc-string, but then I'd have to deal with
           ;; what to do should the user create a TODO keyword
           ;; "default" for some forsaken reason.
@@ -526,20 +554,29 @@ If ‘org-superstar-special-todo-items’ is set to the symbol
   (let* ((todo-kw
           (org-superstar--get-todo (match-beginning 0)))
          (todo-bullet
-          (cdr (org-superstar--todo-assoc todo-kw))))
+          (cdr
+           (org-superstar--todo-assoc todo-kw org-superstar-todo-bullet-alist)))
+         (todo-bullet-face
+          (cdr
+           (org-superstar--todo-assoc
+            todo-kw
+            org-superstar-todo-bullet-face-alist))
+          ))
     (cond
      ((not todo-kw)
       nil)
      ((eq org-superstar-special-todo-items 'hide)
-      'hide)
+      '('hide))
      ((characterp todo-bullet)
-      todo-bullet)
+      (list todo-bullet todo-bullet-face))
      ((listp todo-bullet)
       (when-let ((todo-fallback (cadr todo-bullet))
                  (todo-bullet (car todo-bullet)))
         (if (org-superstar-graphic-p)
-            todo-bullet
-          todo-fallback))))))
+            (if (eq todo-bullet nil)
+                nil
+              (list todo-bullet todo-bullet-face))
+          (list todo-fallback todo-bullet-face)))))))
 
 (defun org-superstar--hbullets-length ()
   "Return the length of ‘org-superstar-headline-bullets-list’."
@@ -567,16 +604,16 @@ See also ‘org-superstar-cycle-headline-bullets’."
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
     (cond (todo-bullet
-           (unless (eq todo-bullet 'hide)
+           (unless (eq (car todo-bullet) 'hide)
              todo-bullet))
           ((integerp max-bullets)
-           (org-superstar--nth-headline-bullet (% n max-bullets)))
+           (cons (org-superstar--nth-headline-bullet (% n max-bullets)) nil))
           (max-bullets
-           (org-superstar--nth-headline-bullet
-            (% n (org-superstar--hbullets-length))))
+           (cons (org-superstar--nth-headline-bullet
+                  (% n (org-superstar--hbullets-length))) nil))
           (t
-           (org-superstar--nth-headline-bullet
-            (min n (1- (org-superstar--hbullets-length))))))))
+           (cons (org-superstar--nth-headline-bullet
+                  (min n (1- (org-superstar--hbullets-length)))) nil)))))
 
 (defun org-superstar--nth-headline-bullet (n)
   "Return the Nth specified headline bullet or its corresponding fallback.
@@ -694,9 +731,9 @@ prettifying bullets in (for example) source blocks."
     (let ((bullet (org-superstar--hbullet (org-superstar--heading-level))))
       (if bullet
           (compose-region (match-beginning 1) (match-end 1)
-                          bullet)
-        (org-superstar--make-invisible 1)))
-    'org-superstar-header-bullet))
+                          (car bullet))
+        (org-superstar--make-invisible 1))
+      (or (cdr bullet) 'org-superstar-header-bullet))))
 
 (defun org-superstar--prettify-other-hbullet ()
   "Prettify the second last star in a headline.
@@ -706,10 +743,11 @@ inline task, see ‘org-inlinetask-min-level’.
 This function uses ‘org-superstar-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-inlinetask-p)
-    (let ((level (org-superstar--heading-level)))
+    (let* ((level (org-superstar--heading-level))
+           (hbullet (org-superstar--hbullet level)))
       (compose-region (match-beginning 2) (match-end 2)
-                      (org-superstar--hbullet level))
-      'org-superstar-header-bullet)))
+                      (car hbullet))
+      (or (cdr hbullet) 'org-superstar-header-bullet))))
 
 (defun org-superstar--prettify-other-lbullet ()
   "Prettify the first leading bullet after the headline bullet.
