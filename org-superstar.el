@@ -544,7 +544,7 @@ for the symbol ‘default’, return it instead.  Otherwise, return nil."
          org-superstar-todo-bullet-alist)))
 
 (defun org-superstar--todo-bullet ()
-  "Return the desired TODO item bullet, if defined.
+  "Return a list containing a TODO item bullet and its face, if defined.
 
 If no entry can be found in ‘org-superstar-todo-bullet-alist’ for
 the current keyword, return nil.
@@ -588,7 +588,9 @@ If ‘org-superstar-special-todo-items’ is set to the symbol
 If the headline is also a TODO item, you can override the usually
 displayed bullet depending on the TODO keyword by setting
 ‘org-superstar-special-todo-items’ to t and adding relevant TODO
-keyword entries to ‘org-superstar-todo-bullet-alist’.
+keyword entries to ‘org-superstar-todo-bullet-alist’.  You can also
+customize the face to use for each TODO item bullet by adding
+relevant TODO keyword entries to ‘org-superstar-todo-bullet-face-alist’
 
 For more information on how to customize headline bullets, see
 ‘org-superstar-headline-bullets-list’.
