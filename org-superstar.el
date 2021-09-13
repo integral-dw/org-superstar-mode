@@ -851,11 +851,11 @@ cleanup routines."
            ,@(when (featurep 'org-inlinetask)
                '((2 (org-superstar--prettify-other-hbullet)
                     prepend))))
-          ("^\\(?4:\\*\\)\\(?:\\*\\{2,\\}\\) "
-           ,@(when (and (featurep 'org-inlinetask)
-                        org-inlinetask-show-first-star
-                        (not org-superstar-remove-leading-stars))
-               '((4 (org-superstar--prettify-first-bullet)
+          ,@(when (and (featurep 'org-inlinetask)
+                       org-inlinetask-show-first-star
+                       (not org-superstar-remove-leading-stars))
+              '(("^\\(?4:\\*\\)\\(?:\\*\\{2,\\}\\) "
+                 (4 (org-superstar--prettify-first-bullet)
                     t)))))))
 
 (defun org-superstar--fontify-buffer ()
