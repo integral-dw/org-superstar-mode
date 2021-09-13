@@ -640,6 +640,8 @@ such cases to avoid slowdown."
       (and (save-match-data
 	     (org-element-lineage (org-element-at-point)
 				  '(plain-list) t))
+           (save-match-data
+             (not (org-in-src-block-p)))
 	   t)))
 
 (defun org-superstar-headline-or-inlinetask-p ()
