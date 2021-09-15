@@ -637,10 +637,10 @@ This function may be expensive for files with very large plain
 lists; consider using ‘org-superstar-toggle-lightweight-lists’ in
 such cases to avoid slowdown."
   (or org-superstar-lightweight-lists
-      (and (save-match-data
+      (save-match-data
+        (and (not (org-in-src-block-p))
 	     (org-element-lineage (org-element-at-point)
-				  '(plain-list) t))
-	   t)))
+				  '(plain-list) t)))))
 
 (defun org-superstar-headline-or-inlinetask-p ()
   "Return t if the current match is a proper headline or inlinetask."
