@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.5.0
+;; Version: 1.5.1
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -626,21 +626,17 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
 
 
 ;;; Predicates
-;; ‘org-list-in-valid-context-p’ is currently not working.
 
-;; Explicitly returning t is redundant, but does not leak information
-;; about how the predicate is implemented.
+;; ‘org-list-in-valid-context-p’ is currently not working.
 (defun org-superstar-plain-list-p ()
-  "Return t if the current match is a proper plain list.
+  "Return non-nil if the current match is a proper plain list.
 
 This function may be expensive for files with very large plain
 lists; consider using ‘org-superstar-toggle-lightweight-lists’ in
 such cases to avoid slowdown."
   (or org-superstar-lightweight-lists
       (save-match-data
-        (and (not (org-in-src-block-p))
-	     (org-element-lineage (org-element-at-point)
-				  '(plain-list) t)))))
+        (not (org-in-src-block-p)))))
 
 (defun org-superstar-headline-or-inlinetask-p ()
   "Return t if the current match is a proper headline or inlinetask."
