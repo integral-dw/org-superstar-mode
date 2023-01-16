@@ -217,7 +217,8 @@ used, allowing the user to inherit the level-dependent default look.
 
 *** ~org-superstar-prettify-item-bullets~
     Exactly as it says on the tin.  Set this variable to ~nil~ to stop
-    ~org-superstar-mode~ from prettifying lists.
+    ~org-superstar-mode~ from prettifying lists.  If set to the symbol
+    ~only~, this disables prettifying Org headings entirely.
 
 *** Fast Plain List Items
     The default syntax-checking done to ensure only actual plain list
