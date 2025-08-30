@@ -631,7 +631,6 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
 
 ;;; Predicates
 
-;; ‘org-list-in-valid-context-p’ is currently not working.
 (defun org-superstar-plain-list-p ()
   "Return non-nil if the current match is a proper plain list.
 
@@ -640,7 +639,7 @@ lists; consider using ‘org-superstar-toggle-lightweight-lists’ in
 such cases to avoid slowdown."
   (or org-superstar-lightweight-lists
       (save-match-data
-        (not (org-in-src-block-p)))))
+        (org-list-in-valid-context-p))))
 
 (defun org-superstar-headline-or-inlinetask-p ()
   "Return t if the current match is a proper headline or inlinetask."
