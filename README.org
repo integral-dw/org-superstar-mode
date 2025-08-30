@@ -107,7 +107,7 @@ used, allowing the user to inherit the level-dependent default look.
         most commonly encoded.  I recommend the following blocks:
      + [[https://en.wikipedia.org/wiki/General_Punctuation][General Punctuation]] (U+2000-U+206F) :: Bullets, leaders, asterisms.
      + [[https://en.wikipedia.org/wiki/Dingbat#Unicode][Dingbats]] (U+2700-U+27BF) :: Common typesetting ornaments.
-     + [[https://en.wikipedia.org/wiki/Geometric_Shapes][Geometric Shapes]] (U+25A0-U+25FF) :: Circles, shapes within
+     + [[https://en.wikipedia.org/wiki/Geometric_Shapes_(Unicode_block)][Geometric Shapes]] (U+25A0-U+25FF) :: Circles, shapes within
           shapes, etc.
      + [[https://en.wikipedia.org/wiki/Miscellaneous_Symbols][Miscellaneous Symbols]] (U+2600–U+26FF) :: Smileys and card suits.
      + [[https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Arrows][Miscellaneous Symbols and Arrows]] (U+2B00-U+2BFF) ::
