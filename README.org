@@ -72,7 +72,6 @@ used, allowing the user to inherit the level-dependent default look.
   If you prefer a manual installation, just plug =org-superstar.el= into
   your load path and add the following to your =.emacs=:
 #+BEGIN_SRC elisp
-(require 'org-superstar)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 #+END_SRC
 
