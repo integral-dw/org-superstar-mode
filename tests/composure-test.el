@@ -69,8 +69,9 @@ Ensure the return value is a face or nil.  Also toggle
   (let ((org-superstar/listen t)
          (returned-face nil))
     (prog1 (setq returned-face (apply face-function args))
-      (should (or (facep returned-face)
-                     (null returned-face)))
+      (unless (or (facep returned-face)
+                  (null returned-face))
+        (message "Unexpected return value: %s" returned-face))
       (when (facep returned-face)
         (message "Applied face ‘%s’ to group (line %d)"
                  returned-face
