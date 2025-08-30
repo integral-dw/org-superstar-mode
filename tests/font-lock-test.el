@@ -50,6 +50,13 @@
         (message "Testing item bullets (default)..")
         (should (org-superstar/test-file
                  "sample-items.org" "items.faceup"))
+        (message "Testing ordered item bullets (default)..")
+        (should (org-superstar/test-file
+                 "sample-oitems.org" "oitems.faceup"))
+        (let ((org-list-allow-alphabetical t))
+          (message "Testing ordered item bullets (alphabetical)..")
+          (should (org-superstar/test-file
+                   "sample-oitems.org" "oitems-alphabetical.faceup")))
         (message "Testing deep headlines (default)..")
         (should (org-superstar/test-file
                  "sample-inlinetask.org" "noinline.faceup"))

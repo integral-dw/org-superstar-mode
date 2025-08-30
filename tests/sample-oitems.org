@@ -1,0 +1,24 @@
+#+STARTUP: showeverything
+* No indentation
+1) item
+2) item
+3) item
+* Indentation
+   1. item
+   2. item
+      1) item
+      2) item
+   3. item
+   4. item
+* non-example
+#+BEGIN_SRC C
+/*
+ 1. noitem
+*/
+#+END_SRC
+a. item
+b. item
+c. item
+   A. item
+   B. item
+   C. item

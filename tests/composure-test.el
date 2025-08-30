@@ -24,6 +24,7 @@ active listeners by calling ‘org-superstar/toggle-listener’.")
 
 (defconst org-superstar/comp-listeners
   '(org-superstar--prettify-ibullets
+    org-superstar--prettify-obullets
     org-superstar--prettify-main-hbullet
     org-superstar--prettify-other-hbullet
     org-superstar--prettify-other-lbullet

@@ -1,0 +1,24 @@
+«:org-meta-line:#+STARTUP: showeverything»
+«:org-level-1:«:org-superstar-header-bullet:*» No indentation»
+«:org-superstar-ordered-item:1)» item
+«:org-superstar-ordered-item:2)» item
+«:org-superstar-ordered-item:3)» item
+«:org-level-1:«:org-superstar-header-bullet:*» Indentation»
+   «:org-superstar-ordered-item:1.» item
+   «:org-superstar-ordered-item:2.» item
+      «:org-superstar-ordered-item:1)» item
+      «:org-superstar-ordered-item:2)» item
+   «:org-superstar-ordered-item:3.» item
+   «:org-superstar-ordered-item:4.» item
+«:org-level-1:«:org-superstar-header-bullet:*» non-example»
+«:org-block-begin-line:#+BEGIN_SRC C
+»«:org-block:«m:/*»«x:
+ 1. noitem
+»«m:*/»
+»«:org-block-end-line:#+END_SRC
+»a. item
+b. item
+c. item
+   A. item
+   B. item
+   C. item
