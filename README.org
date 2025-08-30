@@ -219,7 +219,9 @@ used, allowing the user to inherit the level-dependent default look.
 *** ~org-superstar-prettify-item-bullets~
     Exactly as it says on the tin.  Set this variable to ~nil~ to stop
     ~org-superstar-mode~ from prettifying lists.  If set to the symbol
-    ~only~, this disables prettifying Org headings entirely.
+    ~only~, this disables prettifying Org headings entirely.  As of
+    version *1.6.0*, ordered list bullets can be customized with an
+    independent face, but are not otherwise prettified.
 
 *** Fast Plain List Items
     The default syntax-checking done to ensure only actual plain list
@@ -263,6 +265,10 @@ used, allowing the user to inherit the level-dependent default look.
 
 *** ~org-superstar-item~
     A face used to display prettified plain list bullets if
+    ~org-superstar-prettify-item-bullets~ is enabled.
+
+*** ~org-superstar-ordered-item~
+    A face used to display prettified ordered list bullets if
     ~org-superstar-prettify-item-bullets~ is enabled.
 
 *** ~org-superstar-first~
@@ -360,6 +366,16 @@ used, allowing the user to inherit the level-dependent default look.
    and *Hide leading stars*.
 
 * NEWS
+
+** =2025-08-31=
+   *1.6.0* has been released (after several years of absence), adding
+   minor support for numbered lists.  Many years have passed since my
+   last update, and we have even surpassed the 262144 (2^18) downloads
+   milestone.. I hope that you, dear reader, find continued enjoyment
+   in this little aesthetics tweak to Org.  While I doubt that I will
+   be as active as I was back in 2020, Superstar is far from dead! I
+   will continue to support it and am slowly working on reducing the
+   amount of open issues.  Thank you all so much for your patience.
 
 ** =2021-02-16=
    *1.5.0* has been released, adding support for hiding TODO item
