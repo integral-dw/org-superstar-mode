@@ -65,7 +65,7 @@ used, allowing the user to inherit the level-dependent default look.
 
 * Installation
 
-  The package is available [[https://melpa.org/#/org-superstar][on MELPA]]!
+  The package is available on [[https://elpa.nongnu.org/nongnu/org-superstar.html][NonGNU ELPA]] and [[https://melpa.org/#/org-superstar][MELPA]]!
 
   Furthermore, it ships with [[https://github.com/syl20bnr/spacemacs][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]].
 
