@@ -5,7 +5,7 @@
 ;; Author: D. Williams <d.williams@posteo.net>
 ;; Maintainer: D. Williams <d.williams@posteo.net>
 ;; Keywords: faces, outlines
-;; Version: 1.6.0
+;; Version: 1.6.1
 ;; Homepage: https://github.com/integral-dw/org-superstar-mode
 ;; Package-Requires: ((org "9.1.9") (emacs "26.1"))
 
@@ -834,8 +834,8 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
   (let ((start (match-beginning subexp))
         (end (match-end subexp)))
     (when start
-      (add-text-properties
-       start end '(invisible org-superstar-hide)))))
+      (put-text-property
+       start end 'invisible 'org-superstar-hide))))
 
 (defun org-superstar--unprettify-hbullets ()
   "Revert visual tweaks made to header bullets in current buffer."
@@ -920,7 +920,9 @@ cleanup routines."
                             'append)
     (org-superstar--fontify-buffer)
     (add-to-invisibility-spec '(org-superstar-hide))
-    (org-superstar--prettify-indent))
+    (org-superstar--prettify-indent)
+    (when org-superstar-remove-leading-stars
+      (setq-local global-disable-point-adjustment t)))
    ;; Clean up and exit.
    (t
     (remove-from-invisibility-spec '(org-superstar-hide))
