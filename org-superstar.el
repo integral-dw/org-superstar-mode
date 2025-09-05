@@ -856,6 +856,14 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
       (put-text-property
        start end 'invisible 'org-superstar-hide))))
 
+(defun org-superstar--invisibility-off ()
+  "Disable invisibility caused by Org Superstar."
+  (remove-from-invisibility-spec '(org-superstar-hide)))
+
+(defun org-superstar--invisibility-on ()
+  "Enable invisibility caused by Org Superstar."
+  (add-to-invisibility-spec '(org-superstar-hide)))
+
 (defun org-superstar--unprettify-hbullets ()
   "Revert visual tweaks made to header bullets in current buffer."
   (save-excursion
@@ -938,20 +946,26 @@ cleanup routines."
     (font-lock-add-keywords nil org-superstar--font-lock-keywords
                             'append)
     (org-superstar--fontify-buffer)
-    (add-to-invisibility-spec '(org-superstar-hide))
+    (org-superstar--invisibility-on)
     (org-superstar--prettify-indent)
     (when org-superstar-remove-leading-stars
-      (setq-local global-disable-point-adjustment t)))
+      ;; perhaps no longer necessary
+      (setq-local global-disable-point-adjustment t))
+    (add-hook 'pre-command-hook #'org-superstar--invisibility-off nil t)
+    (add-hook 'post-command-hook #'org-superstar--invisibility-on nil t))
    ;; Clean up and exit.
    (t
-    (remove-from-invisibility-spec '(org-superstar-hide))
+    (org-superstar--invisibility-off)
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (setq org-superstar--font-lock-keywords
           (default-value 'org-superstar--font-lock-keywords))
     (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
     (org-superstar--fontify-buffer)
-    (org-superstar--unprettify-indent))))
+    (org-superstar--unprettify-indent)
+    (remove-hook 'pre-command-hook #'org-superstar--invisibility-off t)
+    (remove-hook 'post-command-hook #'org-superstar--invisibility-on t)
+    nil)))
 
 (defun org-superstar-restart ()
   "Re-enable Org Superstar mode, if the mode is enabled."
