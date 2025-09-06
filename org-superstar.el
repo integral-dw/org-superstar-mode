@@ -637,9 +637,9 @@ N counts from zero.  Headline bullets are specified in
 
 Each of the three regular plain list bullets +, - and * will be
 replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
-  (or (cdr (assq (string-to-char bullet-string)
-                 org-superstar-item-bullet-alist))
-      (string-to-char bullet-string)))
+  (or (string (cdr (assq (string-to-char bullet-string)
+                         org-superstar-item-bullet-alist)))
+      bullet-string))
 
 (defun org-superstar--lbullet ()
   "Return the correct leading bullet for the current display."
@@ -700,18 +700,12 @@ such cases to avoid slowdown."
 This function uses ‘org-superstar-plain-list-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-plain-list-p)
-    (let* ((current-bullet (match-string 1)))
-      (compose-region (match-beginning 1)
-                      (match-end 1)
-                      (org-superstar--ibullet current-bullet)))
-    'org-superstar-item))
-
-(defun org-superstar--unprettify-ibullets ()
-  "Revert visual tweaks made to item bullets in current buffer."
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "^[ \t]+\\([-+*]\\) " nil t)
-      (decompose-region (match-beginning 1) (match-end 1)))))
+    (let ((current-bullet (match-string 1)))
+      (put-text-property (match-beginning 1)
+                         (match-end 1)
+                         'display
+                         (org-superstar--ibullet current-bullet))
+    'org-superstar-item)))
 
 (defun org-superstar--prettify-obullets ()
   "Prettify ordered list bullets.
@@ -720,13 +714,6 @@ This function uses ‘org-superstar-plain-list-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-plain-list-p)
     'org-superstar-ordered-item))
-
-(defun org-superstar--unprettify-obullets ()
-  "Revert visual tweaks made to ordered item bullets in current buffer.
-
-This function does nothing, as no compose-related features are
-implemented for ordered list bullets.  It is nonetheless provided if the
-user wishes to extend Org Superstar using function advice.")
 
 (defun org-superstar--prettify-main-hbullet ()
   "Prettify the trailing star in a headline.
@@ -959,7 +946,6 @@ cleanup routines."
     (font-lock-remove-keywords nil org-superstar--font-lock-keywords)
     (setq org-superstar--font-lock-keywords
           (default-value 'org-superstar--font-lock-keywords))
-    (org-superstar--unprettify-ibullets)
     (org-superstar--unprettify-hbullets)
     (org-superstar--fontify-buffer)
     (org-superstar--unprettify-indent)
