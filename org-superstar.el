@@ -533,6 +533,21 @@ containing several hundred list items."
         (not org-superstar-lightweight-lists)))
 
 
+;;; Hooks
+
+(defvar org-superstar-prettify-headline-hook nil
+  "Hook run when Org Superstar prettifies a headline.")
+
+(defvar org-superstar-unprettify-headline-hook nil
+  "Hook run when Org Superstar unprettifies a headline.")
+
+(defvar org-superstar-prettify-inlinetask-hook nil
+  "Hook run when Org Superstar prettifies an inline task.")
+
+(defvar org-superstar-unprettify-inlinetask-hook nil
+  "Hook run when Org Superstar unprettifies an inline task.")
+
+
 ;;; Accessor Functions
 
 (defun org-superstar--get-todo (pom)
@@ -817,6 +832,19 @@ prettifying bullets in (for example) source blocks."
    (org-hide-leading-stars 'org-hide)
    (t 'org-superstar-leading)))
 
+(defun org-superstar--run-headline-hooks ()
+  "Run hooks for user-defined modifications to headlines."
+  (when (org-superstar-headline-p)
+    (run-hooks 'org-superstar-prettify-headline-hook))
+  nil)
+
+
+(defun org-superstar--run-inlinetask-hooks ()
+  "Run hooks for user-defined modifications to headlines and inline tasks."
+  (when (org-superstar-inlinetask-p)
+    (run-hooks 'org-superstar-prettify-inlinetask-hook))
+  nil)
+
 (defun org-superstar--prettify-indent ()
   "Set up ‘org-indent-inlinetask-first-star’ buffer-locally.
 Restart Org Indent Mode to enforce the change to take effect, if
@@ -877,7 +905,9 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "^\\*+ " nil t)
-      (decompose-region (match-beginning 0) (match-end 0)))))
+      (decompose-region (match-beginning 0) (match-end 0))
+      (run-hooks 'org-superstar-unprettify-headline-hook
+                 'org-superstar-unprettify-inlinetask-hook))))
 
 
 ;;; Font Lock
@@ -916,14 +946,16 @@ cleanup routines."
                        (2 (org-superstar--make-invisible 2))))
                  ,@(when (featurep 'org-inlinetask)
                      '((2 (org-superstar--prettify-other-hbullet)
-                          prepend))))))
+                          prepend)))
+                 (0 (org-superstar--run-headline-hooks)))))
           ,@(when (and (featurep 'org-inlinetask)
                        (not (eq org-superstar-prettify-item-bullets 'only))
                        org-inlinetask-show-first-star
                        (not org-superstar-remove-leading-stars))
               '(("^\\(?4:\\*\\)\\(?:\\*\\{2,\\}\\) "
                  (4 (org-superstar--prettify-first-bullet)
-                    t)))))))
+                    t)
+                 (0 (org-superstar--run-inlinetask-hooks))))))))
 
 (defun org-superstar--fontify-buffer ()
   "Fontify the buffer."
