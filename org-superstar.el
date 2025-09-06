@@ -821,28 +821,22 @@ is used instead of the regular bullet to avoid errors.
 
 This function uses ‘org-superstar-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
-  (cond
-   ((and (featurep 'org-indent) org-indent-mode)
-    'org-hide)
-   ((org-superstar-inlinetask-p)
+  (when (org-superstar-inlinetask-p)
     (let ((star-beg (match-beginning 4)))
       (compose-region star-beg (1+ star-beg)
                       (org-superstar--fbullet))
-      'org-superstar-first))
-   (org-hide-leading-stars 'org-hide)
-   (t 'org-superstar-leading)))
+      'org-superstar-first)))
 
-(defun org-superstar--run-headline-hooks ()
-  "Run hooks for user-defined modifications to headlines."
-  (when (org-superstar-headline-p)
+(defun org-superstar--run-heading-hooks ()
+  "Run hooks for user-defined modifications to headlines and inline tasks.
+
+This function will only execute the appropriate hooks for the type of
+heading at point."
+  (cond
+   ((org-superstar-headline-p)
     (run-hooks 'org-superstar-prettify-headline-hook))
-  nil)
-
-
-(defun org-superstar--run-inlinetask-hooks ()
-  "Run hooks for user-defined modifications to headlines and inline tasks."
-  (when (org-superstar-inlinetask-p)
-    (run-hooks 'org-superstar-prettify-inlinetask-hook))
+   ((org-superstar-inlinetask-p)
+    (run-hooks 'org-superstar-prettify-inlinetask-hook)))
   nil)
 
 (defun org-superstar--prettify-indent ()
@@ -933,7 +927,7 @@ cleanup routines."
               '(("^[ \t]*\\(?1:[a-zA-Z][.)]\\) "
                  (1 (org-superstar--prettify-obullets)))))
           ,@(unless (eq org-superstar-prettify-item-bullets 'only)
-              `(("^\\(?3:\\**?\\)\\(?2:\\*?\\)\\(?1:\\*\\) "
+              `(("^\\(?3:\\(?4:\\*?\\)\\**?\\(?2:\\*?\\)\\)\\(?1:\\*\\) "
                  (1 (org-superstar--prettify-main-hbullet) prepend)
                  ,@(unless (or org-hide-leading-stars
                                org-superstar-remove-leading-stars)
@@ -942,20 +936,17 @@ cleanup routines."
                        (2 (org-superstar--prettify-other-lbullet)
                           t)))
                  ,@(when org-superstar-remove-leading-stars
-                     '((3 (org-superstar--make-invisible 3))
-                       (2 (org-superstar--make-invisible 2))))
+                     '((3 (org-superstar--make-invisible 3))))
                  ,@(when (featurep 'org-inlinetask)
                      '((2 (org-superstar--prettify-other-hbullet)
                           prepend)))
-                 (0 (org-superstar--run-headline-hooks)))))
-          ,@(when (and (featurep 'org-inlinetask)
-                       (not (eq org-superstar-prettify-item-bullets 'only))
-                       org-inlinetask-show-first-star
-                       (not org-superstar-remove-leading-stars))
-              '(("^\\(?4:\\*\\)\\(?:\\*\\{2,\\}\\) "
-                 (4 (org-superstar--prettify-first-bullet)
-                    t)
-                 (0 (org-superstar--run-inlinetask-hooks))))))))
+                 ,@(when (and (featurep 'org-inlinetask)
+                              org-inlinetask-show-first-star
+                              (not org-superstar-remove-leading-stars)
+                              (not (and (featurep 'org-indent) org-indent-mode)))
+                     '((4 (org-superstar--prettify-first-bullet)
+                          prepend)))
+                 (0 (org-superstar--run-heading-hooks))))))))
 
 (defun org-superstar--fontify-buffer ()
   "Fontify the buffer."
