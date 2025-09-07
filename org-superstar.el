@@ -71,14 +71,15 @@
 
 ;;; Code:
 
-(require 'org)
 (require 'org-element)
 (require 'wid-edit)
 
-(declare-function org-indent-mode "org-indent" (arg))
-(defvar org-indent-mode)
-(defvar org-inlinetask-show-first-star)
-(defvar org-indent-inlinetask-first-star)
+(eval-when-compile
+  (declare-function org-indent-mode "org-indent" (arg))
+  (defvar org-inlinetask-show-first-star)
+  (defvar org-indent-inlinetask-first-star)
+  (defvar org-indent-mode))
+
 
 (defgroup org-superstar nil
   "Use UTF8 bullets for headlines and plain lists."
