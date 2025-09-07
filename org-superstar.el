@@ -775,20 +775,7 @@ prettifying bullets in (for example) source blocks."
     (let ((level (org-superstar--heading-level)))
       (compose-region (match-beginning 2) (match-end 2)
                       (org-superstar--hbullet level))
-      'org-superstar-header-bullet)))
-
-(defun org-superstar--prettify-other-lbullet ()
-  "Prettify the first leading bullet after the headline bullet.
-This function serves as an extension of
-‘org-superstar--prettify-leading-hbullets’, only providing the
-correct face for the bullet, without doing any composing.
-
-This function uses ‘org-superstar-headline-p’ to avoid
-prettifying bullets in (for example) source blocks."
-  (cond ((org-superstar-headline-p)
-         'org-superstar-leading)
-        ((org-superstar-inlinetask-p)
-         'org-inlinetask)))
+      '(org-superstar-header-bullet org-inlinetask))))
 
 (defun org-superstar--prettify-leading-hbullets ()
   "Prettify the leading bullets of a header line.
@@ -932,14 +919,12 @@ cleanup routines."
                  ,@(unless (or org-hide-leading-stars
                                org-superstar-remove-leading-stars)
                      '((3 (org-superstar--prettify-leading-hbullets)
-                          t)
-                       (2 (org-superstar--prettify-other-lbullet)
                           t)))
                  ,@(when org-superstar-remove-leading-stars
                      '((3 (org-superstar--make-invisible 3))))
                  ,@(when (featurep 'org-inlinetask)
                      '((2 (org-superstar--prettify-other-hbullet)
-                          prepend)))
+                          t)))
                  ,@(when (and (featurep 'org-inlinetask)
                               org-inlinetask-show-first-star
                               (not org-superstar-remove-leading-stars)
