@@ -146,7 +146,8 @@ used, allowing the user to inherit the level-dependent default look.
 
     * ~nil~ :: Go through the list, then repeat the last entry
                indefinitely.
-    * any integer /k/ :: Cycle through the first /k/ elements of the list.
+    * any positive integer /k/ :: Cycle through the first /k/ elements of the list.
+    * any negative integer /k/ :: Cycle through the last -/k/ elements of the list.
 
 *** ~org-superstar-leading-bullet~
     Maybe you actually /like/ that Org's heading lines are connected to

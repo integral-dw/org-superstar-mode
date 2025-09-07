@@ -339,8 +339,9 @@ variable for your changes to take effect."
 
 The following values are meaningful:
 
-An integer value of N cycles through the first N entries of the
-list instead of the whole list.
+An integer value of N cycles through the first N entries of the list
+instead of the whole list.  If N is negative, cycle through the last -N
+entries instead.
 
 If otherwise non-nil, cycle through the entirety of the list.
 This is the default behavior inherited from org-bullets.
@@ -357,22 +358,34 @@ variable for your changes to take effect."
                    :format "Repeat the first %v entries exclusively.\n"
                    :size 8
                    :value 1
-                   :validate org-superstar--validate-hcycle)))
+                   :match (lambda (_ x) (and (integerp x) (> x 0)))
+                   :validate org-superstar--validate-hcycle)
+          (integer :tag "Repeat the last -<integer> elements only."
+                   :format "Repeat the last -(%v) entries exclusively.\n"
+                   :size 8
+                   :value -1
+                   :match (lambda (_ x) (and (integerp x) (< x 0)))
+                   :validate (lambda (x) (org-superstar--validate-hcycle x t)))))
 
-(defun org-superstar--validate-hcycle (text-field)
+(defun org-superstar--validate-hcycle (text-field &optional negative)
   "Raise an error if TEXT-FIELD’s value is an invalid hbullet number.
+
+If the optional argument NEGATIVE is given, flip the sign of the value
+read from TEXT-FIELD.
+
 This function is used for ‘org-superstar-cycle-headline-bullets’.
 If the integer exceeds the length of
 ‘org-superstar-headline-bullets-list’, set it to the length and
 raise an error."
-  (let ((ncycle (widget-value text-field))
-        (maxcycle (org-superstar--hbullets-length)))
+  (let* ((sign (if negative -1 1))
+         (ncycle (* sign (widget-value text-field)))
+         (maxcycle (org-superstar--hbullets-length)))
     (unless (<= 1 ncycle maxcycle)
       (widget-put
        text-field
-       :error (format "Value must be between 1 and %i"
-                      maxcycle))
-      (widget-value-set text-field maxcycle)
+       :error (format "Value must be between %i and %i"
+                      sign (* sign maxcycle)))
+      (widget-value-set text-field (* sign maxcycle))
       text-field)))
 
 (defcustom org-superstar-prettify-item-bullets t
@@ -595,16 +608,24 @@ See also ‘org-superstar-cycle-headline-bullets’."
   ;; However, allowing for fallback means the list may contain
   ;; strings, chars or conses.  The cons must be resolved.
   ;; Hence, a new funtion is needed to keep the complexity to a minimum.
-  (let ((max-bullets org-superstar-cycle-headline-bullets)
+  (let ((ncycle org-superstar-cycle-headline-bullets)
         (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
         (todo-bullet (when org-superstar-special-todo-items
                        (org-superstar--todo-bullet))))
     (cond (todo-bullet
            (unless (eq todo-bullet 'hide)
              todo-bullet))
-          ((integerp max-bullets)
-           (org-superstar--nth-headline-bullet (% n max-bullets)))
-          (max-bullets
+          ((and (integerp ncycle) (> ncycle 0))
+           (org-superstar--nth-headline-bullet (% n ncycle)))
+          ((and (integerp ncycle) (< ncycle 0))
+           ;; Remember, ncycle is negative.
+           (let* ((loop-start (+ (org-superstar--hbullets-length) ncycle))
+                  (k (- n loop-start)))
+             (org-superstar--nth-headline-bullet
+              (if (< n loop-start)
+                  n
+                (+ loop-start (% k (- ncycle)))))))
+          (ncycle
            (org-superstar--nth-headline-bullet
             (% n (org-superstar--hbullets-length))))
           (t
