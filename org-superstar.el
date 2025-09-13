@@ -554,29 +554,11 @@ Groups 2 and 4 are contained in 3.  In the special case of level 2
 headings (2 asterisks), the second asterisk is part of group 4, taking
 precedence.")
 
-(defvar org-superstar-unprettify-headline-hook nil
-  "Hook run when Org Superstar unprettifies a headline.
-
-This hook only makes sense if your hook functions have used
-‘compose-region’ or related functions.  It is generally recommended to
-use display properties instead, see Info node ‘(elisp) Display
-Property’.  It will be obsolete in future versions of this package when
-compose support is fully dropped.")
-
 (defvar org-superstar-prettify-inlinetask-hook nil
   "Hook run when Org Superstar prettifies an inline task.
 
 The hook functions have access to the same match data as those in
 ‘org-superstar-prettify-headline-hook', which see.")
-
-(defvar org-superstar-unprettify-inlinetask-hook nil
-  "Hook run when Org Superstar unprettifies an inline task.
-
-This hook only makes sense if your hook functions have used
-‘compose-region’ or related functions.  It is generally recommended to
-use display properties instead, see Info node ‘(elisp) Display
-Property’.  It will be obsolete in future versions of this package when
-compose support is fully dropped.")
 
 
 ;;; Predicates
@@ -946,9 +928,7 @@ last regexp.  If there is no SUBEXPth pair, do nothing."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "^\\*+ " nil t)
-      (decompose-region (match-beginning 0) (match-end 0))
-      (run-hooks 'org-superstar-unprettify-headline-hook
-                 'org-superstar-unprettify-inlinetask-hook))))
+      (decompose-region (match-beginning 0) (match-end 0)))))
 
 
 ;;; Font Lock
