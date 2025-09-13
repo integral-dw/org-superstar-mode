@@ -898,12 +898,10 @@ If Org Indent Mode is enabled, also restart it if necessary."
   "Make part of the text matched by the last search invisible.
 SUBEXP, a number, specifies which parenthesized expression in the
 last regexp.  If there is no SUBEXPth pair, do nothing."
-  ;; REVIEW: Do you think when-let would be nicer here?
-  (let ((start (match-beginning subexp))
-        (end (match-end subexp)))
-    (when start
-      (put-text-property
-       start end 'invisible 'org-superstar-hide))))
+  (when-let ((start (match-beginning subexp))
+             (end (match-end subexp)))
+    (put-text-property
+     start end 'invisible 'org-superstar-hide)))
 
 (defun org-superstar--invisibility-off ()
   "Disable invisibility caused by Org Superstar."
