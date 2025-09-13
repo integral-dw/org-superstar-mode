@@ -585,6 +585,13 @@ such cases to avoid slowdown."
 
 ;;; Public Accessor Functions
 
+(defun org-superstar-heading-level ()
+  "Return the heading level N of the currently matched headline.
+
+It is computed from the match data, which is expected to
+encompass the headline (N asterisks) and a single whitespace."
+  (- (match-end 0) (match-beginning 0) 1))
+
 (defun org-superstar-hbullet (&optional level)
   "Return the desired headline bullet replacement for LEVEL N.
 
@@ -605,7 +612,7 @@ See also ‘org-superstar-cycle-headline-bullets’."
   ;; However, allowing for fallback means the list may contain
   ;; strings, chars or conses.  The cons must be resolved.
   ;; Hence, a new funtion is needed to keep the complexity to a minimum.
-  (let* ((level (or level (org-superstar--heading-level)))
+  (let* ((level (or level (org-superstar-heading-level)))
          (ncycle org-superstar-cycle-headline-bullets)
          (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
          (todo-bullet (when org-superstar-special-todo-items
@@ -629,6 +636,24 @@ See also ‘org-superstar-cycle-headline-bullets’."
           (t
            (org-superstar--nth-headline-bullet
             (min n (1- (org-superstar--hbullets-length))))))))
+
+
+(defun org-superstar-lbullet ()
+  "Return the correct leading bullet for the current display.
+
+See ‘org-superstar-leading-bullet’ and ‘org-superstar-leading-fallback’."
+  (if (org-superstar-graphic-p)
+      org-superstar-leading-bullet
+    org-superstar-leading-fallback))
+
+(defun org-superstar-fbullet ()
+  "Return the correct first inline task star for the current display.
+
+See ‘org-superstar-first-inlinetask-bullet’ and
+‘org-superstar-first-inlinetask-fallback’."
+  (if (org-superstar-graphic-p)
+      org-superstar-first-inlinetask-bullet
+    org-superstar-first-inlinetask-fallback))
 
 
 ;;; Private Accessor Functions
@@ -723,21 +748,14 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
                          org-superstar-item-bullet-alist)))
       bullet-string))
 
-(defun org-superstar--lbullet ()
-  "Return the correct leading bullet for the current display."
-  (if (org-superstar-graphic-p)
-      org-superstar-leading-bullet
-    org-superstar-leading-fallback))
+(define-obsolete-function-alias 'org-superstar--lbullet
+  'org-superstar-lbullet "1.7.0")
 
-(defun org-superstar--fbullet ()
-  "Return the correct first inline task star for the current display."
-  (if (org-superstar-graphic-p)
-      org-superstar-first-inlinetask-bullet
-    org-superstar-first-inlinetask-fallback))
+(define-obsolete-function-alias 'org-superstar--fbullet
+  'org-superstar-fbullet "1.7.0")
 
-(defun org-superstar--heading-level ()
-  "Return the heading level of the currently matched headline."
-  (- (match-end 0) (match-beginning 0) 1))
+(define-obsolete-function-alias 'org-superstar--heading-level
+  'org-superstar-heading-level "1.7.0")
 
 
 ;;; Fontification
@@ -808,7 +826,7 @@ prettifying bullets in (for example) source blocks."
                         (match-end 2) (match-end 3))))
       (while (< star-beg lead-end)
         (compose-region star-beg (setq star-beg (1+ star-beg))
-                        (org-superstar--lbullet)))
+                        (org-superstar-lbullet)))
       'org-superstar-leading)))
 
 (defun org-superstar--prettify-first-bullet ()
@@ -825,7 +843,7 @@ prettifying bullets in (for example) source blocks."
   (when (org-superstar-inlinetask-p)
     (let ((star-beg (match-beginning 4)))
       (compose-region star-beg (1+ star-beg)
-                      (org-superstar--fbullet))
+                      (org-superstar-fbullet))
       'org-superstar-first)))
 
 (defun org-superstar--run-heading-hooks ()
@@ -849,7 +867,7 @@ does nothing.
 
 See also ‘org-superstar-first-inlinetask-bullet’."
   (when (featurep 'org-indent)
-    (let ((bullet-components (org-superstar--fbullet))
+    (let ((bullet-components (org-superstar-fbullet))
           (bullet "*"))
       (cond
        ((characterp bullet-components)
