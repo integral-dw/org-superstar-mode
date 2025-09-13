@@ -549,6 +549,40 @@ containing several hundred list items."
   "Hook run when Org Superstar unprettifies an inline task.")
 
 
+;;; Predicates
+
+(defun org-superstar-plain-list-p ()
+  "Return non-nil if the current match is a proper plain list.
+
+This function may be expensive for files with very large plain
+lists; consider using ‘org-superstar-toggle-lightweight-lists’ in
+such cases to avoid slowdown."
+  (or org-superstar-lightweight-lists
+      (save-match-data
+        (org-list-in-valid-context-p))))
+
+(defun org-superstar-headline-or-inlinetask-p ()
+  "Return t if the current match is a proper headline or inlinetask."
+  (save-match-data
+    (and (org-at-heading-p) t)))
+
+(defun org-superstar-headline-p ()
+  "Return t if the current match is a proper headline."
+  (save-match-data
+    (org-with-limited-levels
+     (and (org-at-heading-p) t))))
+
+(defun org-superstar-inlinetask-p ()
+  "Return t if the current match is a proper inlinetask."
+  (and (featurep 'org-inlinetask)
+       (org-superstar-headline-or-inlinetask-p)
+       (not (org-superstar-headline-p))))
+
+(defun org-superstar-graphic-p ()
+  "Return t if the current display supports proper composing."
+  (display-graphic-p))
+
+
 ;;; Public Accessor Functions
 
 
@@ -700,40 +734,6 @@ replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
 (defun org-superstar--heading-level ()
   "Return the heading level of the currently matched headline."
   (- (match-end 0) (match-beginning 0) 1))
-
-
-;;; Predicates
-
-(defun org-superstar-plain-list-p ()
-  "Return non-nil if the current match is a proper plain list.
-
-This function may be expensive for files with very large plain
-lists; consider using ‘org-superstar-toggle-lightweight-lists’ in
-such cases to avoid slowdown."
-  (or org-superstar-lightweight-lists
-      (save-match-data
-        (org-list-in-valid-context-p))))
-
-(defun org-superstar-headline-or-inlinetask-p ()
-  "Return t if the current match is a proper headline or inlinetask."
-  (save-match-data
-    (and (org-at-heading-p) t)))
-
-(defun org-superstar-headline-p ()
-  "Return t if the current match is a proper headline."
-  (save-match-data
-    (org-with-limited-levels
-     (and (org-at-heading-p) t))))
-
-(defun org-superstar-inlinetask-p ()
-  "Return t if the current match is a proper inlinetask."
-  (and (featurep 'org-inlinetask)
-       (org-superstar-headline-or-inlinetask-p)
-       (not (org-superstar-headline-p))))
-
-(defun org-superstar-graphic-p ()
-  "Return t if the current display supports proper composing."
-  (display-graphic-p))
 
 
 ;;; Fontification
