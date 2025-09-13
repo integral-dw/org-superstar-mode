@@ -585,8 +585,11 @@ such cases to avoid slowdown."
 
 ;;; Public Accessor Functions
 
-(defun org-superstar-hbullet (level)
+(defun org-superstar-hbullet (&optional level)
   "Return the desired headline bullet replacement for LEVEL N.
+
+If LEVEL nil, it is computed from the match data, which is expected to
+encompass the headline (N asterisks) and a single whitespace.
 
 If the headline is also a TODO item, you can override the usually
 displayed bullet depending on the TODO keyword by setting
@@ -602,10 +605,11 @@ See also ‘org-superstar-cycle-headline-bullets’."
   ;; However, allowing for fallback means the list may contain
   ;; strings, chars or conses.  The cons must be resolved.
   ;; Hence, a new funtion is needed to keep the complexity to a minimum.
-  (let ((ncycle org-superstar-cycle-headline-bullets)
-        (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
-        (todo-bullet (when org-superstar-special-todo-items
-                       (org-superstar--todo-bullet))))
+  (let* ((level (or level (org-superstar--heading-level)))
+         (ncycle org-superstar-cycle-headline-bullets)
+         (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
+         (todo-bullet (when org-superstar-special-todo-items
+                        (org-superstar--todo-bullet))))
     (cond (todo-bullet
            (unless (eq todo-bullet 'hide)
              todo-bullet))
@@ -765,7 +769,7 @@ prettifying bullets in (for example) source blocks."
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-headline-or-inlinetask-p)
-    (let ((bullet (org-superstar-hbullet (org-superstar--heading-level))))
+    (let ((bullet (org-superstar-hbullet)))
       (if bullet
           (compose-region (match-beginning 1) (match-end 1)
                           bullet)
@@ -780,10 +784,12 @@ inline task, see ‘org-inlinetask-min-level’.
 This function uses ‘org-superstar-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-inlinetask-p)
-    (let ((level (org-superstar--heading-level)))
-      (compose-region (match-beginning 2) (match-end 2)
-                      (org-superstar-hbullet level))
-      '(org-superstar-header-bullet org-inlinetask))))
+    (let ((bullet (org-superstar-hbullet)))
+      (if bullet
+          (compose-region (match-beginning 2) (match-end 2)
+                          bullet)
+        (org-superstar--make-invisible 2)))
+    '(org-superstar-header-bullet org-inlinetask)))
 
 (defun org-superstar--prettify-leading-hbullets ()
   "Prettify the leading bullets of a header line.
