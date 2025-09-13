@@ -607,6 +607,11 @@ encompass the headline (N asterisks) and a single whitespace."
 (defun org-superstar-hbullet (&optional level)
   "Return the desired headline bullet replacement for LEVEL N.
 
+This function either returns a character, a string, or nil.  A character
+is meant to be a drop-in replacement for the default asterisk, a string
+is meant to be processed by ‘compose-region’, and nil means to hide the
+bullet from view entirely.
+
 If LEVEL nil, it is computed from the match data, which is expected to
 encompass the headline (N asterisks) and a single whitespace.
 
@@ -615,10 +620,10 @@ displayed bullet depending on the TODO keyword by setting
 ‘org-superstar-special-todo-items’ to t and adding relevant TODO
 keyword entries to ‘org-superstar-todo-bullet-alist’.
 
-For more information on how to customize headline bullets, see
-‘org-superstar-headline-bullets-list’.
-
-See also ‘org-superstar-cycle-headline-bullets’."
+This function takes user set variables such as
+‘org-superstar-cycle-headline-bullets’ into account.  For more
+information on how to customize headline bullets, see
+‘org-superstar-headline-bullets-list’."
   ;; string-to-char no longer makes sense here.
   ;; If you want to support strings properly, return the string.
   ;; However, allowing for fallback means the list may contain
