@@ -585,6 +585,47 @@ such cases to avoid slowdown."
 
 ;;; Public Accessor Functions
 
+(defun org-superstar-hbullet (level)
+  "Return the desired headline bullet replacement for LEVEL N.
+
+If the headline is also a TODO item, you can override the usually
+displayed bullet depending on the TODO keyword by setting
+‘org-superstar-special-todo-items’ to t and adding relevant TODO
+keyword entries to ‘org-superstar-todo-bullet-alist’.
+
+For more information on how to customize headline bullets, see
+‘org-superstar-headline-bullets-list’.
+
+See also ‘org-superstar-cycle-headline-bullets’."
+  ;; string-to-char no longer makes sense here.
+  ;; If you want to support strings properly, return the string.
+  ;; However, allowing for fallback means the list may contain
+  ;; strings, chars or conses.  The cons must be resolved.
+  ;; Hence, a new funtion is needed to keep the complexity to a minimum.
+  (let ((ncycle org-superstar-cycle-headline-bullets)
+        (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
+        (todo-bullet (when org-superstar-special-todo-items
+                       (org-superstar--todo-bullet))))
+    (cond (todo-bullet
+           (unless (eq todo-bullet 'hide)
+             todo-bullet))
+          ((and (integerp ncycle) (> ncycle 0))
+           (org-superstar--nth-headline-bullet (% n ncycle)))
+          ((and (integerp ncycle) (< ncycle 0))
+           ;; Remember, ncycle is negative.
+           (let* ((loop-start (+ (org-superstar--hbullets-length) ncycle))
+                  (k (- n loop-start)))
+             (org-superstar--nth-headline-bullet
+              (if (< n loop-start)
+                  n
+                (+ loop-start (% k (- ncycle)))))))
+          (ncycle
+           (org-superstar--nth-headline-bullet
+            (% n (org-superstar--hbullets-length))))
+          (t
+           (org-superstar--nth-headline-bullet
+            (min n (1- (org-superstar--hbullets-length))))))))
+
 
 ;;; Private Accessor Functions
 
@@ -647,47 +688,6 @@ If ‘org-superstar-special-todo-items’ is set to the symbol
 (define-obsolete-function-alias
   'org-superstar--hbullet
   'org-superstar-hbullet "1.7.0")
-
-(defun org-superstar-hbullet (level)
-  "Return the desired headline bullet replacement for LEVEL N.
-
-If the headline is also a TODO item, you can override the usually
-displayed bullet depending on the TODO keyword by setting
-‘org-superstar-special-todo-items’ to t and adding relevant TODO
-keyword entries to ‘org-superstar-todo-bullet-alist’.
-
-For more information on how to customize headline bullets, see
-‘org-superstar-headline-bullets-list’.
-
-See also ‘org-superstar-cycle-headline-bullets’."
-  ;; string-to-char no longer makes sense here.
-  ;; If you want to support strings properly, return the string.
-  ;; However, allowing for fallback means the list may contain
-  ;; strings, chars or conses.  The cons must be resolved.
-  ;; Hence, a new funtion is needed to keep the complexity to a minimum.
-  (let ((ncycle org-superstar-cycle-headline-bullets)
-        (n (if org-odd-levels-only (/ (1- level) 2) (1- level)))
-        (todo-bullet (when org-superstar-special-todo-items
-                       (org-superstar--todo-bullet))))
-    (cond (todo-bullet
-           (unless (eq todo-bullet 'hide)
-             todo-bullet))
-          ((and (integerp ncycle) (> ncycle 0))
-           (org-superstar--nth-headline-bullet (% n ncycle)))
-          ((and (integerp ncycle) (< ncycle 0))
-           ;; Remember, ncycle is negative.
-           (let* ((loop-start (+ (org-superstar--hbullets-length) ncycle))
-                  (k (- n loop-start)))
-             (org-superstar--nth-headline-bullet
-              (if (< n loop-start)
-                  n
-                (+ loop-start (% k (- ncycle)))))))
-          (ncycle
-           (org-superstar--nth-headline-bullet
-            (% n (org-superstar--hbullets-length))))
-          (t
-           (org-superstar--nth-headline-bullet
-            (min n (1- (org-superstar--hbullets-length))))))))
 
 (defun org-superstar--nth-headline-bullet (n)
   "Return the Nth specified headline bullet or its corresponding fallback.
