@@ -226,7 +226,7 @@ used, allowing the user to inherit the level-dependent default look.
     version *1.6.0*, ordered list bullets can be customized with an
     independent face, but are not otherwise prettified.
 
-*** Fast Plain List Items
+*** Fast plain list items
     The default syntax-checking done to ensure only actual plain list
     items are prettified is rather expensive, but usually not
     expensive enough to cause significant slowdown.  This can change
@@ -279,6 +279,42 @@ used, allowing the user to inherit the level-dependent default look.
     ~org-inlinetask~, in particular ~org-inlinetask-show-first-star~
     instead of the default ~org-warning~, which it inherits from by
     default.
+
+** Hacking
+    As of version *1.7.0*, Org Superstar exposes a handful of previously
+    internal functions as well as dedicated hooks to allow full,
+    fine-grained control over the style of headlines.
+
+*** ~org-superstar-prettify-headline-hook~
+    This hook is run each time Superstar prettifies a headline, not
+    counting inline tasks.  Hook functions have access to the same
+    match data (see the documentation string) that Superstar functions
+    use, allowing the user to manually set text properties as they see
+    fit.
+
+*** ~org-superstar-prettify-inlinetask-hook~
+    This hook is run each time Superstar prettifies an inline task.
+    Hook functions have access to the same match data (see the
+    documentation string of ~org-superstar-prettify-headline-hook~) that
+    Superstar functions use, allowing the user to manually set text
+    properties as they see fit.
+
+
+*** Accessor functions
+    Various functions which used to be internals not meant to be
+    accessed by users are now exposed to the user.  These functions
+    rely on the match data available to functions in the above hooks.
+
+  * ~org-superstar-heading-level~ :: Simple function computing the level
+    of the heading.
+  * ~org-superstar-hbullet~ :: Returns the heading bullet Superstar
+    would use at the current heading, taking into account the variety
+    of implemented features and settings, including returning fallback
+    options for non-graphical displays.
+  * ~org-superstar-lbullet~ :: Display-aware accessor for leading bullet
+    character.
+  * ~org-superstar-fbullet~ :: Display-aware accessor for the first
+    inline task star.
 
 * FAQ / Troubleshooting
 
