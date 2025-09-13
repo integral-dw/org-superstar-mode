@@ -98,19 +98,25 @@ corresponding to the bullet used for level N.  The way this list
 is cycled through can use fine-tuned by customizing
 ‘org-superstar-cycle-headline-bullets’.
 
-Every entry in this list can either be a string, a character, or
-a cons cell.  Characters and strings are used as simple, verbatim
-replacements of the asterisk for every display (be it graphical
-or terminal).  In the case of strings, everything past the first
-character is ignored.  If the list element is a cons cell, it
-should be a proper list of the form
+Every entry in this list can either be a string, a character, a cons
+cell or nil.  Characters and strings are used as simple, verbatim
+replacements of the asterisk for every display (be it graphical or
+terminal).  In the case of strings, everything past the first character
+is ignored.  If an element is nil, the bullet is hidden from view
+entirely, including indentation.
+
+If the list element is a cons cell, it should be a proper list of the
+form
 \(COMPOSE-STRING CHARACTER [REST...])
 
-where COMPOSE-STRING should be a string according to the rules of
-the third argument of ‘compose-region’.  It will be used to
-compose the specific headline bullet.  CHARACTER is the fallback
-character used in terminal displays, where composing characters
-cannot be relied upon.
+where COMPOSE-STRING should be a string according to the rules of the
+third argument of ‘compose-region’.  It will be used to compose the
+specific headline bullet.  CHARACTER is the fallback character used in
+terminal displays, where composing characters cannot be relied upon.
+
+The syntax of the above list will change with version 2.0.0 of this
+package, where compose support will be replaced with display properties,
+see Info node ‘(elisp) Display Property’.
 
 You should call ‘org-superstar-restart’ after changing this
 variable for your changes to take effect."
@@ -121,6 +127,8 @@ variable for your changes to take effect."
                              :tag "Simple bullet character")
                   (string :value "◉"
                           :tag "Bullet character (legacy method)")
+                  (const :value nil
+                         :tag "Hide bullet entirely.")
                   (list :tag "Advanced string and fallback"
                         (string :value "◉"
                                 :format "String of characters to compose: %v")
@@ -154,13 +162,16 @@ are not included in the alist are handled like normal headings.
 Alternatively, each alist element may be a proper list of the form
 \(KEYWORD COMPOSE-STRING CHARACTER [REST...])
 
-where KEYWORD should be a TODO keyword (a string), and
-COMPOSE-STRING should be a string according to the rules of the
-third argument of ‘compose-region’.  It will be used to compose
-the specific TODO item bullet.  CHARACTER is the fallback
-character used in terminal displays, where composing characters
-cannot be relied upon.  See also
+where KEYWORD should be a TODO keyword (a string), and COMPOSE-STRING
+should be a string according to the rules of the third argument of
+‘compose-region’.  It will be used to compose the specific TODO item
+bullet.  CHARACTER is the fallback character used in terminal displays,
+where composing characters cannot be relied upon.  See also
 ‘org-superstar-leading-fallback’.
+
+The syntax of the above list will change with version 2.0.0 of this
+package, where compose support will be replaced with display properties,
+see Info node ‘(elisp) Display Property’.
 
 KEYWORD may also be the symbol ‘default’ instead of a string.  In
 this case, this bullet is used for all TODO unspecified keywords.
@@ -198,6 +209,10 @@ If set to a character, also set ‘org-superstar-first-inlinetask-fallback’."
 Normally, this variable is a character replacing the default
 star.  If it’s a string, compose the replacement according to the
 rules of ‘compose-region’ for the COMPONENTS argument.
+
+The syntax of this variable will change with version 2.0.0 of this
+package, where compose support will be replaced with display properties,
+see Info node ‘(elisp) Display Property’.
 
 This bullet is displayed using the dedicated face
 ‘org-superstar-first’.
@@ -256,6 +271,10 @@ Normally, this variable is a character replacing the default
 stars.  If it’s a string, list, or vector, compose the
 replacement according to the rules of ‘compose-region’ for the
 COMPONENTS argument.
+
+The syntax of the above variable will change with version 2.0.0 of this
+package, where compose support will be replaced with display properties,
+see Info node ‘(elisp) Display Property’.
 
 If ‘org-hide-leading-stars’ is nil, leading stars in a headline
 are represented as a sequence of this bullet using the face
