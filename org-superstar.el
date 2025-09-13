@@ -537,16 +537,46 @@ containing several hundred list items."
 ;;; Hooks
 
 (defvar org-superstar-prettify-headline-hook nil
-  "Hook run when Org Superstar prettifies a headline.")
+  "Hook run when Org Superstar prettifies a headline.
+
+The hook functions can access the match data, with the following groups
+defined for access with functions like ‘match-beginning’ and
+‘match-end’:
+
+0: The headline, defined as all asterisks from beginning of line,
+   followed by a (mandatory) space character, inclusive.
+1: The trailing asterisk (headline star/bullet).
+2: The second last asterisk.  By default only used for inline tasks.
+3: All asterisks except for the trailing asterisk (leading stars).
+4: The first asterisk.  By default only used for inline tasks.
+
+Groups 2 and 4 are contained in 3.  In the special case of level 2
+headings (2 asterisks), the second asterisk is part of group 4, taking
+precedence.")
 
 (defvar org-superstar-unprettify-headline-hook nil
-  "Hook run when Org Superstar unprettifies a headline.")
+  "Hook run when Org Superstar unprettifies a headline.
+
+This hook only makes sense if your hook functions have used
+‘compose-region’ or related functions.  It is generally recommended to
+use display properties instead, see Info node ‘(elisp) Display
+Property’.  It will be obsolete in future versions of this package when
+compose support is fully dropped.")
 
 (defvar org-superstar-prettify-inlinetask-hook nil
-  "Hook run when Org Superstar prettifies an inline task.")
+  "Hook run when Org Superstar prettifies an inline task.
+
+The hook functions have access to the same match data as those in
+‘org-superstar-prettify-headline-hook', which see.")
 
 (defvar org-superstar-unprettify-inlinetask-hook nil
-  "Hook run when Org Superstar unprettifies an inline task.")
+  "Hook run when Org Superstar unprettifies an inline task.
+
+This hook only makes sense if your hook functions have used
+‘compose-region’ or related functions.  It is generally recommended to
+use display properties instead, see Info node ‘(elisp) Display
+Property’.  It will be obsolete in future versions of this package when
+compose support is fully dropped.")
 
 
 ;;; Predicates
