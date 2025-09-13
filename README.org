@@ -406,15 +406,22 @@ used, allowing the user to inherit the level-dependent default look.
 
 * NEWS
 
+** =2025-09-13=
+   Version *1.7.0* is now available, significantly enhancing
+   customization options by providing hooks and exposing previously
+   internal functions to the user.  The new version also comes with a
+   small number of assorted bug fixes related to the removal of
+   leading stars.
+
 ** =2025-08-31=
-   *1.6.0* has been released (after several years of absence), adding
-   minor support for numbered lists.  Many years have passed since my
-   last update, and we have even surpassed the 262144 (2^18) downloads
-   milestone.. I hope that you, dear reader, find continued enjoyment
-   in this little aesthetics tweak to Org.  While I doubt that I will
-   be as active as I was back in 2020, Superstar is far from dead! I
-   will continue to support it and am slowly working on reducing the
-   amount of open issues.  Thank you all so much for your patience.
+   *1.6.0* has been released, adding minor support for numbered lists.
+   Many years have passed since my last update, and we have even
+   surpassed the 262144 (2^18) downloads milestone.. I hope that you,
+   dear reader, find continued enjoyment in this little aesthetics
+   tweak to Org.  While I doubt that I will be as active as I was back
+   in 2020, Superstar is far from dead! I will continue to support it
+   and am slowly working on reducing the amount of open issues.  Thank
+   you all so much for your patience.
 
 ** =2021-02-16=
    *1.5.0* has been released, adding support for hiding TODO item
@@ -422,6 +429,8 @@ used, allowing the user to inherit the level-dependent default look.
    for *2.0.0*: after lots of deliberation I have come to the conclusion
    that there is no currently scheduled change that would justify a
    major version number change.
+
+* Announcement Log
 
 ** =2021-02-11=
    Since I have been asked whether there is a way to extend Superstar
@@ -433,7 +442,6 @@ used, allowing the user to inherit the level-dependent default look.
    Also: Earlier this month, Superstar has reached over 65536 (2^{16})
    downloads!  Again, thank you!
 
-* Announcement Log
 ** =2020-02-02=
    *Good news!* The project is reaching an /acceptable/ first draft state.
    This means I am now preparing getting this package properly wrapped
