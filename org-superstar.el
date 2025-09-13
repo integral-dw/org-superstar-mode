@@ -549,7 +549,10 @@ containing several hundred list items."
   "Hook run when Org Superstar unprettifies an inline task.")
 
 
-;;; Accessor Functions
+;;; Public Accessor Functions
+
+
+;;; Private Accessor Functions
 
 (defun org-superstar--get-todo (pom)
   "Return the TODO keyword at point or marker POM.
@@ -607,7 +610,11 @@ If ‘org-superstar-special-todo-items’ is set to the symbol
   "Return the length of ‘org-superstar-headline-bullets-list’."
   (length org-superstar-headline-bullets-list))
 
-(defun org-superstar--hbullet (level)
+(define-obsolete-function-alias
+  'org-superstar--hbullet
+  'org-superstar-hbullet "1.7.0")
+
+(defun org-superstar-hbullet (level)
   "Return the desired headline bullet replacement for LEVEL N.
 
 If the headline is also a TODO item, you can override the usually
@@ -758,7 +765,7 @@ prettifying bullets in (for example) source blocks."
 This function uses ‘org-superstar-headline-or-inlinetask-p’ to avoid
 prettifying bullets in (for example) source blocks."
   (when (org-superstar-headline-or-inlinetask-p)
-    (let ((bullet (org-superstar--hbullet (org-superstar--heading-level))))
+    (let ((bullet (org-superstar-hbullet (org-superstar--heading-level))))
       (if bullet
           (compose-region (match-beginning 1) (match-end 1)
                           bullet)
@@ -775,7 +782,7 @@ prettifying bullets in (for example) source blocks."
   (when (org-superstar-inlinetask-p)
     (let ((level (org-superstar--heading-level)))
       (compose-region (match-beginning 2) (match-end 2)
-                      (org-superstar--hbullet level))
+                      (org-superstar-hbullet level))
       '(org-superstar-header-bullet org-inlinetask))))
 
 (defun org-superstar--prettify-leading-hbullets ()
