@@ -761,9 +761,10 @@ N counts from zero.  Headline bullets are specified in
 
 Each of the three regular plain list bullets +, - and * will be
 replaced by their corresponding entry in ‘org-superstar-item-bullet-alist’."
-  (or (string (cdr (assq (string-to-char bullet-string)
-                         org-superstar-item-bullet-alist)))
-      bullet-string))
+  (if-let ((new-bullet (cdr (assq (string-to-char bullet-string)
+                                  org-superstar-item-bullet-alist))))
+      (string new-bullet)
+    bullet-string))
 
 (define-obsolete-function-alias 'org-superstar--lbullet
   'org-superstar-lbullet "1.7.0")
