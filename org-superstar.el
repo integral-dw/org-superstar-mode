@@ -74,11 +74,10 @@
 (require 'org-element)
 (require 'wid-edit)
 
-(eval-when-compile
-  (declare-function org-indent-mode "org-indent" (arg))
-  (defvar org-inlinetask-show-first-star)
-  (defvar org-indent-inlinetask-first-star)
-  (defvar org-indent-mode))
+(declare-function org-indent-mode "org-indent" (arg))
+(defvar org-inlinetask-show-first-star)
+(defvar org-indent-inlinetask-first-star)
+(defvar org-indent-mode)
 
 
 (defgroup org-superstar nil
